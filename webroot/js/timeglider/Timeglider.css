@@ -48,7 +48,7 @@
 	left:0px;
 	height:26px;
 	width:100%;
-	background-color:#333;
+	background-color:#000;
 	color:#ccc;
 	font-size:10px;
 	padding:3px;
@@ -56,6 +56,7 @@
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#000000', endColorstr='#00aeff'); 
 	background: -webkit-gradient(linear, left top, left bottom, from(#000), to(#00aeff));
 	background: -moz-linear-gradient(top,  #000,  #00aeff);
+	background-image: -o-linear-gradient(top,rgb(0,0,0),rgb(0,174,255));
 	background-repeat:no-repeat;
 
 }
