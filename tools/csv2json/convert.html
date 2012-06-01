@@ -38,7 +38,7 @@
                 var timelines = [];
 
                 for (i = 0; i < courseStreamsSet.length; i++) {
-                    var timeline = { "id" : i, "title" : courseStreamsSet[i], "events" : []};
+                    var timeline = { "id" :i.toString(), "title" : courseStreamsSet[i], "events" : []};
 
                     for (var j = 0; j < courses_info.length; j++) {
                         if (courses_info[j].Stream === courseStreamsSet[i]) {
