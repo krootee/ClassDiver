@@ -47,8 +47,9 @@
                             course_info.title = courses_info[j].Name;
                             course_info.startdate = courses_info[j].Start;
                             course_info.enddate = courses_info[j].End;
+                            course_info.importance = "30";
                             course_info.link = courses_info[j].Url;
-                            course_info.description = courses_info[j].Name + " is organized by " + courses_info[j].Platform + " and tought by Instructor(s) " + courses_info[j].Instructors;
+                            course_info.description = "Course is organized by " + courses_info[j].Platform + " and taught by Instructor(s) " + courses_info[j].Instructors;
                             timeline.events.push(course_info);
                         }
                     }
