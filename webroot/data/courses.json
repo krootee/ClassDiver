@@ -1,17 +1,619 @@
 [
   {
-    "id":"9",
-    "title":"Udacity",
+    "id":"0",
+    "title":"Computer Science",
+    "events":[
+      {
+        "id":"7",
+        "title":"CS101 - Building a Search Engine",
+        "startdate":"2012-04-16",
+        "enddate":"2012-06-03",
+        "importance":"30",
+        "link":"http://www.udacity.com/overview/Course/cs101",
+        "description":"Course is organized by Udacity and taught by Instructor(s) Sebastian Thrun;David Evans"
+      },
+      {
+        "id":"8",
+        "title":"CS373 - Programming a Robotic Car",
+        "startdate":"2012-04-16",
+        "enddate":"2012-06-03",
+        "importance":"30",
+        "link":"http://www.udacity.com/overview/Course/cs373",
+        "description":"Course is organized by Udacity and taught by Instructor(s) Sebastian Thrun"
+      },
+      {
+        "id":"62",
+        "title":"CS215 - Algorithms: Crunching Social Networks ",
+        "startdate":"2012-06-25",
+        "enddate":"2012-08-12",
+        "importance":"30",
+        "link":"http://udacity.com/overview/Course/cs215",
+        "description":"Course is organized by Udacity and taught by Instructor(s) Michael Littman;Job Evers"
+      },
+      {
+        "id":"32",
+        "title":"Cryptography",
+        "startdate":"2012-06-11",
+        "enddate":"2012-07-22",
+        "importance":"30",
+        "link":"https://www.coursera.org/course/crypto",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Dan Boneh"
+      },
+      {
+        "id":"10",
+        "title":"CS262 - Programming Languages - Building a Browser",
+        "startdate":"2012-04-16",
+        "enddate":"2012-06-03",
+        "importance":"30",
+        "link":"http://www.udacity.com/overview/Course/cs262",
+        "description":"Course is organized by Udacity and taught by Instructor(s) Wes Weimer"
+      },
+      {
+        "id":"31",
+        "title":"Design and Analysis of Algorithms I",
+        "startdate":"2012-06-11",
+        "enddate":"2012-07-15",
+        "importance":"30",
+        "link":"https://www.coursera.org/course/algo",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Tim Roughgarden"
+      },
+      {
+        "id":"3",
+        "title":"CS253 - Web Application Engineering - Building a Blog",
+        "startdate":"2012-04-16",
+        "enddate":"2012-06-03",
+        "importance":"30",
+        "link":"http://www.udacity.com/overview/Course/cs253",
+        "description":"Course is organized by Udacity and taught by Instructor(s) Steve Huffman"
+      },
+      {
+        "id":"2",
+        "title":"Introduction to Logic",
+        "startdate":"2012-04-23",
+        "enddate":"2012-06-10",
+        "importance":"30",
+        "link":"https://www.coursera.org/course/intrologic",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Michael Genesereth"
+      },
+      {
+        "id":"21",
+        "title":"Software Engineering for SaaS",
+        "startdate":"2012-02-20",
+        "enddate":"2012-03-25",
+        "importance":"30",
+        "link":"http://www.saas-class.org/",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Armando Fox;David Patterson"
+      },
+      {
+        "id":"14",
+        "title":"Compilers",
+        "startdate":"2012-04-23",
+        "enddate":"2012-07-01",
+        "importance":"30",
+        "link":"https://www.coursera.org/course/compilers",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Alex Aiken"
+      },
+      {
+        "id":"55",
+        "title":"Algorithms, Part II",
+        "startdate":"2012-11-01",
+        "enddate":"2012-12-16",
+        "importance":"30",
+        "link":"https://www.coursera.org/course/algs4partII",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Robert Sedgewick;Kevin Wayne"
+      },
+      {
+        "id":"18",
+        "title":"Introduction to Machine Learning",
+        "startdate":"2012-11-01",
+        "enddate":"2011-12-14",
+        "importance":"30",
+        "link":"http://www.ml-class.org/",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Andrew Ng"
+      },
+      {
+        "id":"25",
+        "title":"Natural Language Processing",
+        "startdate":"2012-03-12",
+        "enddate":"2012-05-06",
+        "importance":"30",
+        "link":"http://www.nlp-class.org/",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Chris Manning;Dan Jurafsky"
+      },
+      {
+        "id":"12",
+        "title":"CS101",
+        "startdate":"2012-04-23",
+        "enddate":"2012-06-03",
+        "importance":"30",
+        "link":"http://www.cs101-class.org/",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Nick Parlante"
+      },
+      {
+        "id":"9",
+        "title":"CS212 - The Design of Computer Programs",
+        "startdate":"2012-04-16",
+        "enddate":"2012-06-03",
+        "importance":"30",
+        "link":"http://www.udacity.com/overview/Course/cs212",
+        "description":"Course is organized by Udacity and taught by Instructor(s) Peter Norvig"
+      },
+      {
+        "id":"53",
+        "title":"Computer Vision: From 3D Reconstruction to Visual Recognition",
+        "startdate":"2012-09-01",
+        "enddate":"2012-11-11",
+        "importance":"30",
+        "link":"https://www.coursera.org/course/computervision",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Silvio Savarese;Fei-Fei Li"
+      },
+      {
+        "id":"27",
+        "title":"Design and Analysis of Algorithms I",
+        "startdate":"2012-03-12",
+        "enddate":"2012-05-06",
+        "importance":"30",
+        "link":"http://www.algo-class.org/",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Tim Roughgarden"
+      },
+      {
+        "id":"26",
+        "title":"Cryptography",
+        "startdate":"2012-03-12",
+        "enddate":"2012-06-13",
+        "importance":"30",
+        "link":"http://www.crypto-class.org/",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Dan Boneh"
+      },
+      {
+        "id":"13",
+        "title":"Computer Vision: The Fundamentals",
+        "startdate":"2012-04-23",
+        "enddate":"2012-07-01",
+        "importance":"30",
+        "link":"http://www.vision-class.org/",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Jitendra Malik"
+      },
+      {
+        "id":"16",
+        "title":"Software Engineering for SaaS",
+        "startdate":"2012-05-18",
+        "enddate":"2012-06-24",
+        "importance":"30",
+        "link":"https://www.coursera.org/course/saas",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Armando Fox;David Patterson"
+      },
+      {
+        "id":"17",
+        "title":"Human-Computer Interaction",
+        "startdate":"2012-05-28",
+        "enddate":"2012-07-08",
+        "importance":"30",
+        "link":"http://www.hci-class.org/",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Scott Klemmer"
+      },
+      {
+        "id":"6",
+        "title":"Probabilistic Graphical Models",
+        "startdate":"2012-03-09",
+        "enddate":"2012-06-06",
+        "importance":"30",
+        "link":"http://www.pgm-class.org/",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Daphne Koller"
+      },
+      {
+        "id":"20",
+        "title":"Introduction to Databases",
+        "startdate":"2011-11-01",
+        "enddate":"2011-12-07",
+        "importance":"30",
+        "link":"http://www.db-class.org/",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Jennifer Widom"
+      },
+      {
+        "id":"19",
+        "title":"Introduction to Artificial Intelligence",
+        "startdate":"2011-11-01",
+        "enddate":"2011-12-14",
+        "importance":"30",
+        "link":"https://www.ai-class.com/",
+        "description":"Course is organized by Udacity and taught by Instructor(s) Sebastian Thrun;Peter Norvig"
+      },
+      {
+        "id":"61",
+        "title":"CS258 - Software Testing: How to Make Software Fail",
+        "startdate":"2012-06-25",
+        "enddate":"2012-08-12",
+        "importance":"30",
+        "link":"http://udacity.com/overview/Course/cs258",
+        "description":"Course is organized by Udacity and taught by Instructor(s) John Regehr;Sean Bennett"
+      },
+      {
+        "id":"1",
+        "title":"Introduction to Machine Learning",
+        "startdate":"2012-04-23",
+        "enddate":"2012-07-01",
+        "importance":"30",
+        "link":"http://jan2012.ml-class.org/",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Andrew Ng"
+      },
+      {
+        "id":"49",
+        "title":"Computer Architecture",
+        "startdate":"2012-09-01",
+        "enddate":"2012-11-11",
+        "importance":"30",
+        "link":"https://www.coursera.org/course/comparch",
+        "description":"Course is organized by Coursera and taught by Instructor(s) David Wentzlaff"
+      },
+      {
+        "id":"43",
+        "title":"Algorithms, Part I",
+        "startdate":"2012-08-01",
+        "enddate":"2012-09-16",
+        "importance":"30",
+        "link":"https://www.coursera.org/course/algs4partI",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Robert Sedgewick;Kevin Wayne"
+      },
+      {
+        "id":"29",
+        "title":"Learning from Data",
+        "startdate":"2012-04-03",
+        "enddate":"2012-05-27",
+        "importance":"30",
+        "link":"http://work.caltech.edu/telecourse.html",
+        "description":"Course is organized by Caltech and taught by Instructor(s) Yaser Abu-Mostafa"
+      },
+      {
+        "id":"24",
+        "title":"CS101 - Building a Search Engine",
+        "startdate":"2012-02-20",
+        "enddate":"2012-04-08",
+        "importance":"30",
+        "link":"http://www.udacity.com/overview/Course/cs101",
+        "description":"Course is organized by Udacity and taught by Instructor(s) Sebastian Thrun;David Evans"
+      },
+      {
+        "id":"23",
+        "title":"CS373 - Programming a Robotic Car",
+        "startdate":"2012-02-20",
+        "enddate":"2012-04-08",
+        "importance":"30",
+        "link":"http://www.udacity.com/overview/Course/cs373",
+        "description":"Course is organized by Udacity and taught by Instructor(s) Sebastian Thrun"
+      },
+      {
+        "id":"15",
+        "title":"Automata Theory",
+        "startdate":"2012-04-23",
+        "enddate":"2012-06-03",
+        "importance":"30",
+        "link":"https://www.coursera.org/course/automata",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Jeffrey D. Ullman"
+      },
+      {
+        "id":"28",
+        "title":"Game Theory",
+        "startdate":"2012-03-19",
+        "enddate":"2012-05-06",
+        "importance":"30",
+        "link":"http://www.game-theory-class.org/",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Matthew Jackson;Yoav Shoham"
+      },
+      {
+        "id":"11",
+        "title":"CS387 - Applied Cryptography",
+        "startdate":"2012-04-16",
+        "enddate":"2012-06-03",
+        "importance":"30",
+        "link":"http://www.udacity.com/overview/Course/cs387",
+        "description":"Course is organized by Udacity and taught by Instructor(s) David Evans"
+      }
+    ]
+  },
+  {
+    "id":"1",
+    "title":"Humanities and Social Sciences",
+    "events":[
+      {
+        "id":"47",
+        "title":"A History of the World since 1300",
+        "startdate":"2012-09-17",
+        "enddate":"2012-12-09",
+        "importance":"30",
+        "link":"https://www.coursera.org/course/wh1300",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Jeremy Adelman"
+      },
+      {
+        "id":"39",
+        "title":"Listening to World Music",
+        "startdate":"2012-07-23",
+        "enddate":"2012-09-09",
+        "importance":"30",
+        "link":"https://www.coursera.org/course/worldmusic",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Carol Muller"
+      },
+      {
+        "id":"38",
+        "title":"Fantasy and Science Fiction: The Human Mind, Our Modern World",
+        "startdate":"2012-07-23",
+        "enddate":"2012-09-30",
+        "importance":"30",
+        "link":"https://www.coursera.org/course/fantasysf",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Eric Rabkin"
+      },
+      {
+        "id":"51",
+        "title":"Greek and Roman Mythology",
+        "startdate":"2012-09-01",
+        "enddate":"2012-11-11",
+        "importance":"30",
+        "link":"https://www.coursera.org/course/mythology",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Peter Struck"
+      },
+      {
+        "id":"30",
+        "title":"Introduction to Sociology",
+        "startdate":"2012-06-11",
+        "enddate":"2012-07-22",
+        "importance":"30",
+        "link":"https://www.coursera.org/course/soc101",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Mitchell Duneier"
+      },
+      {
+        "id":"48",
+        "title":"Modern & Contemporary American Poetry",
+        "startdate":"2012-09-01",
+        "enddate":"2012-11-11",
+        "importance":"30",
+        "link":"https://www.coursera.org/course/modernpoetry",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Al Filreis"
+      }
+    ]
+  },
+  {
+    "id":"2",
+    "title":"Complex Systems",
+    "events":[
+      {
+        "id":"54",
+        "title":"Model Thinking",
+        "startdate":"2012-09-01",
+        "enddate":"2012-11-11",
+        "importance":"30",
+        "link":"https://www.coursera.org/course/modelthinking",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Scott E Page"
+      },
+      {
+        "id":"22",
+        "title":"Model Thinking",
+        "startdate":"2012-02-20",
+        "enddate":"2012-06-01",
+        "importance":"30",
+        "link":"http://www.modelthinker-class.org/",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Scott E Page"
+      }
+    ]
+  },
+  {
+    "id":"3",
+    "title":"Mathematics and Statistics",
+    "events":[
+      {
+        "id":"56",
+        "title":"Introduction to Analytic Combinatorics, Part I",
+        "startdate":"2013-02-01",
+        "enddate":"2013-03-15",
+        "importance":"30",
+        "link":"https://www.coursera.org/course/introACpartI",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Robert Sedgewick"
+      },
+      {
+        "id":"44",
+        "title":"Statistics One",
+        "startdate":"2012-09-03",
+        "enddate":"2012-10-14",
+        "importance":"30",
+        "link":"https://www.coursera.org/course/stats1",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Andrew Conway"
+      },
+      {
+        "id":"59",
+        "title":"ST101 - Introduction to Statistics: Making Decisions Based on Data",
+        "startdate":"2012-06-25",
+        "enddate":"2012-08-12",
+        "importance":"30",
+        "link":"http://www.udacity.com/overview/Course/st101",
+        "description":"Course is organized by Udacity and taught by Instructor(s) Sebastian Thrun;Adam Sherwin"
+      },
+      {
+        "id":"42",
+        "title":"Calculus: Single Variable",
+        "startdate":"2012-08-27",
+        "enddate":"2012-10-18",
+        "importance":"30",
+        "link":"https://www.coursera.org/course/calcsing",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Robert Ghrist"
+      },
+      {
+        "id":"57",
+        "title":"Introduction to Analytic Combinatorics, Part II",
+        "startdate":"2013-05-01",
+        "enddate":"2013-06-15",
+        "importance":"30",
+        "link":"https://www.coursera.org/course/introACpartII",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Robert Sedgewick"
+      },
+      {
+        "id":"60",
+        "title":"CS221 - Logic & Discrete Mathematics: Foundations of Computing",
+        "startdate":"2012-06-25",
+        "enddate":"2012-08-12",
+        "importance":"30",
+        "link":"http://udacity.com/overview/Course/cs221",
+        "description":"Course is organized by Udacity and taught by Instructor(s) Jonathan Farley;Sarah Norell"
+      }
+    ]
+  },
+  {
+    "id":"4",
+    "title":"Physics",
     "events":[
       {
         "id":"58",
-        "icon":"flask.png",
         "title":"PH100 - Intro to Physics: Landmarks in Physics",
         "startdate":"2012-06-25",
         "enddate":"2012-08-12",
-		"importance": 25,
+        "importance":"30",
         "link":"http://www.udacity.com/overview/Course/ph100",
-        "description":"PH100 - Intro to Physics: Landmarks in Physics is organized by Udacity and tought by Instructor(s) Andy Brown;Jonathan Burket"
+        "description":"Course is organized by Udacity and taught by Instructor(s) Andy Brown;Jonathan Burket"
+      }
+    ]
+  },
+  {
+    "id":"5",
+    "title":"Healthcare, Medicine, and Biology",
+    "events":[
+      {
+        "id":"40",
+        "title":"Cardiac Arrest, Hypothermia, and Resuscitation Science",
+        "startdate":"2012-07-01",
+        "enddate":"2012-08-05",
+        "importance":"30",
+        "link":"https://www.coursera.org/course/cardiacarrest",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Benjamin Abella"
+      },
+      {
+        "id":"41",
+        "title":"Basic Behavioral Neurology",
+        "startdate":"2012-07-01",
+        "enddate":"2012-08-05",
+        "importance":"30",
+        "link":"https://www.coursera.org/course/neurobehavior",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Roy Hamilton"
+      },
+      {
+        "id":"34",
+        "title":"Vaccines",
+        "startdate":"2012-06-01",
+        "enddate":"2012-07-01",
+        "importance":"30",
+        "link":"https://www.coursera.org/course/vaccines",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Paul Offit"
+      },
+      {
+        "id":"35",
+        "title":"Fundamentals of Pharmacology",
+        "startdate":"2012-06-01",
+        "enddate":"2012-07-01",
+        "importance":"30",
+        "link":"https://www.coursera.org/course/pharm101",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Emma Meagher"
+      }
+    ]
+  },
+  {
+    "id":"6",
+    "title":"Society, Networks and Information",
+    "events":[
+      {
+        "id":"52",
+        "title":"Networked Life",
+        "startdate":"2012-09-01",
+        "enddate":"2012-11-11",
+        "importance":"30",
+        "link":"https://www.coursera.org/course/networks",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Michael Kearns"
+      },
+      {
+        "id":"45",
+        "title":"Securing Digital Democracy",
+        "startdate":"2012-09-03",
+        "enddate":"2012-10-07",
+        "importance":"30",
+        "link":"https://www.coursera.org/course/digitaldemocracy",
+        "description":"Course is organized by Coursera and taught by Instructor(s) J. Alex Halderman"
+      },
+      {
+        "id":"46",
+        "title":"Networks: Friends, Money, and Bytes",
+        "startdate":"2012-09-03",
+        "enddate":"2012-11-11",
+        "importance":"30",
+        "link":"https://www.coursera.org/course/friendsmoneybytes",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Mung Chiang"
+      },
+      {
+        "id":"50",
+        "title":"Social Network Analysis",
+        "startdate":"2012-09-01",
+        "enddate":"2012-10-28",
+        "importance":"30",
+        "link":"https://www.coursera.org/course/sna",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Lada Adamic"
+      },
+      {
+        "id":"36",
+        "title":"Internet History, Technology, and Security",
+        "startdate":"2012-07-23",
+        "enddate":"2012-09-02",
+        "importance":"30",
+        "link":"https://www.coursera.org/course/insidetheinternet",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Charles Severance"
+      }
+    ]
+  },
+  {
+    "id":"7",
+    "title":"Entrepreneurship",
+    "events":[
+      {
+        "id":"4",
+        "title":"Technology Entrepreneurship",
+        "startdate":"2012-04-16",
+        "enddate":"2012-06-17",
+        "importance":"30",
+        "link":"http://eesley.blogspot.com/",
+        "description":"Course is organized by Individual and taught by Instructor(s) Chuck Eesley"
+      }
+    ]
+  },
+  {
+    "id":"8",
+    "title":"Economics, Finance, and Business",
+    "events":[
+      {
+        "id":"33",
+        "title":"Health Policy and the Affordable Care Act",
+        "startdate":"2012-06-01",
+        "enddate":"2012-06-24",
+        "importance":"30",
+        "link":"https://www.coursera.org/course/healthpolicy",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Ezekiel Emanuel"
+      },
+      {
+        "id":"37",
+        "title":"Introduction to Finance",
+        "startdate":"2012-07-23",
+        "enddate":"2012-09-30",
+        "importance":"30",
+        "link":"https://www.coursera.org/course/introfinance",
+        "description":"Course is organized by Coursera and taught by Instructor(s) Gautam Kaul"
+      }
+    ]
+  },
+  {
+    "id":"9",
+    "title":"Electrical Engineering",
+    "events":[
+      {
+        "id":"5",
+        "title":"6.002x - Circuits and Electronics",
+        "startdate":"2012-05-05",
+        "enddate":"2012-06-10",
+        "importance":"30",
+        "link":"https://6002x.mitx.mit.edu/",
+        "description":"Course is organized by MITx and taught by Instructor(s) Anant Agarwal;Gerald Sussman;Piotr Mitros"
       }
     ]
   }
