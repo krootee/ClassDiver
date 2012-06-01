@@ -1,7 +1,27 @@
 var tg1 = {};
 
 function calendarFullScreen() {
-	$("#calendar");
+	$("#calendar_dialog").dialog("open");
+}
+
+function onFullscreenOpen() {
+	var cal_div = $("#calendar");
+	$("#calendar_dialog").append(cal_div);
+	resizeFullscreenCalendarDialog();
+}
+
+function resizeFullscreenCalendarDialog() {
+	$("#calendar_dialog").dialog("option", "width", $("body").width());
+	$("#calendar_dialog").dialog("option", "height", $("body").height());
+	var tg_actor = tg1.data("timeline");
+	tg_actor.resize();
+}
+
+function onFullscreenClose() {
+	var cal_div = $("#calendar");
+	$("#calendar_box").append(cal_div);
+	var tg_actor = tg1.data("timeline");
+	tg_actor.resize();
 }
 
 /** ******************************************TIMELINE_Functions************************************************ */

@@ -20,6 +20,7 @@
 
 </head>
 <body>
+	<div id="calendar_dialog"></div>
 	<div id="divWrapper">
 		<div id="divHeader" class="container_12">
 			<div id="divLogo" class="grid_4">
@@ -40,27 +41,31 @@
 				</p>
 			</div>
 			<div class="grid_5">
-				<div id="timelinesChooser">
+				<div id="timelines_chooser">
 					<h2>More timelines to display:</h2>
 					<ul>
-						<li>Idaho Photographers Pool <a href="#" onclick="loadTimeline('data/flickr.json','idaho_flickr')">Load</a> |
-							<a href="#" onclick="toggleTimeline('idaho_flickr')">Show/Hide</a> | <a href="#"
-							onclick="unloadTimeline('idaho_flickr')">Unload</a></li>
+						<li>Idaho Photographers Pool <a href="#" onclick="loadTimeline('data/flickr.json')">Load</a> | <a href="#"
+							onclick="toggleTimeline('idaho_flickr')">Show/Hide</a> | <a href="#" onclick="unloadTimeline('idaho_flickr')">Unload</a></li>
 						<li><nobr>
-								A Really Long, But Incomplete History of Idaho <a href="#"
-									onclick="loadTimeline('data/idaho.json','idahoTimeline')">Load</a> | <a href="#"
-									onclick="toggleTimeline('idahoTimeline')">Show/Hide</a> | <a href="#" onclick="unloadTimeline('idahoTimeline')">Unload</a>
+								A Really Long, But Incomplete History of Idaho <a href="#" onclick="loadTimeline('data/idaho.json')">Load</a> |
+								<a href="#" onclick="toggleTimeline('idahoTimeline')">Show/Hide</a> | <a href="#"
+									onclick="unloadTimeline('idahoTimeline')">Unload</a>
 							</nobr></li>
-						<li>A little history of JavaScript <a href="#" onclick="loadTimeline('data/js_history.json','js_history')">Load</a>
-							| <a href="#" onclick="toggleTimeline('js_history')">Show/Hide</a> | <a href="#"
+						<li>A little history of JavaScript <a href="#" onclick="loadTimeline('data/js_history.json')">Load</a> | <a
+							href="#" onclick="toggleTimeline('js_history')">Show/Hide</a> | <a href="#"
 							onclick="unloadTimeline('js_history')">Unload</a></li>
-						<li>History of Idaho <a href="#" onclick="loadTimeline('data/large.json','idahoTimelineLarge')">Load</a> | <a
-							href="#" onclick="toggleTimeline('idahoTimelineLarge')">Show/Hide</a> | <a href="#"
+						<li>History of Idaho <a href="#" onclick="loadTimeline('data/large.json')">Load</a> | <a href="#"
+							onclick="toggleTimeline('idahoTimelineLarge')">Show/Hide</a> | <a href="#"
 							onclick="unloadTimeline('idahoTimelineLarge')">Unload</a></li>
 					</ul>
 				</div>
 			</div>
-			<div id="calendar" class="grid_12"></div>
+			<div id="calendar_box" class="grid_12">
+				<div id="calendar"></div>
+			</div>
+			<div id="calendar_controls" class="grid_12">
+				<a href="#" onclick="calendarFullScreen()">Fullscreen</a>
+			</div>
 			<div class="grid_6">
 				<h2>Where does it come from?</h2>
 				<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin
@@ -122,6 +127,27 @@
 				$(".timeglider-timeline-event").animate({
 					top : "-=100"
 				})
+			});
+			$("#calendar_dialog").dialog({
+				title : '',
+				position : [ 0, 0 ],
+				draggable : false,
+				resizable : false,
+				zIndex : 1000000000,
+				autoOpen : false,
+				modal : true,
+				open : function() {
+					$(".ui-dialog-titlebar").hide();
+					onFullscreenOpen();
+				},
+				close : function() {
+					onFullscreenClose();
+				}
+			});
+			$(window).resize(function() {
+				if ($('#calendar_dialog').dialog("isOpen")) {
+					resizeFullscreenCalendarDialog();
+				}
 			});
 		});
 	</script>
