@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>CSV to JSON</title>
+		<style>
+			.error { font-weight: bold; color: #F00; }
+		</style>
+        <script src="json2.js"> </script>
+        <script src="jquery-1.7.2.min.js"> </script>
+		<script src="jquery.csv-0.6.js"> </script>
+		<script>
+			function csvToJson ()
+			{
+				// Convert csv file, do some cleanup (remove empty lines), map values to IDs
+                csv_file = $("#csv").val()
+				courses_info = $.csv2Dictionary(csv_file)
+
+                // Find all distinct course streams (like CS, Math, etc)
+                var courseStreamsSet = [];
+                var i = 0;
+
+                for (; i < courses_info.length; i++) {
+                    stream = courses_info[i].Stream;
+                    var found = false;
+                    for (var j = 0; j < courseStreamsSet.length; j++) {
+                        if (stream === courseStreamsSet[j]) {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        courseStreamsSet.push(stream);
+                    }
+                }
+
+                // Now build timelines in TimeGlider format
+                var timelines = [];
+
+                for (i = 0; i < courseStreamsSet.length; i++) {
+                    var timeline = { "id" :i.toString(), "title" : courseStreamsSet[i], "events" : []};
+
+                    for (var j = 0; j < courses_info.length; j++) {
+                        if (courses_info[j].Stream === courseStreamsSet[i]) {
+                            var course_info = {};
+                            course_info.id = courses_info[j].Id;
+                            course_info.title = courses_info[j].Name;
+                            course_info.startdate = courses_info[j].Start;
+                            course_info.enddate = courses_info[j].End;
+                            course_info.importance = "30";
+                            course_info.link = courses_info[j].Url;
+                            course_info.description = "Course is organized by " + courses_info[j].Platform + " and taught by Instructor(s) " + courses_info[j].Instructors;
+                            timeline.events.push(course_info);
+                        }
+                    }
+
+                    timelines.push(timeline);
+                }
+
+				$("#json").val(JSON.stringify(timelines))
+
+				// grab first course name
+				console.log(courses_info[0].Name)
+			}
+		</script>
+	</head>
+	<body>
+		<p>Notes:</p>
+		<ul>
+			<li>The CSV text <strong style="text-transform: uppercase; ">must</strong> have a header row.</li>
+			<li>This utility does not currently check for escaped quotes inside of like quotes (e.g.: <code>"foo, \"bar\" baz"</code>).</li>
+		</ul>
+		<hr noshade="noshade" />
+		<div id="message"><p></p></div>
+		<form id="convertForm" name="convertForm" onsubmit="return false; ">
+			<label title="comma-separated values">Input CSV file (export from DynamoDB):</label><br/>
+            <textarea id="csv" name="csv" rows="10" cols="60"></textarea><br/><br/>
+			<label title="JavaScript Object Notation">Output JSON for TimeGlider:</label><br/>
+            <textarea id="json" name="json" rows="10" cols="60" readonly="readonly"></textarea><br/><br/>
+			<input type="button" value="Convert" onclick="csvToJson();"/>
+            <input type="reset"/>
+		</form>
+	</body>
+</html>
