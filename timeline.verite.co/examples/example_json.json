@@ -1,0 +1,41 @@
+{
+    "timeline":
+    {
+        "headline":"Coursera classes",
+        "type":"default",
+		"startDate":"2011,11,1",
+		"text":"Online free education from Stanford, Princeton universities",
+        "asset":
+        {
+            "media":"http://www.youtube.com/watch?v=PojLL3E-zk0",
+            "credit":"",
+            "caption":""
+        },
+        "date": [
+            {
+                "headline":"Introduction to Machine Learning",
+                "startDate":"2012,4,23",
+                "endDate":"2012,7,1",
+                "text":"<p>Course is organized by Coursera and taught by Instructor(s) Andrew Ng<br><a href='https://www.coursera.org/course/ml'>Link</a></p>",
+                "asset":
+                {
+                    "media":"https://s3.amazonaws.com/coursera/topics/ml/large-icon.png",
+                    "credit":"",
+                    "caption":""
+                }
+            },
+            {
+                "headline":"Computer Architecture",
+                "startDate":"2012,9,1",
+                "endDate":"2012,11,11",
+                "text":"<p>Course is organized by Coursera and taught by Instructor(s) David Wentzlaff<br><a href='https://www.coursera.org/course/comparch'>Link</a></p>",
+                "asset":
+                {
+                    "media":"https://s3.amazonaws.com/coursera/topics/comparch/large-icon.png",
+                    "credit":"",
+                    "caption":""
+                }
+            }
+        ]
+    }
+}
