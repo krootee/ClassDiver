@@ -3,12 +3,12 @@
     {
         "headline":"Coursera classes",
         "type":"default",
-		"startDate":"2011,11,1",
-		"text":"Online free education from Stanford, Princeton universities",
+		"startDate":"2012,4,23",
+		"text":"<p>Online free education from <a href='http://stanford.edu/online/courses'>Stanford University</a>, <a href='https://www.coursera.org/princeton'>Princeton University</a>, <a href='https://www.coursera.org/umich'>University of Michigan</a>, <a href='https://www.coursera.org/penn'>University of Pennsylvania</a></p>",
         "asset":
         {
             "media":"http://www.youtube.com/watch?v=PojLL3E-zk0",
-            "credit":"",
+            "credit":"Coursera.org",
             "caption":""
         },
         "date": [
@@ -20,7 +20,7 @@
                 "asset":
                 {
                     "media":"https://s3.amazonaws.com/coursera/topics/ml/large-icon.png",
-                    "credit":"",
+                    "credit":"Coursera.org",
                     "caption":""
                 }
             },
@@ -32,7 +32,7 @@
                 "asset":
                 {
                     "media":"https://s3.amazonaws.com/coursera/topics/comparch/large-icon.png",
-                    "credit":"",
+                    "credit":"Coursera.org",
                     "caption":""
                 }
             }

@@ -7740,6 +7740,7 @@ if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefin
 			VMM.bindEvent(".zoom-in", onZoomIn, "click");
 			VMM.bindEvent(".zoom-out", onZoomOut, "click");
 			VMM.fireEvent(layout, "LOADED");
+            VMM.fireEvent(".zoom-in", "click");
 			_active = true;
 			
 			reSize(true);
