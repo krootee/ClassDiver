@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>CSV to JSON</title>
+		<style>
+			.error { font-weight: bold; color: #F00; }
+		</style>
+        <script src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"> </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"> </script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            var socket = io.connect('http://localhost:8080');
+            socket.on('news', function (data) {
+                console.log(data);
+                socket.emit('my other event', { my: 'data' });
+            });
+        </script>
+	</head>
+	<body>
+		<p>Notes:</p>
+		<ul>
+			<li>The CSV text <strong style="text-transform: uppercase; ">must</strong> have a header row.</li>
+			<li>This utility does not currently check for escaped quotes inside of like quotes (e.g.: <code>"foo, \"bar\" baz"</code>).</li>
+		</ul>
+		<hr noshade="noshade" />
+		<div id="message"><p></p></div>
+		<form id="convertForm" name="convertForm" onsubmit="return false; ">
+			<label title="comma-separated values">Input CSV file (export from DynamoDB):</label><br/>
+            <textarea id="csv" name="csv" rows="10" cols="60"></textarea><br/><br/>
+			<label title="JavaScript Object Notation">Output JSON for TimeGlider:</label><br/>
+            <textarea id="json" name="json" rows="10" cols="60" readonly="readonly"></textarea><br/><br/>
+			<input type="button" value="Convert" onclick="csvToJson();"/>
+            <input type="reset"/>
+		</form>
+	</body>
+</html>

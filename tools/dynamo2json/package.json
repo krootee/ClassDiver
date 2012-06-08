@@ -1,0 +1,15 @@
+{
+    "name" : "dynamo2json",
+    "author" : "Konstantin Root",
+    "version" : "0.0.1",
+    "private": true,
+    "dependencies" : {
+        "dynamo": "0.2.12",
+        "socket.io": "0.9.6",
+        "express": "2.5.9"
+    },
+    "scripts": {
+        "start": "node ./server.js"
+    },
+    "engine" : "node 0.6.19"
+}
