@@ -1,1 +1,6 @@
-Simple tool
+Tool to read data from DynamoDB, transform it into VeriteCo format and send back to browser.
+
+How to use:
+1) Start server - typo "npm start" in the root directory
+2) Then open in browser "localhost" - you will receive html page.
+3) Press "Convert" button
