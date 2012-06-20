@@ -1,1 +1,7 @@
-Simple tool
+Tool to read data from DynamoDB, transform it into VeriteCo format and send back to browser.
+
+How to use:
+0) Install Node.js version >=0.6.19 - http://nodejs.org/
+1) Start server - typo "npm start" in /tools/dynamo2json/ directory
+2) Open in browser "localhost" - you will receive html page.
+3) Press "Convert" button

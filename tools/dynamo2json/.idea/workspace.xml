@@ -31,19 +31,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="server.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="server.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="0" selection-start="88" selection-end="88" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="process_data.html" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/process_data.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="17" selection-start="665" selection-end="665" vertical-scroll-proportion="0.34201184">
+            <state line="87" column="24" selection-start="3194" selection-end="3194" vertical-scroll-proportion="0.8321678">
               <folding />
             </state>
           </provider>
@@ -51,12 +42,17 @@
       </file>
     </leaf>
   </component>
+  <component name="FindManager">
+    <FindUsagesManager>
+      <setting name="OPEN_NEW_TAB" value="false" />
+    </FindUsagesManager>
+  </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/server.js" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/process_data.html" />
+        <option value="$PROJECT_DIR$/server.js" />
       </list>
     </option>
   </component>
@@ -92,6 +88,16 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -112,13 +118,22 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
   </component>
   <component name="RunManager">
+    <configuration default="true" type="NodeJSConfigurationType" factoryName="Node JS" working-dir="$PROJECT_DIR$" coffeescript-run="false">
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugSession" factoryName="Local">
+      <JSDebuggerConfigurationSettings>
+        <option name="engineId" value="embedded" />
+        <option name="fileUrl" />
+      </JSDebuggerConfigurationSettings>
+      <method />
+    </configuration>
     <list size="0" />
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
@@ -208,21 +223,52 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/node_modules/socket.io/lib/client.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="133" column="17" selection-start="2108" selection-end="2108" vertical-scroll-proportion="2.2686567" />
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/NodeJS/lib/NodeJS.jar!/com/jetbrains/nodejs/library/node_embedded_symbols.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="62" column="2" selection-start="1393" selection-end="1393" vertical-scroll-proportion="0.33295062" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/socket.io/node_modules/socket.io-client/dist/socket.io.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="243" column="7" selection-start="4960" selection-end="4960" vertical-scroll-proportion="0.09557109" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/process_data.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="32" selection-start="715" selection-end="715" vertical-scroll-proportion="0.36213017">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state line="7" column="29" selection-start="190" selection-end="190" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server.js">
+    <entry file="file://$PROJECT_DIR$/node_modules/socket.io/node_modules/redis/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="0" selection-start="88" selection-end="88" vertical-scroll-proportion="0.0">
+        <state line="379" column="8" selection-start="12058" selection-end="12058" vertical-scroll-proportion="0.8197474">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/process_data.html">
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavascriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/DHTML.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="17" selection-start="665" selection-end="665" vertical-scroll-proportion="0.34201184" />
+        <state line="908" column="18" selection-start="13868" selection-end="13868" vertical-scroll-proportion="0.09873708">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="87" column="24" selection-start="3194" selection-end="3194" vertical-scroll-proportion="0.8321678">
+          <folding />
+        </state>
       </provider>
     </entry>
   </component>

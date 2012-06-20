@@ -9,13 +9,6 @@
         <script src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"> </script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"> </script>
         <script src="/socket.io/socket.io.js"></script>
-        <script>
-            var socket = io.connect('http://localhost');
-            socket.on('news', function (data) {
-                console.log(data);
-                socket.emit('my other event', { my: 'data' });
-            });
-        </script>
 	</head>
 	<body>
 		<p>Notes:</p>
@@ -26,12 +19,25 @@
 		<hr noshade="noshade" />
 		<div id="message"><p></p></div>
 		<form id="convertForm" name="convertForm" onsubmit="return false; ">
-			<label title="comma-separated values">Input CSV file (export from DynamoDB):</label><br/>
-            <textarea id="csv" name="csv" rows="10" cols="60"></textarea><br/><br/>
-			<label title="JavaScript Object Notation">Output JSON for TimeGlider:</label><br/>
-            <textarea id="json" name="json" rows="10" cols="60" readonly="readonly"></textarea><br/><br/>
-			<input type="button" value="Convert" onclick="csvToJson();"/>
+			<label title="JavaScript Object Notation">Output JSON for VeriteCo timeline control:</label><br/>
+            <textarea id="json_text" name="json text" rows="10" cols="60" readonly="readonly"></textarea><br/><br/>
+			<input type="button" value="Convert" id="transform_data"/>
             <input type="reset"/>
 		</form>
 	</body>
+    <footer>
+        <script>
+            var socket = io.connect('http://localhost');
+
+            $("#transform_data").click(function() {
+                socket.emit('get_veriteco_data');
+            })
+
+            socket.on('veriteco_data', function (data) {
+                console.log(data);
+                text=JSON.stringify(data);
+                $("#json_text").val(text);
+            });
+        </script>
+    </footer>
 </html>
