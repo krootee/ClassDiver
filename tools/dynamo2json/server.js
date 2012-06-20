@@ -98,6 +98,7 @@ function processAndSendData(socket, items) {
         });
 
         course.text = "<p>Course is organized by " + item.Platform + " and taught by Instructor(s) " + item.Instructors + "<br><a href='" + item.Url + "'>Link</a></p>";
+        course.tag = item.Stream;
         course.asset = {};
         // if this is Coursera course then need to generate link to full image path
         if (item.Platform === "Coursera") {
@@ -108,8 +109,8 @@ function processAndSendData(socket, items) {
         else {
             course.asset.media = item.ImageUrl;
         }
-        // TODO - locate info in course provider array for URL
-        course.asset.credit = item.Platform;
+        // For credit we will use course link URL
+        course.asset.credit = item.Url;
         course.asset.caption = item.Stream;
         timeline.date.push(course);
     })
