@@ -34,16 +34,7 @@
       <file leaf-file-name="server.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="20" selection-start="721" selection-end="721" vertical-scroll-proportion="0.4293915">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="process_data.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/process_data.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="38" column="28" selection-start="1522" selection-end="1522" vertical-scroll-proportion="-24.846153">
+            <state line="87" column="24" selection-start="3194" selection-end="3194" vertical-scroll-proportion="0.8321678">
               <folding />
             </state>
           </provider>
@@ -51,12 +42,17 @@
       </file>
     </leaf>
   </component>
+  <component name="FindManager">
+    <FindUsagesManager>
+      <setting name="OPEN_NEW_TAB" value="false" />
+    </FindUsagesManager>
+  </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
         <option value="$PROJECT_DIR$/package.json" />
-        <option value="$PROJECT_DIR$/server.js" />
         <option value="$PROJECT_DIR$/process_data.html" />
+        <option value="$PROJECT_DIR$/server.js" />
       </list>
     </option>
   </component>
@@ -128,12 +124,12 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
   </component>
   <component name="RunManager">
-    <configuration default="true" type="NodeJSConfigurationType" factoryName="Node JS" working-dir="$PROJECT_DIR$">
+    <configuration default="true" type="NodeJSConfigurationType" factoryName="Node JS" working-dir="$PROJECT_DIR$" coffeescript-run="false">
       <method />
     </configuration>
     <configuration default="true" type="JavascriptDebugSession" factoryName="Local">
       <JSDebuggerConfigurationSettings>
-        <option name="engineId" />
+        <option name="engineId" value="embedded" />
         <option name="fileUrl" />
       </JSDebuggerConfigurationSettings>
       <method />
@@ -229,21 +225,22 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/node_modules/socket.io/lib/client.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="133" column="17" selection-start="2108" selection-end="2108" vertical-scroll-proportion="2.2686567">
-          <folding />
-        </state>
+        <state line="133" column="17" selection-start="2108" selection-end="2108" vertical-scroll-proportion="2.2686567" />
       </provider>
     </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/plugins/NodeJS/lib/NodeJS.jar!/com/jetbrains/nodejs/library/node_embedded_symbols.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="62" column="2" selection-start="1393" selection-end="1393" vertical-scroll-proportion="0.33295062">
-          <folding />
-        </state>
+        <state line="62" column="2" selection-start="1393" selection-end="1393" vertical-scroll-proportion="0.33295062" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/socket.io/node_modules/socket.io-client/dist/socket.io.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="243" column="7" selection-start="4960" selection-end="4960" vertical-scroll-proportion="0.09557109">
+        <state line="243" column="7" selection-start="4960" selection-end="4960" vertical-scroll-proportion="0.09557109" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/process_data.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="32" selection-start="715" selection-end="715" vertical-scroll-proportion="0.36213017">
           <folding />
         </state>
       </provider>
@@ -253,16 +250,23 @@
         <state line="7" column="29" selection-start="190" selection-end="190" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/process_data.html">
+    <entry file="file://$PROJECT_DIR$/node_modules/socket.io/node_modules/redis/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="28" selection-start="1522" selection-end="1522" vertical-scroll-proportion="-24.846153">
+        <state line="379" column="8" selection-start="12058" selection-end="12058" vertical-scroll-proportion="0.8197474">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavascriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/DHTML.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="908" column="18" selection-start="13868" selection-end="13868" vertical-scroll-proportion="0.09873708">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/server.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="20" selection-start="721" selection-end="721" vertical-scroll-proportion="0.4293915">
+        <state line="87" column="24" selection-start="3194" selection-end="3194" vertical-scroll-proportion="0.8321678">
           <folding />
         </state>
       </provider>
