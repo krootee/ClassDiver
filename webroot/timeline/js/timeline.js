@@ -6235,15 +6235,15 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
 			nav: {
 				start_page: 		false,
 				interval_width: 	200,
-				density: 			4,
+				density: 			2,
 				minor_width: 		0,
 				minor_left:			0,
 				multiplier: {
-					current: 		6,
+					current:        14,
 					min: 			.1,
 					max: 			50
 				},
-				rows: 				[1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+				rows: 				[1, 1, 1],
 				width: 				960,
 				height: 			500,
 				marker: {
@@ -6737,12 +6737,12 @@ if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefin
 			config.nav.height	= 	content_height;
 		}
 		
-		//config.nav.density = 		2;
-		config.nav.multiplier = {
-			current: 				1,
-			min: 					.1,
-			max: 					50
-		};
+//		config.nav.density = 		2;
+//		config.nav.multiplier = {
+//			current: 				1,
+//			min: 					.1,
+//			max: 					50
+//		};
 
 		/* INIT
 		================================================== */
@@ -7738,7 +7738,6 @@ if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefin
 			VMM.bindEvent(".zoom-in", onZoomIn, "click");
 			VMM.bindEvent(".zoom-out", onZoomOut, "click");
 			VMM.fireEvent(layout, "LOADED");
-            VMM.fireEvent(".zoom-in", "click");
 			_active = true;
 			
 			reSize(true);
