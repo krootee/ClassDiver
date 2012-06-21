@@ -34,7 +34,7 @@
       <file leaf-file-name="server.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="111" column="49" selection-start="4484" selection-end="4484" vertical-scroll-proportion="0.6433566">
+            <state line="98" column="36" selection-start="3852" selection-end="3852" vertical-scroll-proportion="0.16783217">
               <folding />
             </state>
           </provider>
@@ -88,6 +88,16 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -104,16 +114,6 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="dynamo2json" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="Scope">
-        <subPane subId="Project Files">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -260,7 +260,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/server.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="111" column="49" selection-start="4484" selection-end="4484" vertical-scroll-proportion="0.6433566">
+        <state line="98" column="36" selection-start="3852" selection-end="3852" vertical-scroll-proportion="0.16783217">
           <folding />
         </state>
       </provider>

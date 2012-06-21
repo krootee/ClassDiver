@@ -90,20 +90,18 @@ function processAndSendData(socket, items) {
 
         // convert start/end dates from ISO 8601 "<year>-<month>-<day>" format to "<year>,<month>,<day>" control format
         // where month and day parts could not contain trailing 0
-        course.startDate = item.Start.replace(/(\d{4})-(\d{2})-(\d{2})/, function($0,$1,$2,$3) {
-            return $1 + "," + String(Number($2)) + "," + String(Number($3));
-        });
-        course.endDate = item.End.replace(/(\d{4})-(\d{2})-(\d{2})/, function($0,$1,$2,$3) {
-            return $1 + "," + String(Number($2)) + "," + String(Number($3));
-        });
+        course.startDate = isoDateToJson(item.Start);
+        course.endDate = isoDateToJson(item.End);
 
         course.text = "<p>Course is organized by " + item.Platform + " and taught by Instructor(s) " + item.Instructors + "<br><a href='" + item.Url + "'>Link</a></p>";
-        course.tag = item.Stream;
+
+        // tag is not used, since currently it forces control to create separate lines for each tag and that doesnt scale
+        // course.tag = item.Stream;
+
         course.asset = {};
         // if this is Coursera course then need to generate link to full image path
-        if (item.Platform === "Coursera") {
-            var parts = item.Url.split("/");
-            var courseID = parts[parts.length - 1];
+        if (item.Platform === "Coursera" && item.ImageUrl === "*") {
+            var courseID = item.Url.slice(item.Url.lastIndexOf("/") + 1);
             course.asset.media = "https://s3.amazonaws.com/coursera/topics/" + courseID + "/large-icon.png";
         }
         else {
@@ -117,6 +115,12 @@ function processAndSendData(socket, items) {
 
     var data = { timeline : timeline};
     socket.emit('veriteco_data', data);
+}
+
+function isoDateToJson(date) {
+    return date.replace(/(\d{4})-(\d{2})-(\d{2})/, function($0,$1,$2,$3) {
+        return $1 + "," + String(Number($2)) + "," + String(Number($3));
+    });
 }
 
 db.fetch(function(err) {
