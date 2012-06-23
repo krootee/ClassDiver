@@ -6626,7 +6626,10 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
 						_date.tag				= data.date[i].tag;
 						_date.slug				= data.date[i].slug;
 						_date.uniqueid			= VMM.Util.unique_ID(7);
-						
+                        _date.stream            = data.date[i].stream;
+                        _date.provider          = data.date[i].provider;
+                        _date.colorIndexId      = data.date[i].colorIndexId;
+
 						_dates.push(_date);
 					} 
 					
