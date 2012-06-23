@@ -1,40 +1,45 @@
-var courseProviderInfo = [
-    {
+var courseProviderInfo = {
+    "Coursera": {
         Name : "Courera",
         Url: "Coursera.org",
+        ColorIndex: 0,
         Media: "http://www.youtube.com/watch?v=PojLL3E-zk0",
         ActivitiesStart: "2011,10,30",
         Text: "<p>Online free education from <a href='http://stanford.edu/online/courses'>Stanford University</a>, <a href='https://www.coursera.org/princeton'>Princeton University</a>, <a href='https://www.coursera.org/umich'>University of Michigan</a>, <a href='https://www.coursera.org/penn'>University of Pennsylvania</a>.</p>"
     },
-    {
+    "Udacity": {
         Name : "Udacity",
         Url: "Udacity.com",
+        ColorIndex: 1,
         Media: "http://www.youtube.com/watch?v=1uoh20TKvK0",
         ActivitiesStart: "2011,10,30",
         Text: "<p>Online free education from <a href='http://www.udacity.com'>Udacity</a> - a digital university with the mission to democratize education.</p>"
     },
-    {
+    "MITx": {
         Name : "MITx",
         Url: "MITx.mit.edu",
+        ColorIndex: 2,
         Media: "http://www.youtube.com/watch?v=p2Q6BrNhdh8",
         ActivitiesStart: "2012,3,4",
         Text: "<p>Online free education from <a href='http://web.mit.edu/'>Massachusetts Institute of Technology</a> and <a href='http://www.harvard.edu/'>Harvard University</a>.</p>"
     },
-    {
+    "Caltech": {
         Name : "Caltech",
         Url: "Caltech.edu",
+        ColorIndex: 3,
         Media: "http://www.caltech.edu/sites/all/themes/caltech/images/logo.gif",
         ActivitiesStart: "2012,4,2",
         Text: "<p>Online free education from <a href='http://www.caltech.edu/'>California Institute of Technology</a>.</p>"
     },
-    {
+    "Individual": {
         Name : "Courses offered by private parties",
         Url: "",
+        ColorIndex: 4,
         Media: "",
         ActivitiesStart: "2012,4,15",
         Text: "<p>Online free education from private instructors/non-profit organizations.</p>"
     }
-];
+};
 
 var app = require('express').createServer(),
     io = require('socket.io').listen(app);
@@ -70,30 +75,28 @@ io.sockets.on('connection', function (socket) {
 });
 
 function processAndSendData(socket, items) {
-    console.log(items);
     console.log(items.length);
-
-    courseProviderInfo.map(function (provider) {
-        console.log(provider.Name);
-    })
 
     var timeline = {};
     timeline.headline = "Online courses";
     timeline.type = "default";
     timeline.startDate = "2011,10,30";
-    timeline.text = "List of online courses from Coursera, Udacity, MITx, Caltech and individual instructors.";
+    timeline.text = "List of online courses from Coursera, Udacity, MITx, Caltech and individual instructors";
     timeline.date = [];
 
     items.map(function (item) {
         var course = {};
-        course.headline = item.Name;
 
         // convert start/end dates from ISO 8601 "<year>-<month>-<day>" format to "<year>,<month>,<day>" control format
         // where month and day parts could not contain trailing 0
         course.startDate = isoDateToJson(item.Start);
         course.endDate = isoDateToJson(item.End);
 
-        course.text = "<p>Course is organized by " + item.Platform + " and taught by Instructor(s) " + item.Instructors + "<br><a href='" + item.Url + "'>Link</a></p>";
+        course.headline = item.Name;
+        course.stream = item.Stream;
+        course.provider = item.Platform;
+        course.colorIndexId = courseProviderInfo[item.Platform].ColorIndex;
+        course.text = "<p>Taught at " + item.Platform + " by Instructor(s) " + item.Instructors + "<br><a href='" + item.Url + "'>Link</a></p>";
 
         // tag is not used, since currently it forces control to create separate lines for each tag and that doesnt scale
         // course.tag = item.Stream;
@@ -107,8 +110,12 @@ function processAndSendData(socket, items) {
         else {
             course.asset.media = item.ImageUrl;
         }
-        // For credit we will use course link URL
-        course.asset.credit = item.Url;
+        // For credit we will use course provider website or link URL in case its individual courses
+        course.asset.credit = courseProviderInfo[item.Platform].Url;
+        if (course.asset.credit === "") {
+            course.asset.credit = item.Url;
+        }
+
         course.asset.caption = item.Stream;
         timeline.date.push(course);
     })
