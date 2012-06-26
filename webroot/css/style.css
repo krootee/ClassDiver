@@ -9,8 +9,9 @@ body {
 	font-family: arial, helvetica, sans-serif;
 }
 
-h2 {
-	color: #444;
+p {
+	color: #666;
+	font-size: 14pt;
 }
 
 a {
@@ -24,20 +25,19 @@ a:hover {
 	border-bottom: 1px solid #00aeff;
 }
 
-p {
-	font-size: 12px;
-}
-
-ul {
-	padding: 4px;
-}
-
-li {
-	font-size: 11px;
+.ClassDiver {
+	font-weight: bold;
+	color: #666;
+/* 	color: #4ccaff; */
 }
 
 #divWrapper {
 	text-align: center;
+}
+
+#divHeader {
+	padding: 6px 8px 4px;
+	text-align: left;
 }
 
 #divLogo {
@@ -86,10 +86,44 @@ li {
 #divCalendarFull {
 	width: 100%;
 	height: 90%;
-/* 	height: 760px; */
- 	padding: 10px 0px;
+	padding: 10px 0px;
 	background-color: rgba(255, 255, 255, 1);
- 	text-align: center;
+	text-align: center;
 }
 
+.button {
+	background-color: #f3fbff;
+	color: #006b9d;
+	border: 2px dashed #e2f6ff;
+	font-family: arial, helvetica, sans-serif;
+	font-size: 16pt;
+	font-weight: bold;
+	font-smooth: always;
+	padding: 5px 10px;
+	border-radius: 10px;
+	-o-border-radius: 10px;
+	-icab-border-radius: 10px;
+	-khtml-border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+}
 
+.button:hover {
+	color: #00aeff;
+	background-color: rgba(226, 246, 255, 1);
+	cursor: pointer;
+	padding: 6px 11px 4px 9px;
+}
+
+#skipIntro {
+	position: absolute;
+	top: 10px;
+	left: 150px;
+}
+
+#toCalendar {
+	position: absolute;
+	top: 10px;
+	left: 560px;
+}

@@ -20,7 +20,7 @@
 </head>
 <body>
 	<div id="divHeaderSmall">
-		<img src="img/logo.png" />
+		<img src="img/logo.png"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Menu goes here (TODO) ->
 	</div>
 	<div id="divCalendarFull">
 		<div id="timeline-embed"></div>
@@ -37,14 +37,14 @@
 		</script>
 		<script type="text/javascript" src="timeline/js/timeline-embed.js"></script>
 		<script type="text/javascript">
-			var onResize = function() {
+			$(window).resize(function() {
 				var newHeight = $(window).height() - 90;
-				if (newHeight > 650) {
-					$("#divCalendarFull").height(newHeight);
+				if (newHeight < 650) {
+					newHeight = 650;
 				}
-			};
-			onResize();
-			$(window).resize(onResize);
+				$("#divCalendarFull").height(newHeight);
+			});
+			$(window).resize();
 		</script>
 	</div>
 	<div id="divFooter" class="container_12">© 2012 by ClassDiver</div>
