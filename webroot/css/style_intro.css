@@ -1,0 +1,88 @@
+@CHARSET "ISO-8859-1";
+
+body {
+	background-color: white;
+	margin: 0;
+	font-family: arial, helvetica, sans-serif;
+	font-size: 34pt;
+	font-weight: bold;
+	font-smooth: always;
+	color: #666;
+}
+
+#container {
+	background-color: white;
+	background-image: url(../img/bg_flip.gif);
+	background-repeat: no-repeat no-repeat;
+	background-size: cover;
+	background-position: bottom;
+	width: 600px;
+	height: 370px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -300px;
+	margin-top: -225px;
+	padding: 80px 0px 0px;
+	text-align: center;
+	box-shadow: 5px 5px 15px #999;
+	-o-box-shadow: 5px 5px 15px #999;
+	-icab-box-shadow: 5px 5px 15px #999;
+	-khtml-box-shadow: 5px 5px 15px #999;
+	-moz-box-shadow: 5px 5px 15px #999;
+	-webkit-box-shadow: 5px 5px 15px #999;
+	border-radius: 25px;
+	-o-border-radius: 25px;
+	-icab-border-radius: 25px;
+	-khtml-border-radius: 25px;
+	-moz-border-radius: 25px;
+	-webkit-border-radius: 25px;
+	-moz-border-radius: 25px;
+}
+
+.button {
+	color: #006b9d;
+	border: 2px dashed #e2f6ff;
+	font-family: arial, helvetica, sans-serif;
+	font-size: 16pt;
+	font-weight: bold;
+	font-smooth: always;
+	padding: 5px 10px;
+	border-radius: 10px;
+	-o-border-radius: 10px;
+	-icab-border-radius: 10px;
+	-khtml-border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+}
+
+.button:hover {
+	color: #00aeff;
+	background-color: rgba(226, 246, 255, 1);
+	cursor: pointer;
+	padding: 6px 11px 4px 9px;
+}
+
+#yes {
+	position: absolute;
+	top: 324px;
+	left: 80px;
+}
+
+#no {
+	position: absolute;
+	top: 324px;
+	left: 360px;
+}
+
+a {
+	color: #006b9d;
+	text-decoration: none;
+	border-bottom: 1px dashed #006b9d;
+}
+
+a:hover {
+	color: #00aeff;
+	border-bottom: 1px solid #00aeff;
+}
