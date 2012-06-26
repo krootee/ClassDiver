@@ -96,7 +96,7 @@ function processAndSendData(socket, items) {
         course.stream = item.Stream;
         course.provider = item.Platform;
         course.colorIndexId = courseProviderInfo[item.Platform].ColorIndex;
-        course.text = "<p>Taught at " + item.Platform + " by Instructor(s) " + item.Instructors + "<br><a href='" + item.Url + "'>Link</a></p>";
+        course.text = "Taught at " + item.Platform + " by Instructor(s) " + item.Instructors + "<br><a href='" + item.Url + "'>Link</a>";
 
         // tag is not used, since currently it forces control to create separate lines for each tag and that doesnt scale
         // course.tag = item.Stream;
@@ -116,7 +116,7 @@ function processAndSendData(socket, items) {
             course.asset.credit = item.Url;
         }
 
-        course.asset.caption = item.Stream;
+        // course.asset.caption = item.Stream;
         timeline.date.push(course);
     })
 
