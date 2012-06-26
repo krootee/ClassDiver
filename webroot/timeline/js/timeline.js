@@ -1244,10 +1244,10 @@ if(typeof VMM != 'undefined' && typeof VMM.Date == 'undefined') {
 			}
 				
 			if (type.of(d) == "date") {
-				if (d.getMonth() === 0 && d.getDate() == 1 && d.getHours() === 0 && d.getMinutes() === 0 ) {
+				if (d.getMonth() === 0 && d.getDate() == 0 && d.getHours() === 0 && d.getMinutes() === 0 ) {
 					// YEAR ONLY
 					format = VMM.Date.dateformats.year;
-				} else if (d.getDate() <= 1 && d.getHours() === 0 && d.getMinutes() === 0) {
+				} else if (d.getDate() <= 0 && d.getHours() === 0 && d.getMinutes() === 0) {
 					// YEAR MONTH
 					if (is_abbr) {
 						format = VMM.Date.dateformats.month_short;
