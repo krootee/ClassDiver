@@ -65,40 +65,31 @@ li {
 }
 
 #divFooter {
-/* 	border-top: 1px dashed #4ccaff; */
+	background-color: white;
 	text-align: center;
 	padding: 5px 0px 10px;
 	font-size: 10px;
 	color: silver;
 }
 
-#timelines_chooser {
-	border: 1px solid #ddd;
-	border-radius: 7px;
-	-webkit-border-radius: 7px;
-	-moz-border-radius: 7px;
-	-khtml-border-radius: 7px;
-	-moz-box-shadow: 0 0 8px rgba(150, 150, 150, 0.5);
-	-webkit-box-shadow: 0 0 8px rgba(150, 150, 150, 0.5);
-	box-shadow: 0 0 8px rgba(150, 150, 150, 0.5);
-	background-color: white;
-	padding: 10px;
-}
-
 #calendar {
-	height: inherit;
-}
-
-#calendar_box {
-/* 	height: 500px; */
 	padding: 20px 0px 5px;
+	height: 650px;
 }
 
-#calendar_dialog {
-	height: inherit;
+#divHeaderSmall {
+	background-color: #97e0ff;
+	padding: 3px 4px 1px;
+	text-align: left;
 }
 
-#calendar_controls {
-	font-size: 12px;
-	text-align: right;
+#divCalendarFull {
+	width: 100%;
+	height: 90%;
+/* 	height: 760px; */
+ 	padding: 10px 0px;
+	background-color: rgba(255, 255, 255, 1);
+ 	text-align: center;
 }
+
+
