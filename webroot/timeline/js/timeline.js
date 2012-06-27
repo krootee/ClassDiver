@@ -6929,6 +6929,11 @@ if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefin
 					VMM.Lib.css(_marker_line_event, "height", _line_height);
 					VMM.Lib.css(_marker_line_event, "width", _line);
 					VMM.Lib.css(_marker_line_event, "top", _line_last_height_pos);
+
+					//
+					// OCN-38: un-comment the next line for markers to be of the same size as event line
+					//
+//					VMM.Lib.css(_marker_flag, "width", _line);
 				}
 				
 				// CONTROL ROW POSITION
@@ -7458,6 +7463,8 @@ if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefin
 			markers			= [];
 			era_markers		= [];
 			
+			var colors = ["#F9FFE5", "#E5EFFF", "#E5FFEF", "#EFEFEF", "#FFF1E5"];
+
 			for(var i = 0; i < data.length; i++) {
 				
 				var color, _marker, _marker_flag, _marker_content, _marker_dot, _marker_line, _marker_line_event, _marker_title = "", has_title = false;
@@ -7468,13 +7475,18 @@ if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefin
 				//
 				// OCN-51: Add color coding to timeline events
 				//
-				color = 0;
+				color = colors[0];
 				if (typeof data[i].colorIndexId != "undefined")
 				{
-					// 53 is the height of the image of a flag
-					color = data[i].colorIndexId * -53;
+					var colorIndex = data[i].colorIndexId;
+
+					if (colorIndex < colors.length)
+					{
+						color = colors[colorIndex];
+					}
 				}
-				_marker_flag.attr('style', "background-position:0 " + color + "px;width:153px;height:53px;");
+
+				_marker_flag.attr('style', "background-color:" + color + ";");
 
 				_marker_content			= VMM.appendAndGetElement(_marker_flag, "<div>", "flag-content");
 				_marker_dot				= VMM.appendAndGetElement(_marker, "<div>", "dot");
