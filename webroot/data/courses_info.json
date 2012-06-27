@@ -1,0 +1,66 @@
+{
+   "streams":[
+      [
+         "Computer Science",
+         34
+      ],
+      [
+         "Humanities and Social Sciences",
+         6
+      ],
+      [
+         "Mathematics and Statistics",
+         6
+      ],
+      [
+         "Society, Networks and Information",
+         5
+      ],
+      [
+         "Healthcare, Medicine, and Biology",
+         4
+      ],
+      [
+         "Complex Systems",
+         2
+      ],
+      [
+         "Economics, Finance, and Business",
+         2
+      ],
+      [
+         "Physics",
+         1
+      ],
+      [
+         "Entrepreneurship",
+         1
+      ],
+      [
+         "Electrical Engineering",
+         1
+      ]
+   ],
+   "providers":[
+      [
+         "Coursera",
+         45
+      ],
+      [
+         "Udacity",
+         14
+      ],
+      [
+         "Individual",
+         1
+      ],
+      [
+         "MITx",
+         1
+      ],
+      [
+         "Caltech",
+         1
+      ]
+   ]
+}
