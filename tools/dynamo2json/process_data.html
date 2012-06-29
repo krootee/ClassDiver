@@ -20,8 +20,10 @@
 		<div id="message"><p></p></div>
 		<form id="convertForm" name="convertForm" onsubmit="return false; ">
 			<label title="JavaScript Object Notation">Output JSON for VeriteCo timeline control:</label><br/>
-            <textarea id="json_text" name="json text" rows="10" cols="60" readonly="readonly"></textarea><br/><br/>
-			<input type="button" value="Convert" id="transform_data"/>
+            <textarea id="json_courses_text" name="json courses text" rows="10" cols="60" readonly="readonly"></textarea><br/><br/>
+            <label title="JavaScript Object Notation">Course providers/streams JSON for VeriteCo timeline control:</label><br/>
+            <textarea id="json_helper_text" name="json helper text" rows="10" cols="60" readonly="readonly"></textarea><br/><br/>
+            <input type="button" value="Convert" id="transform_data"/>
             <input type="reset"/>
 		</form>
 	</body>
@@ -35,8 +37,10 @@
 
             socket.on('veriteco_data', function (data) {
                 console.log(data);
-                text=JSON.stringify(data);
-                $("#json_text").val(text);
+                text=JSON.stringify(data.courses);
+                $("#json_courses_text").val(text);
+                text2=JSON.stringify(data.helper);
+                $("#json_helper_text").val(text2);
             });
         </script>
     </footer>

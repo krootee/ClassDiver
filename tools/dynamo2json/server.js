@@ -77,6 +77,10 @@ io.sockets.on('connection', function (socket) {
 function processAndSendData(socket, items) {
     console.log(items.length);
 
+    var streams = {};
+    var providers = {};
+
+    var data = {};
     var timeline = {};
     timeline.headline = "Online courses";
     timeline.type = "default";
@@ -118,9 +122,43 @@ function processAndSendData(socket, items) {
 
         // course.asset.caption = item.Stream;
         timeline.date.push(course);
+
+        // now update arrays with providers and streams
+        if (!streams[item.Stream]) {
+            streams[item.Stream] = 1;
+        }
+        else {
+            streams[item.Stream] += 1;
+        }
+
+        if (!providers[item.Platform]) {
+            providers[item.Platform] = 1;
+        }
+        else {
+            providers[item.Platform] += 1;
+        }
     })
 
-    var data = { timeline : timeline};
+    data.courses = { timeline : timeline};
+
+    // sort streams and providers by amount
+    var sortStreams = [];
+    for (var stream in streams) {
+        sortStreams.push([stream, streams[stream]]);
+    }
+    sortStreams.sort(function (a, b) {
+        return b[1] - a[1];
+    });
+
+    var sortProviders = [];
+    for (var provider in providers) {
+        sortProviders.push([provider, providers[provider]]);
+    }
+    sortProviders.sort(function (a, b) {
+        return b[1] - a[1];
+    });
+
+    data.helper = { streams : sortStreams, providers : sortProviders };
     socket.emit('veriteco_data', data);
 }
 
