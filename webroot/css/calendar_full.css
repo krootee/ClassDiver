@@ -1,0 +1,48 @@
+@CHARSET "ISO-8859-1";
+
+body {
+	background-color: white;
+	margin: 0;
+}
+
+#divHeaderSmall {
+	background-color: white;
+	background-image: url(../img/bg_topbar.gif);
+	background-repeat: no-repeat no-repeat;
+	border-bottom: 2px groove #ddd;
+	height: 63px;
+}
+
+#divLogo {
+	padding: 5px 9px 1px;
+	float: left;
+	width: 250px;
+}
+
+#divMenu {
+	padding: 27px 10px 0px;
+ 	text-align: right;
+	font-family: arial, helvetica, sans-serif;
+	font-size: 16pt;
+	font-weight: bold;
+	position: relative;
+/* 	border: 1px solid red; */
+	float: right;
+}
+
+#divCalendarFull {
+	width: 100%;
+	height: 90%;
+	padding: 10px 0px;
+	background-color: rgba(255, 255, 255, 1);
+	text-align: center;
+}
+
+#divFooter {
+	background-color: white;
+	text-align: center;
+	padding: 5px 0px 10px;
+	font-family: arial, helvetica, sans-serif;
+	font-size: 10px;
+	color: silver;
+}
