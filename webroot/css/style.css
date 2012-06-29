@@ -40,11 +40,6 @@ a:hover {
 	text-align: left;
 }
 
-#divLogo {
-	padding: 10px 0px 5px;
-	text-align: left;
-}
-
 #divReg {
 	font-size: 10px;
 	text-align: right;
@@ -78,9 +73,18 @@ a:hover {
 }
 
 #divHeaderSmall {
-	background-color: #97e0ff;
-	padding: 3px 4px 1px;
+	background-color: white;
+	background-image: url(../img/bg_topbar.gif);
+	background-repeat: no-repeat no-repeat;
+	padding: 5px 9px 1px;
 	text-align: left;
+	border-bottom: 1px solid black;
+/* 	box-shadow: inset 0px -3px 7px #eee; */
+/* 	-o-box-shadow: inset 0px -3px 7px #eee; */
+/* 	-icab-box-shadow: inset 0px -3px 7px #eee; */
+/* 	-khtml-box-shadow: inset 0px -3px 7px #eee; */
+/* 	-moz-box-shadow: inset 0px -3px 7px #eee; */
+/* 	-webkit-box-shadow: inset 0px -3px 7px #eee; */
 }
 
 #divCalendarFull {
