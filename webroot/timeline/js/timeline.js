@@ -6099,6 +6099,41 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
 			});
 		};
 		
+        /* FILTERING
+         ================================================== */
+
+        this.getFilterValues = function() {
+            var providerToCourseNumberMap = {};
+            var streamNamesMap = {};
+            for (var i = 0; i < data.date.length; i++) {
+                if (typeof data.date[i].provider != 'undefined') {
+                    var providerName = data.date[i].provider;
+                    if (isNaN(providerToCourseNumberMap[providerName])) {
+                        providerToCourseNumberMap[providerName] = 1;
+                    } else {
+                        providerToCourseNumberMap[providerName]++;
+                    }
+                }
+                if (typeof data.date[i].stream!= 'undefined') {
+                    streamNamesMap[data.date[i].stream] = 0;
+                }
+            }
+
+            var providerNames=[];
+            for(var k in providerToCourseNumberMap) {providerNames.push(k);}
+            providerNames.sort(function(a,b){return providerToCourseNumberMap[b] - providerToCourseNumberMap[a]});
+
+            var streamNames=[];
+            for(var k in streamNamesMap) {streamNames.push(k);}
+            streamNames.sort();
+
+            var result = {};
+            result.providers = providerNames;
+            result.streams = streamNames;
+
+            return result;
+		};
+		
 		/* MESSEGES 
 		================================================== */
 		
