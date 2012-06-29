@@ -21,7 +21,7 @@
 			<div id="divMenuNews" style="color: #ccc; float: left; border: 1px ridge black; padding: 5px 10px;">News</div>
 			<div id="divMenuFilterBody"
 				style="position: relative; float: left; padding: 5px 10px; font-weight: normal; font-size: 10pt;">
-				<input id="showOld" type="checkbox"><label for="showOld">Show old</label>
+				<input id="showOld" type="checkbox" checked="checked"><label for="showOld">Show old</label>
 			</div>
 			<div id="divMenuFilter" style="color: #ccc; float: left; border: 1px ridge black; padding: 5px 10px;">Filter</div>
 		</div>
@@ -59,6 +59,9 @@
 						direction : "right"
 					}, 500);
 				});
+                $("#showOld").click(function() {
+                    VMM.fireEvent(global, VMM.Timeline.Config.events.apply_filter, {hide_completed: !$("#showOld").is(':checked')});
+                });
 				mixpanel.track("calendar page loaded");
 			});
 		</script>
