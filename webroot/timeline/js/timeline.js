@@ -6076,13 +6076,15 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
 				ie7 = true;
 				VMM.fireEvent(global, config.events.messege, "Internet Explorer 7 is not supported by #Timeline.");
 			} else {
+				if (typeof config.filter != 'undefined') {
+					filter = config.filter;
+				}
 				if (type.of(_data) == "string" || type.of(_data) == "object") {
 					VMM.Timeline.DataObj.getData(_data);
 				} else {
 					VMM.Timeline.DataObj.getData(VMM.getElement(timeline_id));
 				}
 			}
-			
 		};
 		
 		this.iframeLoaded = function() {

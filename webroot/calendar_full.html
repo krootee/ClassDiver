@@ -21,7 +21,7 @@
 			<div id="divMenuNews" style="color: #ccc; float: left; border: 1px ridge black; padding: 5px 10px;">News</div>
 			<div id="divMenuFilterBody"
 				style="position: relative; float: left; padding: 5px 10px; font-weight: normal; font-size: 10pt;">
-				<input id="showOld" type="checkbox" checked="checked"><label for="showOld">Show old</label>
+				<input id="showOld" type="checkbox"><label for="showOld">Show old</label>
 			</div>
 			<div id="divMenuFilter" style="color: #ccc; float: left; border: 1px ridge black; padding: 5px 10px;">Filter</div>
 		</div>
@@ -34,9 +34,10 @@
 				height : "100%",
 				source : 'data/courses.json',
 				start_at_current_date : true,
-				hash_bookmark : true, //OPTIONAL
+				hash_bookmark : true, //OPTIONAL 
 				css : 'timeline/css/timeline.css', //OPTIONAL
-				js : 'timeline/js/timeline.js' //OPTIONAL
+				js : 'timeline/js/timeline.js', //OPTIONAL
+                filter : {hide_completed: true} //OPTIONAL
 			}
 		</script>
 		<script type="text/javascript" src="timeline/js/timeline-embed.js"></script>
