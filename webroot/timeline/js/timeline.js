@@ -4691,7 +4691,7 @@ if(typeof VMM != 'undefined' && typeof VMM.Slider == 'undefined') {
 				//VMM.DragSlider.createPanel($slider_container, $slider_container, VMM.Lib.width(slides[0]), config.spacing, true);
 			}
 			
-			reSize(false, true);
+			reSize(false, !_active);
 			VMM.Lib.visible(navigation.prevBtn, false);
 			goToSlide(config.current_slide, "easeOutExpo", __duration, true, !_active);
 			
@@ -6176,8 +6176,6 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
 			VMM.attachElement($timeline, "");
 			VMM.appendElement($timeline, "<div class='container main'><div class='feature'><div class='slider'></div></div><div class='navigation'></div></div>");
 			
-			reSize(true);
-			
 			VMM.bindEvent("div.slider", onSliderLoaded, "LOADED");
 			VMM.bindEvent("div.navigation", onTimeNavLoaded, "LOADED");
 			VMM.bindEvent("div.slider", onSlideUpdate, "UPDATE");
@@ -6185,6 +6183,7 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
 			
 			slider.init(_dates);
 			timenav.init(_dates, data.era);
+			reSize(true);
 			
 			// RESIZE EVENT LISTENERS
 			VMM.bindEvent(global, reSize, config.events.resize);
@@ -6348,14 +6347,18 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
                         break;
                     }
                 }
-                if (found > 0) {
-                    config.start_at_current_date = false;
-                }
-                config.current_slide = found;
-                goToEvent(found, true);
+				if (found > 0) {
+					config.start_at_current_date = false;
+					config.current_slide = found;
+				} else {
+					config.start_at_current_date = true;
+				}
 			}
-			
+
 			onDatesProcessed();
+			if (found > 0) {
+				goToEvent(found, true);
+			}
 		}
 		
 	};
@@ -6587,7 +6590,9 @@ if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefin
                 // ANIMATE MARKER
                 VMM.Lib.stop($timenav);
                 VMM.Lib.animate($timenav, _duration, _ease, {"left": timenav_pos.left});
-            }
+			} else {
+				VMM.Lib.css($timenav, "left", timenav_pos.left);
+			}
         }
 
         /* TOUCH EVENTS
