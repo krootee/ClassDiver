@@ -4,7 +4,8 @@ var inspect = require('eyes').inspector(),
     S3 = awssum.load('amazon/s3').S3,
     fs = require('fs'),
     path = require('path'),
-    wrench = require("wrench");
+    wrench = require("wrench"),
+    mime = require("mime");
 
 var accessKeyId = "AKIAJDPNLVY6FJSOTFHA";
 var secretAccessKey = "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";
@@ -45,19 +46,21 @@ s3.CreateBucket({ BucketName : s3BucketName, Acl: "public-read" }, function(err,
             var fileInfo = fs.statSync(filePath);
             var filesContent = {};
             var fileCounter = 0;
+            var uploadErrors = 0;
 
            // Exclude IDEA files and directories
            if ((file.indexOf(".idea") !== 0) && (!fileInfo.isDirectory())) {
                filesContent[fileCounter] = {};
                filesContent[fileCounter].bodyStream = fs.createReadStream(filePath);
+
                // replace \ with / if we are running on Windows - S3 has folders, but they are automatically created by having full path to filename with / in it
                file = file.replace(/\\/g, "/");
                console.log(file);
-               // TODO - must setup proper Content-Type for each file
+
                filesContent[fileCounter].options = {
                        BucketName: s3BucketName,
                        Acl: "public-read",
-                       // ContentType: defaults.ContentType,
+                       ContentType: mime.lookup(filePath),
                        ObjectName: file,
                        ContentLength: fileInfo.size,
                        Body: filesContent[fileCounter].bodyStream
@@ -66,6 +69,8 @@ s3.CreateBucket({ BucketName : s3BucketName, Acl: "public-read" }, function(err,
                s3.PutObject(filesContent[fileCounter].options, function (err, data) {
                    if (err) {
                        inspect(err, "Error during upload");
+                       uploadErrors++;
+
                        return;
                    }
 
