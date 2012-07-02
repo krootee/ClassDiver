@@ -1,15 +1,14 @@
 {
-    "name" : "dynamo2json",
+    "name" : "cloudfront-deploy",
     "author" : "Konstantin Root",
     "version" : "0.0.1",
     "private": true,
     "dependencies" : {
-        "dynamo": "0.2.12",
-        "socket.io": "0.9.6",
-        "express": "2.5.9"
+        "awssum": "0.6.1",
+        "eyes": "0.1.7"
     },
     "scripts": {
-        "start": "node ./server.js"
+        "start": "node ./deploy.js"
     },
     "engine" : "node 0.8.1"
 }
