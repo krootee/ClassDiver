@@ -1,0 +1,6 @@
+Tool to deploying content of /webroot folder to CloudFront CDN (creates new S3 bucket, upload all files there, changes CloudFront distribution origin, invalidates all files).
+
+How to use:
+0) Install Node.js version >=0.8.1 - http://nodejs.org/
+1) Start server in bash - type "npm start" in current directory
+2) You should see no error messages in console
