@@ -3,6 +3,9 @@
 body {
 	background-color: white;
 	margin: 0;
+	font-family: preloslabmedium,tahoma;
+	font-size: 12px;
+	color: #666;
 }
 
 #divHeaderSmall {
@@ -20,13 +23,10 @@ body {
 }
 
 #divMenu {
-	padding: 27px 10px 0px;
+	padding: 29px 10px 0px;
  	text-align: right;
-	font-family: arial, helvetica, sans-serif;
-	font-size: 16pt;
-	font-weight: bold;
+	color: #666;
 	position: relative;
-/* 	border: 1px solid red; */
 	float: right;
 }
 
@@ -45,4 +45,8 @@ body {
 	font-family: arial, helvetica, sans-serif;
 	font-size: 10px;
 	color: silver;
+}
+
+.ui-button-text {
+	padding: 0.2em 0.7em !important;
 }

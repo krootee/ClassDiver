@@ -1,78 +1,155 @@
-var tg1 = {};
+var savedFilter = {};
 
-function calendarFullScreen() {
-	$("#calendar_dialog").dialog("open");
-}
-
-function onFullscreenOpen() {
-	var cal_div = $("#calendar");
-	$("#calendar_dialog").append(cal_div);
-	resizeFullscreenCalendarDialog();
-}
-
-function resizeFullscreenCalendarDialog() {
-	$("#calendar_dialog").dialog("option", "width", $("body").width());
-	$("#calendar_dialog").dialog("option", "height", $("body").height());
-	var tg_actor = tg1.data("timeline");
-	tg_actor.resize();
-}
-
-function onFullscreenClose() {
-	var cal_div = $("#calendar");
-	$("#calendar_box").append(cal_div);
-	var tg_actor = tg1.data("timeline");
-	tg_actor.resize();
-}
-
-/** ******************************************TIMELINE_Functions************************************************ */
-function loadTimeline(file) {
-	var tg_actor = tg1.data("timeline");
-	tg_actor.loadTimeline(file, {
-		fn : function(args, data) {
-			if (!data || data.length == 0) {
-				return;
-			}
-			var id = data[0].id;
-			var MED = tg_actor.getMediator();
-			var active = _.indexOf(MED.activeTimelines, id);
-			if (active == -1) {
-				toggleTimeline(id);
-			}
-		},
-		args : {
-			display : false
-		},
-		seize : true
+function loadCoursesInfo() {
+	$.getJSON('data/courses_info.json', function(data) {
+		fillProviders(data);
+		fillStreams(data);
 	});
 }
 
-function toggleTimeline(timelineId) {
-	if (!timelineId) {
-		return;
-	}
-	var tg_actor = tg1.data("timeline");
-	var MED = tg_actor.getMediator();
-	var timelines = MED.getTimelineCollection();
-	if (!timelines.get(timelineId)) {
-		return;
-	}
-	MED.toggleTimeline(timelineId);
+function fillProviders(data) {
+	var options = [];
+	$.each(data['providers'], function(key, val) {
+		options.push('<option id="' + val[0] + '"' + (isProviderSelected(val[0]) ? ' selected="selected"' : '') + '>'
+				+ val[0] + '(' + val[1] + ')' + '</option>');
+	});
+	$('#provider').empty();
+	$(options.join('')).appendTo('#provider');
+	$('#provider').multiselect({
+		noneSelectedText : 'Select provider'
+	});
+	$('#provider').bind("multiselectclose", function() {
+		applyFilter();
+	});
 }
 
-function unloadTimeline(timelineId) {
-	if (!timelineId) {
-		return;
+function isProviderSelected(provider) {
+	var result = false;
+	if (savedFilter.providers) {
+		$.each(savedFilter.providers, function(key, val) {
+			if (val == provider) {
+				result = true;
+				return false;
+			}
+		});
 	}
-	var tg_actor = tg1.data("timeline");
-	var MED = tg_actor.getMediator();
-	// remove from timeline collection
-	var timelines = MED.getTimelineCollection();
-	timelines.remove(timelines.get(timelineId));
-	$.publish(tg1.container_name + ".mediator.timelineListChangeSignal");
-	// remove from active collection
-	var active = _.indexOf(MED.activeTimelines, timelineId);
-	if (active != -1) {
-		MED.activeTimelines.splice(active, 1);
+	return result;
+}
+
+function fillStreams(data) {
+	var options = [];
+	$.each(data['streams'], function(key, val) {
+		options.push('<option id="' + val[0] + '"' + (isStreamSelected(val[0]) ? ' selected="selected"' : '') + '>'
+				+ val[0] + '(' + val[1] + ')' + '</option>');
+	});
+	$('#stream').empty();
+	$(options.join('')).appendTo('#stream');
+	$('#stream').multiselect({
+		noneSelectedText : 'Select stream'
+	});
+	$('#stream').bind("multiselectclose", function() {
+		applyFilter();
+	});
+}
+
+function isStreamSelected(stream) {
+	var result = false;
+	if (savedFilter.streams) {
+		$.each(savedFilter.streams, function(key, val) {
+			if (val == stream) {
+				result = true;
+				return false;
+			}
+		});
 	}
-	MED.refresh();
+	return result;
+}
+
+function applyFilter() {
+	var filter = {
+		hide_completed : !$("#showOld").is(':checked')
+	};
+	var selected_streams = $("#stream").multiselect("getChecked").map(function() {
+		return this.id;
+	}).get();
+	if (selected_streams && selected_streams.length > 0) {
+		filter.streams = selected_streams;
+	}
+	var selected_providers = $("#provider").multiselect("getChecked").map(function() {
+		return this.id;
+	}).get();
+	if (selected_providers && selected_providers.length > 0) {
+		filter.providers = selected_providers;
+	}
+	VMM.fireEvent(global, VMM.Timeline.Config.events.apply_filter, filter);
+	saveFilter(filter);
+	savedFilter = filter;
+}
+
+function saveFilter(filter) {
+	$.cookie("classdiver.filter.showCompleted", !filter.hide_completed, {
+		expires : 365,
+		// domain : 'classdiver.com',
+		path : '/'
+	});
+	if (filter.streams)
+		$.cookie("classdiver.filter.selectedStreams", filter.streams.join('|'), {
+			expires : 365,
+			// domain : 'classdiver.com',
+			path : '/'
+		});
+	if (filter.providers)
+		$.cookie("classdiver.filter.selectedProviders", filter.providers.join('|'), {
+			expires : 365,
+			// domain : 'classdiver.com',
+			path : '/'
+		});
+}
+
+function readFilter() {
+	var show_completed = $.cookie("classdiver.filter.showCompleted");
+	var filter = {
+		hide_completed : show_completed ? !show_completed : true
+	};
+	var selectedStreams = $.cookie("classdiver.filter.selectedStreams");
+	if (selectedStreams) {
+		filter.streams = selectedStreams.split('|');
+	}
+	var selectedProviders = $.cookie("classdiver.filter.selectedProviders");
+	if (selectedProviders) {
+		filter.providers = selectedProviders.split('|');
+	}
+	return filter;
+}
+
+function refreshCaption(button) {
+	var options;
+	if (button.attr('checked')) {
+		options = {
+			label : "Hide completed"
+		};
+	} else {
+		options = {
+			label : "Show completed"
+		};
+	}
+	button.button("option", options);
+}
+
+function init() {
+	$('#showOld').button().click(function() {
+		applyFilter();
+		refreshCaption($(this));
+	}).attr('checked', !savedFilter.hide_completed).button("refresh");
+	refreshCaption($('#showOld'));
+	loadCoursesInfo();
+	$(window).resize(function() {
+		var newHeight = $(window).height() - 113;
+		if (newHeight < 650) {
+			newHeight = 650;
+		}
+		$("#divCalendarFull").height(newHeight);
+	});
+	mixpanel.track("calendar page loaded");
+	$(window).resize();
 }
