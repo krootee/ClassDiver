@@ -6,22 +6,22 @@ var inspect = require('eyes').inspector(),
 var accessKeyId = "AKIAJDPNLVY6FJSOTFHA";
 var secretAccessKey = "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";
 
-var myS3Bucket = new S3({
+var s3 = new S3({
     'accessKeyId' : accessKeyId,
     'secretAccessKey' : secretAccessKey,
     'region' : amazon.US_EAST_1
 });
 
-console.log('Region :', myS3Bucket.region());
-console.log('EndPoint :',  myS3Bucket.host());
-console.log('AccessKeyId :', myS3Bucket.accessKeyId());
+console.log('Region :', s3.region());
+console.log('EndPoint :',  s3.host());
+console.log('AccessKeyId :', s3.accessKeyId());
 
 var today = new Date();
 var s3BucketName = "www.classdiver.com-" + today.getUTCFullYear() + "." + (today.getUTCMonth() + 1) + "." + today.getUTCDate() +
-    "T" + today.getUTCHours() + "." + today.getUTCMinutes() + "." + today.getUTCSeconds();
+    "t" + today.getUTCHours() + "." + today.getUTCMinutes() + "." + today.getUTCSeconds();
 //var s3BucketName = "www.classdiver.com-1235999432";
 
-    myS3Bucket.CreateBucket({ BucketName : s3BucketName }, function(err, data) {
+s3.CreateBucket({ BucketName : s3BucketName }, function(err, data) {
     if (err) {
         console.log("\n Problem with creation bucket '" + s3BucketName + "'.");
         inspect(err, 'Error');
