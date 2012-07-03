@@ -14,6 +14,7 @@ body {
 	background-repeat: no-repeat no-repeat;
 	border-bottom: 2px groove #ddd;
 	height: 63px;
+/* 	border: 1px solid red; */
 }
 
 #divLogo {
@@ -23,11 +24,15 @@ body {
 }
 
 #divMenu {
+	height: 34px;
 	padding: 29px 10px 0px;
  	text-align: right;
 	color: #666;
 	position: relative;
 	float: right;
+	font-family: preloslabmedium,tahoma;
+	font-size: 12px;
+/* 	border: 1px solid blue; */
 }
 
 #divCalendarFull {
@@ -48,5 +53,5 @@ body {
 }
 
 .ui-button-text {
-	padding: 0.2em 0.7em !important;
+	padding: 0.1em 0.8em !important;
 }

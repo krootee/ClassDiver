@@ -150,6 +150,6 @@ function init() {
 		}
 		$("#divCalendarFull").height(newHeight);
 	});
-	mixpanel.track("calendar page loaded");
 	$(window).resize();
+	mixpanel.track("calendar page loaded");
 }
