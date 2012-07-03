@@ -4,4 +4,4 @@ cp ../Timeline/compiled/css/themes/timeline-texture.png webroot/timeline/css/the
 #cp ../Timeline/compiled/css/themes/font/*.* webroot/timeline/css/themes/font
 cp ../Timeline/compiled/js/timeline*.* webroot/timeline/js
 cp ../Timeline/compiled/js/locale/en.js webroot/timeline/js/locale
-cp ../Timeline/compiled/lib/jquery-min.js webroot/timeline/lib
+#cp ../Timeline/compiled/lib/jquery-min.js webroot/timeline/lib
