@@ -4,7 +4,8 @@ var inspect = require('eyes').inspector(),
     S3 = awssum.load('amazon/s3').S3,
     fs = require('fs'),
     path = require('path'),
-    wrench = require("wrench");
+    wrench = require("wrench"),
+    mime = require("mime");
 
 var accessKeyId = "AKIAJDPNLVY6FJSOTFHA";
 var secretAccessKey = "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";
@@ -41,37 +42,42 @@ s3.CreateBucket({ BucketName : s3BucketName, Acl: "public-read" }, function(err,
         inspect(files, "Files");
 
         files.map(function (file) {
-           var filePath = path.join(sourceDir, file);
-           var fileStats = fs.lstatSync(filePath);
+            var filePath = path.join(sourceDir, file);
+            var fileInfo = fs.statSync(filePath);
+            var filesContent = {};
+            var fileCounter = 0;
+            var uploadErrors = 0;
 
            // Exclude IDEA files and directories
-           if ((file.indexOf(".idea") !== 0) && (!fileStats.isDirectory())) {
-               var body = fs.readFileSync(filePath, 'utf8');
+           if ((file.indexOf(".idea") !== 0) && (!fileInfo.isDirectory())) {
+               filesContent[fileCounter] = {};
+               filesContent[fileCounter].bodyStream = fs.createReadStream(filePath);
+
                // replace \ with / if we are running on Windows - S3 has folders, but they are automatically created by having full path to filename with / in it
                file = file.replace(/\\/g, "/");
                console.log(file);
-               // TODO - must setup proper Content-Type for each file
-               var options = {
+
+               filesContent[fileCounter].options = {
                        BucketName: s3BucketName,
                        Acl: "public-read",
-                       // ContentType: defaults.ContentType,
+                       ContentType: mime.lookup(filePath),
                        ObjectName: file,
-                       ContentLength: body.length,
-                       Body: body
+                       ContentLength: fileInfo.size,
+                       Body: filesContent[fileCounter].bodyStream
                    };
 
-               // TODO - must execute this synchronously or will get corruptions!
-               s3.PutObject(options, function (err, data) {
+               s3.PutObject(filesContent[fileCounter].options, function (err, data) {
                    if (err) {
-                       console.log('AWS Error: Status Code ' + err.StatusCode);
-                       console.log("Filename :" + file);
-                       console.log('Error Code: ' + err.Body.Error.Code);
-                       console.log('Error Message: ' + err.Body.Error.Message);
+                       inspect(err, "Error during upload");
+                       uploadErrors++;
+
                        return;
                    }
 
-                   console.log('Deployed to '+ options.BucketName + '/' + options.ObjectName + '; Status Code = ' + data.StatusCode);
+                   inspect(data, "Successful upload");
                });
+
+               fileCounter++;
            }
         });
     }
