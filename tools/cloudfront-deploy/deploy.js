@@ -2,6 +2,7 @@ var inspect = require('eyes').inspector(),
     awssum = require('awssum'),
     amazon = awssum.load('amazon/amazon'),
     S3 = awssum.load('amazon/s3').S3,
+    cloudfront = require('cloudfront'),
     fs = require('fs'),
     path = require('path'),
     wrench = require("wrench"),
@@ -21,9 +22,8 @@ console.log('EndPoint :',  s3.host());
 console.log('AccessKeyId :', s3.accessKeyId());
 
 var today = new Date();
-var s3BucketName = "www.classdiver.com-" + today.getUTCFullYear() + "." + (today.getUTCMonth() + 1) + "." + today.getUTCDate() +
+var s3BucketName = "www.classdiver.com_" + today.getUTCFullYear() + "-" + (today.getUTCMonth() + 1) + "-" + today.getUTCDate() +
     "t" + today.getUTCHours() + "." + today.getUTCMinutes() + "." + today.getUTCSeconds();
-//var s3BucketName = "www.classdiver.com-1235999432";
 
 s3.CreateBucket({ BucketName : s3BucketName, Acl: "public-read" }, function(err, data) {
     if (err) {
@@ -58,12 +58,12 @@ s3.CreateBucket({ BucketName : s3BucketName, Acl: "public-read" }, function(err,
                console.log(file);
 
                filesContent[fileCounter].options = {
-                       BucketName: s3BucketName,
-                       Acl: "public-read",
-                       ContentType: mime.lookup(filePath),
-                       ObjectName: file,
-                       ContentLength: fileInfo.size,
-                       Body: filesContent[fileCounter].bodyStream
+                       BucketName : s3BucketName,
+                       Acl : "public-read",
+                       ContentType : mime.lookup(filePath),
+                       ObjectName : file,
+                       ContentLength : fileInfo.size,
+                       Body : filesContent[fileCounter].bodyStream
                    };
 
                s3.PutObject(filesContent[fileCounter].options, function (err, data) {
@@ -74,11 +74,31 @@ s3.CreateBucket({ BucketName : s3BucketName, Acl: "public-read" }, function(err,
                        return;
                    }
 
-                   inspect(data, "Successful upload");
+                   // inspect(data, "Successful upload");
                });
 
                fileCounter++;
            }
         });
     }
+
+    var cfClient = cloudfront.createClient(accessKeyId, secretAccessKey);
+    cfClient.getDistributionConfig("E1K1S9OYME1UBU", function(err, data) {
+        if (err) {
+            inspect(err, "Error loading distribution config");
+            return;
+        }
+
+        inspect(data, "Distribution config");
+        data.origins[0].domainName = s3BucketName + ".s3.amazonaws.com";
+
+        cfClient.setDistributionConfig("E1K1S9OYME1UBU", data, data.etag, function (err, data) {
+            if (err) {
+                inspect(err, "Error setting distribution config");
+                return;
+            }
+
+            inspect(data, "Successfully updated distribution config");
+        });
+    });
 });
