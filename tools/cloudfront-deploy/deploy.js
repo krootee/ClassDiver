@@ -30,18 +30,19 @@ var s3BucketName = "www.classdiver.com_" + today.getUTCFullYear() + "-" + (today
     "t" + today.getUTCHours() + "." + today.getUTCMinutes() + "." + today.getUTCSeconds();
 var distributionConfig = {};
 var uploadedFiles = [];
+var invalidationId = "";
 
 async.series({
     createBucket: function(callback) {
         s3.CreateBucket({ BucketName : s3BucketName, Acl: "public-read" }, function(err, data) {
             if (err) {
                 console.log("\n Problem with creation bucket '" + s3BucketName + "'.");
-                callback(err, false);
             }
-
-            console.log("\nBucket " + data.Headers.location + " created successfully.");
-            inspect(data, 'Data');
-            callback(null, true);
+            else {
+                console.log("\nBucket " + data.Headers.location + " created successfully.");
+                inspect(data, 'Data');
+            }
+            callback(err, (err === null));
         });
     },
     uploadFiles: function(callback) {
@@ -89,7 +90,6 @@ async.series({
                         else {
                             inspect(data, "Successful upload of file " + item.ObjectName);
                         }
-
                         callbackFile(err);
                     });
                 },
@@ -97,7 +97,6 @@ async.series({
                     if (uploadErrors > 0) {
                         console.log("Upload failed for " + uploadErrors + " files.");
                     }
-
                     callback(err, (err === null));
             });
         }
@@ -106,14 +105,12 @@ async.series({
         cfClient.getDistributionConfig(distributionId, function(err, data) {
             if (err) {
                 console.log("Error loading distribution config");
-                callback(err, false);
-                return;
             }
-
-            distributionConfig = data;
-            inspect(distributionConfig, "Distribution config");
-
-            callback(null, true);
+            else {
+                distributionConfig = data;
+                inspect(distributionConfig, "Distribution config");
+            }
+            callback(err, (err === null));
         });
     },
     updateCloudFrontDistributionConfig: function(callback) {
@@ -121,29 +118,93 @@ async.series({
         cfClient.setDistributionConfig(distributionId, distributionConfig, distributionConfig.etag, function (err, data) {
             if (err) {
                 console.log("Error setting distribution config");
-                callback(err, false);
-                return;
             }
-
-            inspect(data, "Successfully updated distribution config");
-            callback(null, true);
+            else {
+                inspect(data, "Successfully updated distribution config");
+            }
+            callback(err, (err === null));
         });
     },
     invalidateFiles: function(callback) {
         inspect(uploadedFiles, "Files to invalidate");
+
         var filesToInvalidate = [];
         uploadedFiles.map(function(file) {
             filesToInvalidate.push("/" + file);
         });
+
         cfClient.createInvalidation(distributionId, today.getTime().toString(), filesToInvalidate, function(err, result){
             if (err) {
                 console.log("Failed to invalidate files");
-                callback(err, false);
-                return;
             }
-            inspect(result, "Invalidation was successful");
-            callback(null, true);
+            else {
+                inspect(result, "Invalidation was successful");
+                invalidationId = result.id;
+            }
+
+            callback(err, (err === null));
         })
+    },
+    waitForUpdatesCompletion: function(callback) {
+        var distributionDeployed = false;
+        var invalidationCompleted = false;
+        var statusError = null;
+
+        if (invalidationId === "") {
+            console.log("Internal error - cannot track progress");
+            callback(null, false);
+            return;
+        }
+        console.log("Distribution config changes and invalidation requests are in progress - waiting (progress every 5 sec)");
+
+        async.whilst(
+            function () {
+                return (!statusError && (!distributionDeployed || !invalidationCompleted));
+            },
+            function (callbackStatus) {
+                setTimeout(function() {
+                    if (!distributionDeployed) {
+                        cfClient.getDistribution(distributionId, function(err, data) {
+                            if (err) {
+                                statusError = err;
+                                console.log("Failed to get distribution status");
+                            }
+                            else {
+                                if (data.status == "Deployed") {
+                                    distributionDeployed = true;
+                                    console.log("Distribution update is completed!");
+                                }
+                                else {
+                                    process.stdout.write(".");
+                                }
+                            }
+                        });
+                    }
+
+                    if (!invalidationCompleted) {
+                        cfClient.getInvalidation(distributionId, invalidationId, function(err, data) {
+                            if (err) {
+                                statusError = err;
+                                console.log("Failed to get invalidation status");
+                            }
+                            else {
+                                if (data.status == "Completed") {
+                                    invalidationCompleted = true;
+                                    console.log("Invalidation of files is completed!");
+                                }
+                                else {
+                                    process.stdout.write(".");
+                                }
+                            }
+                            callbackStatus(err);
+                        });
+                    }
+                }, 5000);
+            },
+            function (err) {
+                callback(statusError, (statusError === null));
+            }
+        );
     }
 },
 function(err, results) {
