@@ -45,55 +45,62 @@ async.series({
         });
     },
     uploadFiles: function(callback) {
-        // TODO - must run async parallel, so this function will complete only after all files are uploaded
+        var filesContent = [];
+        var fileCounter = 0;
+        var uploadErrors = 0;
         var sourceDir = ".//..//..//webroot";
         var files = wrench.readdirSyncRecursive(sourceDir);
 
         if (files) {
-            //inspect(files, "Files");
-
             files.map(function (file) {
                 var filePath = path.join(sourceDir, file);
                 var fileInfo = fs.statSync(filePath);
-                var filesContent = {};
-                var fileCounter = 0;
-                var uploadErrors = 0;
 
                 // Exclude IDEA files and directories
                 if ((file.indexOf(".idea") !== 0) && (!fileInfo.isDirectory())) {
-                    filesContent[fileCounter] = {};
-                    filesContent[fileCounter].bodyStream = fs.createReadStream(filePath);
-
                     // replace \ with / if we are running on Windows - S3 has folders, but they are automatically created by having full path to filename with / in it
                     file = file.replace(/\\/g, "/");
                     console.log(file);
 
-                    filesContent[fileCounter].options = {
+                    var fileOptions = {
                         BucketName : s3BucketName,
                         Acl : "public-read",
                         ContentType : mime.lookup(filePath),
                         ObjectName : file,
                         ContentLength : fileInfo.size,
-                        Body : filesContent[fileCounter].bodyStream
+                        Body : fs.createReadStream(filePath)
                     };
 
-                    s3.PutObject(filesContent[fileCounter].options, function (err, data) {
-                        if (err) {
-                            inspect(err, "Error during upload");
-                            uploadErrors++;
-                            callback(err, false);
-                            return;
-                        }
-
-                        //inspect(data, "Successful upload");
-                    });
-
+                    filesContent.push(fileOptions);
                     uploadedFiles.push(file);
                     fileCounter++;
                 }
             });
+
+            // do async parallel upload of files, but not start distribution config changes until all files are uploaded
+            async.forEach(
+                filesContent,
+                function(item, callbackFile) {
+                    s3.PutObject(item, function (err, data) {
+                        if (err) {
+                            inspect(err, "Error during upload of file " + item.ObjectName);
+                            uploadErrors++;
+                        }
+                        else {
+                            inspect(data, "Successful upload of file " + item.ObjectName);
+                        }
+
+                        callbackFile(err);
+                    });
+                },
+                function(err) {
+                    if (uploadErrors > 0) {
+                        console.log("Upload failed for " + uploadErrors + " files.");
+                    }
+
+                    callback(err, (err === null));
+            });
         }
-        callback(null, true);
     },
     getCloudFrontDistributionConfig: function(callback) {
         cfClient.getDistributionConfig(distributionId, function(err, data) {
