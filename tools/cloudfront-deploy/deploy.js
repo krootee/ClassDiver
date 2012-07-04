@@ -159,7 +159,7 @@ async.series({
 
         async.whilst(
             function () {
-                return (!statusError && (!distributionDeployed || !invalidationCompleted));
+                return (!statusError && (!distributionDeployed && !invalidationCompleted));
             },
             function (callbackStatus) {
                 setTimeout(function() {
