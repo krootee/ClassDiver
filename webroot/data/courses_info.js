@@ -1,0 +1,1 @@
+var CDData = {"streams":["Computer Science","Humanities and Social Sciences","Mathematics and Statistics","Society, Networks and Information","Healthcare, Medicine, and Biology","Complex Systems","Economics, Finance, and Business","Physics","Entrepreneurship","Electrical Engineering"],"providers":["Coursera","Udacity","Individual","MITx","Caltech"]}

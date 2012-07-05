@@ -53,7 +53,7 @@ async.series({
         var files = wrench.readdirSyncRecursive(sourceDir);
 
         if (files) {
-            files.map(function (file) {
+            files.forEach(function (file) {
                 var filePath = path.join(sourceDir, file);
                 var fileInfo = fs.statSync(filePath);
 
@@ -129,7 +129,7 @@ async.series({
         inspect(uploadedFiles, "Files to invalidate");
 
         var filesToInvalidate = [];
-        uploadedFiles.map(function(file) {
+        uploadedFiles.forEach(function(file) {
             filesToInvalidate.push("/" + file);
         });
 

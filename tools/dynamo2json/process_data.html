@@ -39,8 +39,8 @@
                 console.log(data);
                 text=JSON.stringify(data.courses);
                 $("#json_courses_text").val(text);
-                text2=JSON.stringify(data.helper);
-                $("#json_helper_text").val(text2);
+                textInfo=JSON.stringify(data.helper);
+                $("#json_helper_text").val("var CDData = " + textInfo);
             });
         </script>
     </footer>
