@@ -7218,7 +7218,43 @@ if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefin
              */
         }
 
+        function reuseMarkersCache(_element_parent, _array, _interval) {
+
+            // the stuff below is basically a copy/paste of the createIntervalElements function body
+            VMM.attachElement(_element_parent, "");
+
+            for (var i = 0; i < _array.length; i++) {
+                var _element = VMM.appendAndGetElement(_element_parent, "<div>", _interval.classname);
+
+                VMM.appendElement(_element, _array[i].pretty_date);
+
+                _array[i].interval_element = _element;
+
+                // OCN-107: the following line has been commented out. it is very CPU consuming
+                // OCN-107: the effect is that the marker text (e.g. JULY 4) is not centered around its marker
+                //VMM.Lib.css(_element, "text-indent", -(VMM.Lib.width(_element)/2));
+                //VMM.Lib.css(_element, "opacity", "0");
+            }
+
+            positionInterval(_element_parent, _array);
+        }
+
         var createIntervalElements = function(_interval, _array, _element_parent) {
+
+            // OCN-107: re-use the already-built markers, if available
+            if (_array.length != 0) {
+                return reuseMarkersCache(_element_parent, _array, _interval);
+            }
+
+            // OCN-107: limit the max number of markers to MAX_INTERVALS_COUNT
+            var timeIncrement = 1;
+            var MAX_INTERVALS_COUNT = 100;
+            var intervalsCount = Math.ceil(_interval.number) + 1;
+            if (intervalsCount > MAX_INTERVALS_COUNT)
+            {
+                timeIncrement = intervalsCount / MAX_INTERVALS_COUNT;
+                intervalsCount = MAX_INTERVALS_COUNT;
+            }
 
             var inc_time = 0,
                 _first_run = true,
@@ -7229,7 +7265,8 @@ if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefin
 
             _interval.date = new Date(data[0].startdate.getFullYear(), 0, 1, 0,0,0);
 
-            for(var i = 0; i < Math.ceil(_interval.number) + 1; i++) {
+            // OCN-107: the markers count is capped: no more than MAX_INTERVALS_COUNT can be displayed
+            for (var i = 0; i < intervalsCount; i++) {
                 var _idd,
                     _pos,
                     pos,
@@ -7323,7 +7360,8 @@ if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefin
 
                 _idd = VMM.Date.prettyDate(_interval.date, true);
 
-                inc_time = 1;
+                // OCN-107: increment by this amount (in case there is a lot of markers), instead of by 1
+                inc_time = timeIncrement;
 
                 _first_run = false;
 
@@ -7335,8 +7373,10 @@ if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefin
 
                 VMM.appendElement(_element, _idd);
 
-                VMM.Lib.css(_element, "text-indent", -(VMM.Lib.width(_element)/2));
-                VMM.Lib.css(_element, "opacity", "0");
+                // OCN-107: the following line has been commented out. it is very CPU consuming
+                // OCN-107: the effect is that the marker text (e.g. JULY 4) is not centered around its marker
+                //VMM.Lib.css(_element, "text-indent", -(VMM.Lib.width(_element)/2));
+                //VMM.Lib.css(_element, "opacity", "0");
 
                 _last_pos = pos;
 
@@ -7347,6 +7387,7 @@ if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefin
                 _date = new Date(_interval.date);
 
                 var _obj = {
+                    pretty_date:        _idd,
                     interval_element: 	_element,
                     interval_date: 		_date,
                     interval_visible: 	_visible,
@@ -7357,7 +7398,6 @@ if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefin
                         animate: false,
                         pos: "",
                         opacity: "100"
-
                     }
                 };
 
