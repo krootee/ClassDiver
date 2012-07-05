@@ -11,7 +11,7 @@ function fillProviders(data) {
 	var options = [];
 	$.each(data['providers'], function(key, val) {
 		options.push('<option id="' + val[0] + '"' + (isProviderSelected(val[0]) ? ' selected="selected"' : '') + '>'
-				+ val[0] + '(' + val[1] + ')' + '</option>');
+				+ val[0] + '</option>');
 	});
 	$('#provider').empty();
 	$(options.join('')).appendTo('#provider');
@@ -40,7 +40,7 @@ function fillStreams(data) {
 	var options = [];
 	$.each(data['streams'], function(key, val) {
 		options.push('<option id="' + val[0] + '"' + (isStreamSelected(val[0]) ? ' selected="selected"' : '') + '>'
-				+ val[0] + '(' + val[1] + ')' + '</option>');
+				+ val[0] + '</option>');
 	});
 	$('#stream').empty();
 	$(options.join('')).appendTo('#stream');
