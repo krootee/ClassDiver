@@ -2,15 +2,17 @@
     "name" : "cloudfront-deploy",
     "author" : "Konstantin Root",
     "version" : "0.0.1",
-    "private": true,
+    "private" : true,
     "dependencies" : {
-        "awssum": "0.6.1",
-        "eyes": "0.1.7",
-        "wrench": "1.3.9",
-        "mime": "1.2.6"
+        "awssum" : "0.6.1",
+        "eyes" : "0.1.7",
+        "wrench" : "1.3.9",
+        "mime" : "1.2.6",
+        "cloudfront" : "0.3.0",
+        "async" : "0.1.22"
     },
-    "scripts": {
-        "start": "node ./deploy.js"
+    "scripts" : {
+        "start" : "node ./deploy.js"
     },
     "engine" : "node 0.8.1"
 }
