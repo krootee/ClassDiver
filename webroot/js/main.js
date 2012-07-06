@@ -43,7 +43,7 @@ var CD = {
         $('#providers').multiselect({
             noneSelectedText : 'Select providers'
         });
-        $('#providers').bind("multiselectclose", function() {
+        $('#providers').bind("multiselectclick", function() {
             CD.applyFilter();
         });
     },
@@ -71,7 +71,7 @@ var CD = {
         $('#streams').multiselect({
             noneSelectedText : 'Select streams'
         });
-        $('#streams').bind("multiselectclose", function() {
+        $('#streams').bind("multiselectclick", function() {
             CD.applyFilter();
         });
     },
