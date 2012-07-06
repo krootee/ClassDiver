@@ -43,7 +43,7 @@ var CD = {
         $('#providers').multiselect({
             noneSelectedText : 'Select providers'
         });
-        $('#providers').bind("multiselectclose", function() {
+        $('#providers').bind("multiselectclick", function() {
             CD.applyFilter();
         });
     },
@@ -71,7 +71,7 @@ var CD = {
         $('#streams').multiselect({
             noneSelectedText : 'Select streams'
         });
-        $('#streams').bind("multiselectclose", function() {
+        $('#streams').bind("multiselectclick", function() {
             CD.applyFilter();
         });
     },
@@ -105,7 +105,17 @@ var CD = {
 //        if (selected_providers && selected_providers.length > 0) {
 //            filter.providers = selected_providers;
 //        }
-        VMM.fireEvent(global, VMM.Timeline.Config.events.apply_filter, filter);
+		if (JSON.stringify(CD.savedFilter) == JSON.stringify(filter)) { // order of properties in object matters
+			return;
+		}
+		CD.showLoadingScreen(true);
+		setTimeout(function() {
+			try {
+				VMM.fireEvent(global, VMM.Timeline.Config.events.apply_filter, filter);
+			} finally {
+				CD.showLoadingScreen(false);
+			}
+		}, 10);
         CD.saveFilter(filter);
     },
 
@@ -164,5 +174,14 @@ var CD = {
         $(window).resize();
 
         mixpanel.track("calendar page loaded");
+    },
+
+	showLoadingScreen: function(show) {
+        if (show) {
+            $('#divLoading').show();
+        } else {
+            $('#divLoading').hide();
+        }
+    
     }
 };
