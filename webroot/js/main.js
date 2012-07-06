@@ -105,7 +105,7 @@ var CD = {
 //        if (selected_providers && selected_providers.length > 0) {
 //            filter.providers = selected_providers;
 //        }
-		if (JSON.stringify(savedFilter) == JSON.stringify(filter)) { // order of properties in object matters
+		if (JSON.stringify(CD.savedFilter) == JSON.stringify(filter)) { // order of properties in object matters
 			return;
 		}
 		CD.showLoadingScreen(true);
