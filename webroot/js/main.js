@@ -81,7 +81,19 @@ function applyFilter() {
 	if (selected_providers && selected_providers.length > 0) {
 		filter.providers = selected_providers;
 	}
-	VMM.fireEvent(global, VMM.Timeline.Config.events.apply_filter, filter);
+
+	if (JSON.stringify(savedFilter) == JSON.stringify(filter)) { // order of properties in object matters
+		return;
+	}
+	showLoadingScreen(true);
+	setTimeout(function() {
+		try {
+			VMM.fireEvent(global, VMM.Timeline.Config.events.apply_filter, filter);	
+		} finally {
+			showLoadingScreen(false);
+		}
+	}, 10);
+	
 	saveFilter(filter);
 	savedFilter = filter;
 }
@@ -152,4 +164,13 @@ function init() {
 	});
 	$(window).resize();
 	mixpanel.track("calendar page loaded");
+}
+
+function showLoadingScreen(show) {
+	if (show) {
+		$('#divLoading').show();
+	} else {
+		$('#divLoading').hide();
+	}
+	
 }

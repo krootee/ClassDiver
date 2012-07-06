@@ -6110,11 +6110,8 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
         /* FILTERING
          ================================================== */
         function applyFilter(e, _filter) {
-			if (JSON.stringify(_filter) == JSON.stringify(filter)) {
-				return;
-			}
             filter = _filter;
-            buildDates();
+			buildDates();
         };
 
         var filterMatch = function(filter, entry) {
@@ -6292,8 +6289,8 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
 				trace("HAS STARTPAGE");
 				var _date = {}, td_num = 0, td;
 				
-				td = _dates[0].startdate;
-				_date.startdate = new Date(_dates[0].startdate);
+				td = _dates.length > 0 ? _dates[0].startdate : VMM.Date.parse(data.startDate);
+				_date.startdate = new Date(td);
 				
 				if (td.getMonth() === 0 && td.getDate() == 1 && td.getHours() === 0 && td.getMinutes() === 0 ) {
 					// trace("YEAR ONLY");
@@ -6361,6 +6358,9 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
 			onDatesProcessed();
 			if (found > 0) {
 				goToEvent(found, true);
+			}
+			if (typeof config.onDataLoad == 'function') {
+				config.onDataLoad();
 			}
 		}
 		

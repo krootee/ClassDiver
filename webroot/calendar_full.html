@@ -40,15 +40,17 @@
 				hash_bookmark : true, //OPTIONAL 
 				css : 'timeline/css/timeline.css', //OPTIONAL
 				js : 'timeline/js/timeline.js', //OPTIONAL
-                filter : savedFilter //OPTIONAL
+                filter : savedFilter, //OPTIONAL
+                onDataLoad: function() {showLoadingScreen(false);}
 			}
 		</script>
 		<script type="text/javascript" src="timeline/js/timeline-embed.js"></script>
 		<script type="text/javascript">
-			$().ready(init);
+			$(init);
 		</script>
 	</div>
 	<div id="divFooter" class="container_12">© 2012 by ClassDiver</div>
+    <div id="divLoading"></div>
 	<!-- clicky integration -->
 	<script src="//static.getclicky.com/js" type="text/javascript"></script>
 	<script type="text/javascript">try{ clicky.init(66610873); }catch(e){}</script>
