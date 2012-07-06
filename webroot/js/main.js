@@ -144,7 +144,7 @@ function init() {
 	refreshCaption($('#showOld'));
 	loadCoursesInfo();
 	$(window).resize(function() {
-		var newHeight = $(window).height() - 113;
+		var newHeight = $(window).height() - 114;
 		if (newHeight < 650) {
 			newHeight = 650;
 		}

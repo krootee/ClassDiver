@@ -10,15 +10,15 @@ body {
 
 #divHeaderSmall {
 	background-color: white;
-	background-image: url(../img/bg_topbar.gif);
-	background-repeat: no-repeat no-repeat;
+/* 	background-image: url(../img/bg_topbar.gif); */
+/* 	background-repeat: no-repeat no-repeat; */
 	border-bottom: 2px groove #ddd;
-	height: 63px;
+	height: 64px;
 /* 	border: 1px solid red; */
 }
 
 #divLogo {
-	padding: 5px 9px 1px;
+	padding: 5px 14px 3px;
 	float: left;
 	width: 250px;
 }
