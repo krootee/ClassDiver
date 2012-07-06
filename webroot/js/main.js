@@ -43,9 +43,9 @@ var CD = {
         $('#providers').multiselect({
             noneSelectedText : 'Select providers'
         });
-        $('#providers').bind("multiselectclick", function() {
-            CD.applyFilter();
-        });
+        $('#providers').bind("multiselectclick", CD.applyFilter)
+			.bind("multiselectcheckall", CD.applyFilter)
+			.bind("multiselectuncheckall", CD.applyFilter);
     },
 
     isProviderSelected: function(provider) {
@@ -71,9 +71,9 @@ var CD = {
         $('#streams').multiselect({
             noneSelectedText : 'Select streams'
         });
-        $('#streams').bind("multiselectclick", function() {
-            CD.applyFilter();
-        });
+        $('#streams').bind("multiselectclick", CD.applyFilter)
+				 	.bind("multiselectcheckall", CD.applyFilter)
+					.bind("multiselectuncheckall", CD.applyFilter);
     },
 
     isStreamSelected: function(stream) {
