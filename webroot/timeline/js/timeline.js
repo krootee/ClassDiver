@@ -4086,6 +4086,8 @@ if(typeof VMM != 'undefined' && typeof VMM.Slider == 'undefined') {
 				} 
 			};
 		}
+
+		VMM.bindEvent(window, onKeypressNav, 'keydown');
 		
 		/* PUBLIC VARS
 		================================================== */
@@ -4652,7 +4654,6 @@ if(typeof VMM != 'undefined' && typeof VMM.Slider == 'undefined') {
 			
 			VMM.bindEvent(".nav-next", onNextClick);
 			VMM.bindEvent(".nav-previous", onPrevClick);
-			VMM.bindEvent(window, onKeypressNav, 'keydown');
 		}
 		
 		/* BUILD
@@ -6110,11 +6111,8 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
         /* FILTERING
          ================================================== */
         function applyFilter(e, _filter) {
-			if (JSON.stringify(_filter) == JSON.stringify(filter)) {
-				return;
-			}
             filter = _filter;
-            buildDates();
+			buildDates();
         };
 
         var filterMatch = function(filter, entry) {
@@ -6292,8 +6290,8 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
 				trace("HAS STARTPAGE");
 				var _date = {}, td_num = 0, td;
 				
-				td = _dates[0].startdate;
-				_date.startdate = new Date(_dates[0].startdate);
+				td = _dates.length > 0 ? _dates[0].startdate : VMM.Date.parse(data.startDate);
+				_date.startdate = new Date(td);
 				
 				if (td.getMonth() === 0 && td.getDate() == 1 && td.getHours() === 0 && td.getMinutes() === 0 ) {
 					// trace("YEAR ONLY");
@@ -6361,6 +6359,9 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
 			onDatesProcessed();
 			if (found > 0) {
 				goToEvent(found, true);
+			}
+			if (typeof config.onDataLoad == 'function') {
+				config.onDataLoad();
 			}
 		}
 		
@@ -7220,6 +7221,16 @@ if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefin
 
         var createIntervalElements = function(_interval, _array, _element_parent) {
 
+            // OCN-107: limit the max number of markers to MAX_INTERVALS_COUNT
+            var timeIncrement = 1;
+            var MAX_INTERVALS_COUNT = 100;
+            var intervalsCount = Math.ceil(_interval.number) + 1;
+            if (intervalsCount > MAX_INTERVALS_COUNT)
+            {
+                timeIncrement = intervalsCount / MAX_INTERVALS_COUNT;
+                intervalsCount = MAX_INTERVALS_COUNT;
+            }
+
             var inc_time = 0,
                 _first_run = true,
                 _last_pos = 0,
@@ -7229,7 +7240,8 @@ if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefin
 
             _interval.date = new Date(data[0].startdate.getFullYear(), 0, 1, 0,0,0);
 
-            for(var i = 0; i < Math.ceil(_interval.number) + 1; i++) {
+            // OCN-107: the markers count is capped: no more than MAX_INTERVALS_COUNT can be displayed
+            for (var i = 0; i < intervalsCount; i++) {
                 var _idd,
                     _pos,
                     pos,
@@ -7323,7 +7335,8 @@ if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefin
 
                 _idd = VMM.Date.prettyDate(_interval.date, true);
 
-                inc_time = 1;
+                // OCN-107: increment by this amount (in case there is a lot of markers), instead of by 1
+                inc_time = timeIncrement;
 
                 _first_run = false;
 
@@ -7335,8 +7348,10 @@ if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefin
 
                 VMM.appendElement(_element, _idd);
 
-                VMM.Lib.css(_element, "text-indent", -(VMM.Lib.width(_element)/2));
-                VMM.Lib.css(_element, "opacity", "0");
+                // OCN-107: the following line has been commented out. it is very CPU consuming
+                // OCN-107: the effect is that the marker text (e.g. JULY 4) is not centered around its marker
+                //VMM.Lib.css(_element, "text-indent", -(VMM.Lib.width(_element)/2));
+                //VMM.Lib.css(_element, "opacity", "0");
 
                 _last_pos = pos;
 
@@ -7347,6 +7362,7 @@ if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefin
                 _date = new Date(_interval.date);
 
                 var _obj = {
+                    pretty_date:        _idd,
                     interval_element: 	_element,
                     interval_date: 		_date,
                     interval_visible: 	_visible,
@@ -7357,7 +7373,6 @@ if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefin
                         animate: false,
                         pos: "",
                         opacity: "100"
-
                     }
                 };
 

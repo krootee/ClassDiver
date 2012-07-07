@@ -38,6 +38,7 @@ body {
 .CD_screen {
 	width: 960px;
 	height: 390px;
+	border-bottom: 2px groove #ddd;
 }
 
 .CD_screen_news {

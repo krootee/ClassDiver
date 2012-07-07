@@ -88,7 +88,7 @@ function processAndSendData(socket, items) {
     timeline.text = "List of online courses from Coursera, Udacity, MITx, Caltech and individual instructors";
     timeline.date = [];
 
-    items.map(function (item) {
+    items.forEach(function (item) {
         var course = {};
 
         // convert start/end dates from ISO 8601 "<year>-<month>-<day>" format to "<year>,<month>,<day>" control format
@@ -158,7 +158,14 @@ function processAndSendData(socket, items) {
         return b[1] - a[1];
     });
 
-    data.helper = { streams : sortStreams, providers : sortProviders };
+    var mapStreams = sortStreams.map(function(stream) {
+       return stream[0];
+    });
+    var mapProviders = sortProviders.map(function(provider) {
+        return provider[0];
+    });
+
+    data.helper = { streams : mapStreams, providers : mapProviders };
     socket.emit('veriteco_data', data);
 }
 

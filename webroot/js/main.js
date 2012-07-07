@@ -1,155 +1,187 @@
-var savedFilter = {};
+var CD = {
+    savedFilter: {},
 
-function loadCoursesInfo() {
-	$.getJSON('data/courses_info.json', function(data) {
-		fillProviders(data);
-		fillStreams(data);
-	});
-}
+    readFilter: function() {
+        var hideCompleted = $.cookie("classdiver.filter.hideCompleted");
 
-function fillProviders(data) {
-	var options = [];
-	$.each(data['providers'], function(key, val) {
-		options.push('<option id="' + val[0] + '"' + (isProviderSelected(val[0]) ? ' selected="selected"' : '') + '>'
-				+ val[0] + '(' + val[1] + ')' + '</option>');
-	});
-	$('#provider').empty();
-	$(options.join('')).appendTo('#provider');
-	$('#provider').multiselect({
-		noneSelectedText : 'Select provider'
-	});
-	$('#provider').bind("multiselectclose", function() {
-		applyFilter();
-	});
-}
+        if (hideCompleted === null) {
+            CD.savedFilter.hide_completed = true;
+        }
+        else {
+            CD.savedFilter.hide_completed = hideCompleted;
+        }
 
-function isProviderSelected(provider) {
-	var result = false;
-	if (savedFilter.providers) {
-		$.each(savedFilter.providers, function(key, val) {
-			if (val == provider) {
-				result = true;
-				return false;
-			}
-		});
-	}
-	return result;
-}
+        var selectedStreams = $.cookie("classdiver.filter.selectedStreams");
+        if (selectedStreams) {
+            CD.savedFilter.streams = selectedStreams.split('|');
+        }
+        else {
+            // handle case when cookies are not set - initial load of page or cookies were cleared
+            CD.savedFilter.streams = CDData.streams;
+        }
 
-function fillStreams(data) {
-	var options = [];
-	$.each(data['streams'], function(key, val) {
-		options.push('<option id="' + val[0] + '"' + (isStreamSelected(val[0]) ? ' selected="selected"' : '') + '>'
-				+ val[0] + '(' + val[1] + ')' + '</option>');
-	});
-	$('#stream').empty();
-	$(options.join('')).appendTo('#stream');
-	$('#stream').multiselect({
-		noneSelectedText : 'Select stream'
-	});
-	$('#stream').bind("multiselectclose", function() {
-		applyFilter();
-	});
-}
+        var selectedProviders = $.cookie("classdiver.filter.selectedProviders");
+        if (selectedProviders) {
+            CD.savedFilter.providers = selectedProviders.split('|');
+        }
+        else {
+            // handle case when cookies are not set - initial load of page or cookies were cleared
+            CD.savedFilter.providers = CDData.providers;
+        }
 
-function isStreamSelected(stream) {
-	var result = false;
-	if (savedFilter.streams) {
-		$.each(savedFilter.streams, function(key, val) {
-			if (val == stream) {
-				result = true;
-				return false;
-			}
-		});
-	}
-	return result;
-}
+        CD.fillProviders();
+        CD.fillStreams();
+    },
 
-function applyFilter() {
-	var filter = {
-		hide_completed : !$("#showOld").is(':checked')
-	};
-	var selected_streams = $("#stream").multiselect("getChecked").map(function() {
-		return this.id;
-	}).get();
-	if (selected_streams && selected_streams.length > 0) {
-		filter.streams = selected_streams;
-	}
-	var selected_providers = $("#provider").multiselect("getChecked").map(function() {
-		return this.id;
-	}).get();
-	if (selected_providers && selected_providers.length > 0) {
-		filter.providers = selected_providers;
-	}
-	VMM.fireEvent(global, VMM.Timeline.Config.events.apply_filter, filter);
-	saveFilter(filter);
-	savedFilter = filter;
-}
+    fillProviders: function() {
+        var options = [];
+        $.each(CDData.providers, function(key, provider) {
+            options.push('<option id="' + provider + '"' + (CD.isProviderSelected(provider) ? ' selected="selected"' : '') + '>' + provider + '</option>');
+        });
+        $('#providers').empty();
+        $(options.join('')).appendTo('#providers');
+        $('#providers').multiselect({
+            noneSelectedText : 'Select providers'
+        });
+        $('#providers').bind("multiselectclick", CD.applyFilter)
+			.bind("multiselectcheckall", CD.applyFilter)
+			.bind("multiselectuncheckall", CD.applyFilter);
+    },
 
-function saveFilter(filter) {
-	$.cookie("classdiver.filter.showCompleted", !filter.hide_completed, {
-		expires : 365,
-		// domain : 'classdiver.com',
-		path : '/'
-	});
-	if (filter.streams)
-		$.cookie("classdiver.filter.selectedStreams", filter.streams.join('|'), {
-			expires : 365,
-			// domain : 'classdiver.com',
-			path : '/'
-		});
-	if (filter.providers)
-		$.cookie("classdiver.filter.selectedProviders", filter.providers.join('|'), {
-			expires : 365,
-			// domain : 'classdiver.com',
-			path : '/'
-		});
-}
+    isProviderSelected: function(provider) {
+        var result = false;
+        if (CD.savedFilter.providers) {
+            $.each(CD.savedFilter.providers, function(key, val) {
+                if (val === provider) {
+                    result = true;
+                    return false;
+                }
+            });
+        }
+        return result;
+    },
 
-function readFilter() {
-	var show_completed = $.cookie("classdiver.filter.showCompleted");
-	var filter = {
-		hide_completed : show_completed ? !show_completed : true
-	};
-	var selectedStreams = $.cookie("classdiver.filter.selectedStreams");
-	if (selectedStreams) {
-		filter.streams = selectedStreams.split('|');
-	}
-	var selectedProviders = $.cookie("classdiver.filter.selectedProviders");
-	if (selectedProviders) {
-		filter.providers = selectedProviders.split('|');
-	}
-	return filter;
-}
+    fillStreams: function() {
+        var options = [];
+        $.each(CDData.streams, function(key, stream) {
+            options.push('<option id="' + stream + '"' + (CD.isStreamSelected(stream) ? ' selected="selected"' : '') + '>' + stream + '</option>');
+        });
+        $('#streams').empty();
+        $(options.join('')).appendTo('#streams');
+        $('#streams').multiselect({
+            noneSelectedText : 'Select streams'
+        });
+        $('#streams').bind("multiselectclick", CD.applyFilter)
+				 	.bind("multiselectcheckall", CD.applyFilter)
+					.bind("multiselectuncheckall", CD.applyFilter);
+    },
 
-function refreshCaption(button) {
-	var options;
-	if (button.attr('checked')) {
-		options = {
-			label : "Hide completed"
-		};
-	} else {
-		options = {
-			label : "Show completed"
-		};
-	}
-	button.button("option", options);
-}
+    isStreamSelected: function(stream) {
+        var result = false;
+        if (CD.savedFilter.streams) {
+            $.each(CD.savedFilter.streams, function(key, val) {
+                if (val === stream) {
+                    result = true;
+                    return false;
+                }
+            });
+        }
+        return result;
+    },
 
-function init() {
-	$('#showOld').button().click(function() {
-		applyFilter();
-		refreshCaption($(this));
-	}).attr('checked', !savedFilter.hide_completed).button("refresh");
-	refreshCaption($('#showOld'));
-	loadCoursesInfo();
-	$(window).resize(function() {
-		var newHeight = $(window).height() - 114;
-		if (newHeight < 650) {
-			newHeight = 650;
+    applyFilter: function() {
+        var filter = {
+            hide_completed : !$("#showOld").is(':checked')
+        };
+        filter.streams = $("#streams").multiselect("getChecked").map(function() {
+            return this.id;
+        }).get();
+//        if (selected_streams && selected_streams.length > 0) {
+//            filter.streams = selected_streams;
+//        }
+        filter.providers = $("#providers").multiselect("getChecked").map(function() {
+            return this.id;
+        }).get();
+//        if (selected_providers && selected_providers.length > 0) {
+//            filter.providers = selected_providers;
+//        }
+		if (JSON.stringify(CD.savedFilter) == JSON.stringify(filter)) { // order of properties in object matters
+			return;
 		}
-		$("#divCalendarFull").height(newHeight);
-	});
-	$(window).resize();
-	mixpanel.track("calendar page loaded");
-}
+		CD.showLoadingScreen(true);
+		setTimeout(function() {
+			try {
+				VMM.fireEvent(global, VMM.Timeline.Config.events.apply_filter, filter);
+			} finally {
+				CD.showLoadingScreen(false);
+			}
+		}, 10);
+        CD.saveFilter(filter);
+    },
+
+    saveFilter: function(filter) {
+        $.cookie("classdiver.filter.hideCompleted", filter.hide_completed, {
+            expires : 365,
+            // domain : 'classdiver.com',
+            path : '/'
+        });
+        if (filter.streams) {
+            $.cookie("classdiver.filter.selectedStreams", filter.streams.join('|'), {
+                expires : 365,
+                // domain : 'classdiver.com',
+                path : '/'
+            });
+        }
+        if (filter.providers) {
+            $.cookie("classdiver.filter.selectedProviders", filter.providers.join('|'), {
+                expires : 365,
+                // domain : 'classdiver.com',
+                path : '/'
+            });
+        }
+
+        CD.savedFilter = filter;
+    },
+
+    refreshCaption: function(button) {
+        var options;
+        if (button.attr('checked')) {
+            options = {
+                label : "Hide completed"
+            };
+        } else {
+            options = {
+                label : "Show completed"
+            };
+        }
+        button.button("option", options);
+    },
+
+    init: function() {
+        $('#showOld').button().click(function() {
+            CD.applyFilter();
+            CD.refreshCaption($(this));
+        }).attr('checked', !CD.savedFilter.hide_completed).button("refresh");
+        CD.refreshCaption($('#showOld'));
+
+        $(window).resize(function() {
+            var newHeight = $(window).height() - 113;
+            if (newHeight < 650) {
+                newHeight = 650;
+            }
+            $("#divCalendarFull").height(newHeight);
+        });
+        $(window).resize();
+
+        mixpanel.track("calendar page loaded");
+    },
+
+	showLoadingScreen: function(show) {
+        if (show) {
+            $('#divLoading').show();
+        } else {
+            $('#divLoading').hide();
+        }
+    
+    }
+};
