@@ -127,6 +127,33 @@ body {
 
 .CD_mitem:hover,.CD_mselected {
 	color: #333;
+	padding: 9px 24px 0px 26px;
 	background-color: #d1e4b9;
 	/* 	background-color: #c2d97c; */
+}
+
+.CD_button {
+	color: #666;
+	border: 2px dashed #d1e4b9;
+	font-family: arial, helvetica, sans-serif;
+	font-size: 16pt;
+	font-weight: bold;
+	font-smooth: always;
+	padding: 5px 10px;
+	margin: 5px;
+	border-radius: 10px;
+	-o-border-radius: 10px;
+	-icab-border-radius: 10px;
+	-khtml-border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+}
+
+.CD_button:hover {
+	color: #333;
+	background-color: #d1e4b9;
+	border: 2px solid #80a70b;
+	cursor: pointer;
+	padding: 6px 9px 4px 11px;
 }
