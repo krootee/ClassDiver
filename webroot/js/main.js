@@ -16,7 +16,7 @@ var CD = {
 
         // If values is not present in localStorage (first view of page) then we will initialize it with full list
         var selectedStreams = localStorage['filter.selectedStreams'];
-        if (selectedStreams !== null) {
+        if (typeof selectedStreams !== "undefined" && selectedStreams !== null) {
             CD.savedFilter.streams = selectedStreams.split('|');
         }
         else {
@@ -24,7 +24,7 @@ var CD = {
         }
 
         var selectedProviders = localStorage['filter.selectedProviders'];
-        if (selectedProviders !== null) {
+        if (typeof selectedProviders !== "undefined" && selectedProviders !== null) {
             CD.savedFilter.providers = selectedProviders.split('|');
         }
         else {
