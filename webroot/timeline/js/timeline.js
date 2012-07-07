@@ -6111,9 +6111,15 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
         /* FILTERING
          ================================================== */
         function applyFilter(e, _filter) {
-            filter = _filter;
-			buildDates();
-        };
+			filter = _filter;
+			try {
+				timenav.setSkipRescale(true);
+				buildDates();
+			} finally {
+				timenav.setSkipRescale(false);
+			}
+			
+		};
 
         var filterMatch = function(filter, entry) {
             if (filter.hide_completed && entry.enddate.getTime() <= new Date().getTime()) {
@@ -6381,7 +6387,7 @@ if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefin
         var timeouts = {
             interval_position: ""
         };
-        var data = [], era_markers = [], markers = [], interval_array = [], interval_major_array = [], eras, content, tags = [];
+        var data = [], era_markers = [], markers = [], interval_array = [], interval_major_array = [], eras, content, tags = [], skipRescale = false;;
         var timenav_pos = {
             left:"",
             visible: {
@@ -6426,7 +6432,7 @@ if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefin
          max: 					50
          };
          */
-
+		
         /* INIT
          ================================================== */
         this.init = function(d,e) {
@@ -6650,6 +6656,9 @@ if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefin
         }
 
         var calculateMultiplier = function() {
+			if (skipRescale) {
+				return;
+			}
             var temp_multiplier = config.nav.multiplier.current;
             for(var i = 0; i < temp_multiplier; i++) {
                 if (averageMarkerPositionDistance() < 75) {
@@ -7452,85 +7461,89 @@ if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefin
 			_active = true;
 		};
 
+		this.setSkipRescale = function(_skipRescale) {
+			skipRescale = _skipRescale;
+		}
+		
         var buildInterval = function() {
+			if (!skipRescale) {
+				// CALCULATE INTERVAL
+				timespan = getDateFractions((data[data.length - 1].enddate) - (data[0].startdate), true);
+				trace(timespan);
+				calculateInterval();
 
-            // CALCULATE INTERVAL
-            timespan = getDateFractions((data[data.length - 1].enddate) - (data[0].startdate), true);
-            trace(timespan);
-            calculateInterval();
+				/* DETERMINE DEFAULT INTERVAL TYPE
+				 millenium, ages, epoch, era and eon are not working yet
+				 ================================================== */
+				/*
+				 if (timespan.eons				>		data.length / config.nav.density) {
+				 interval					=		interval_calc.eon;
+				 interval_major				=		interval_calc.eon;
+				 interval_macro				=		interval_calc.era;
+				 } else if (timespan.eras		>		data.length / config.nav.density) {
+				 interval					=		interval_calc.era;
+				 interval_major				=		interval_calc.eon;
+				 interval_macro				=		interval_calc.epoch;
+				 } else if (timespan.epochs		>		data.length / config.nav.density) {
+				 interval					=		interval_calc.epoch;
+				 interval_major				=		interval_calc.era;
+				 interval_macro				=		interval_calc.age;
+				 } else if (timespan.ages		>		data.length / config.nav.density) {
+				 interval					=		interval_calc.ages;
+				 interval_major				=		interval_calc.epoch;
+				 interval_macro				=		interval_calc.millenium;
+				 } else if (timespan.milleniums			>		data.length / config.nav.density) {
+				 interval					=		interval_calc.millenium;
+				 interval_major				=		interval_calc.age;
+				 interval_macro				=		interval_calc.century;
+				 } else 
+				 */
+				if (timespan.centuries			>		data.length / config.nav.density) {
+					interval					=		interval_calc.century;
+					interval_major				=		interval_calc.millenium;
+					interval_macro				=		interval_calc.decade;
+				} else if (timespan.decades		>		data.length / config.nav.density) {
+					interval					=		interval_calc.decade;
+					interval_major				=		interval_calc.century;
+					interval_macro				=		interval_calc.year;
+				} else if (timespan.years		>		data.length / config.nav.density) {
+					interval					=		interval_calc.year;
+					interval_major				=		interval_calc.decade;
+					interval_macro				=		interval_calc.month;
+				} else if (timespan.months		>		data.length / config.nav.density) {
+					interval					=		interval_calc.month;
+					interval_major				=		interval_calc.year;
+					interval_macro				=		interval_calc.day;
+				} else if (timespan.days		>		data.length / config.nav.density) {
+					interval					=		interval_calc.day;
+					interval_major				=		interval_calc.month;
+					interval_macro				=		interval_calc.hour;
+				} else if (timespan.hours		>		data.length / config.nav.density) {
+					interval					=		interval_calc.hour;
+					interval_major				=		interval_calc.day;
+					interval_macro				=		interval_calc.minute;
+				} else if (timespan.minutes		>		data.length / config.nav.density) {
+					interval					=		interval_calc.minute;
+					interval_major				=		interval_calc.hour;
+					interval_macro				=		interval_calc.second;
+				} else if (timespan.seconds		>		data.length / config.nav.density) {
+					interval					=		interval_calc.second;
+					interval_major				=		interval_calc.minute;
+					interval_macro				=		interval_calc.second;
+				} else {
+					trace("NO IDEA WHAT THE TYPE SHOULD BE");
+					interval					=		interval_calc.day;
+					interval_major				=		interval_calc.month;
+					interval_macro				=		interval_calc.hour;
+				}
 
-            /* DETERMINE DEFAULT INTERVAL TYPE
-             millenium, ages, epoch, era and eon are not working yet
-             ================================================== */
-            /*
-             if (timespan.eons				>		data.length / config.nav.density) {
-             interval					=		interval_calc.eon;
-             interval_major				=		interval_calc.eon;
-             interval_macro				=		interval_calc.era;
-             } else if (timespan.eras		>		data.length / config.nav.density) {
-             interval					=		interval_calc.era;
-             interval_major				=		interval_calc.eon;
-             interval_macro				=		interval_calc.epoch;
-             } else if (timespan.epochs		>		data.length / config.nav.density) {
-             interval					=		interval_calc.epoch;
-             interval_major				=		interval_calc.era;
-             interval_macro				=		interval_calc.age;
-             } else if (timespan.ages		>		data.length / config.nav.density) {
-             interval					=		interval_calc.ages;
-             interval_major				=		interval_calc.epoch;
-             interval_macro				=		interval_calc.millenium;
-             } else if (timespan.milleniums			>		data.length / config.nav.density) {
-             interval					=		interval_calc.millenium;
-             interval_major				=		interval_calc.age;
-             interval_macro				=		interval_calc.century;
-             } else 
-             */
-            if (timespan.centuries			>		data.length / config.nav.density) {
-                interval					=		interval_calc.century;
-                interval_major				=		interval_calc.millenium;
-                interval_macro				=		interval_calc.decade;
-            } else if (timespan.decades		>		data.length / config.nav.density) {
-                interval					=		interval_calc.decade;
-                interval_major				=		interval_calc.century;
-                interval_macro				=		interval_calc.year;
-            } else if (timespan.years		>		data.length / config.nav.density) {
-                interval					=		interval_calc.year;
-                interval_major				=		interval_calc.decade;
-                interval_macro				=		interval_calc.month;
-            } else if (timespan.months		>		data.length / config.nav.density) {
-                interval					=		interval_calc.month;
-                interval_major				=		interval_calc.year;
-                interval_macro				=		interval_calc.day;
-            } else if (timespan.days		>		data.length / config.nav.density) {
-                interval					=		interval_calc.day;
-                interval_major				=		interval_calc.month;
-                interval_macro				=		interval_calc.hour;
-            } else if (timespan.hours		>		data.length / config.nav.density) {
-                interval					=		interval_calc.hour;
-                interval_major				=		interval_calc.day;
-                interval_macro				=		interval_calc.minute;
-            } else if (timespan.minutes		>		data.length / config.nav.density) {
-                interval					=		interval_calc.minute;
-                interval_major				=		interval_calc.hour;
-                interval_macro				=		interval_calc.second;
-            } else if (timespan.seconds		>		data.length / config.nav.density) {
-                interval					=		interval_calc.second;
-                interval_major				=		interval_calc.minute;
-                interval_macro				=		interval_calc.second;
-            } else {
-                trace("NO IDEA WHAT THE TYPE SHOULD BE");
-                interval					=		interval_calc.day;
-                interval_major				=		interval_calc.month;
-                interval_macro				=		interval_calc.hour;
-            }
+				trace("INTERVAL TYPE: " + interval.type);
+				trace("INTERVAL MAJOR TYPE: " + interval_major.type);
 
-            trace("INTERVAL TYPE: " + interval.type);
-            trace("INTERVAL MAJOR TYPE: " + interval_major.type);
-
-            createIntervalElements(interval, interval_array, $timeinterval);
-            createIntervalElements(interval_major, interval_major_array, $timeintervalmajor);
-
-        }
+			}
+			createIntervalElements(interval, interval_array, $timeinterval);
+			createIntervalElements(interval_major, interval_major_array, $timeintervalmajor);
+		}
 
         var buildMarkers = function() {
 
