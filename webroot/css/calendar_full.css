@@ -10,15 +10,12 @@ body {
 
 #divHeaderSmall {
 	background-color: white;
-	background-image: url(../img/bg_topbar.gif);
-	background-repeat: no-repeat no-repeat;
 	border-bottom: 2px groove #ddd;
-	height: 63px;
-/* 	border: 1px solid red; */
+ 	height: 63px;
 }
 
 #divLogo {
-	padding: 5px 9px 1px;
+ 	padding: 4px 9px 2px;
 	float: left;
 	width: 250px;
 }
@@ -32,7 +29,6 @@ body {
 	float: right;
 	font-family: preloslabmedium,tahoma;
 	font-size: 12px;
-/* 	border: 1px solid blue; */
 }
 
 #divCalendarFull {

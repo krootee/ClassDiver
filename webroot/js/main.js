@@ -2,7 +2,38 @@ var CD = {
     savedFilter: {},
 
     readFilter: function() {
-        var hideCompleted = $.cookie("classdiver.filter.hideCompleted");
+        if (Modernizr.localstorage) {
+            CD.readDataFromLocalStorage();
+        } else {
+            CD.readDataFromCookies();
+        }
+        CD.fillProviders();
+        CD.fillStreams();
+    },
+
+    readDataFromLocalStorage: function() {
+        CD.savedFilter.hide_completed = (localStorage['filter.hideCompleted'] === "true");
+
+        // If values is not present in localStorage (first view of page) then we will initialize it with full list
+        var selectedStreams = localStorage['filter.selectedStreams'];
+        if (selectedStreams !== null) {
+            CD.savedFilter.streams = selectedStreams.split('|');
+        }
+        else {
+            CD.savedFilter.streams = CDData.streams;
+        }
+
+        var selectedProviders = localStorage['filter.selectedProviders'];
+        if (selectedProviders !== null) {
+            CD.savedFilter.providers = selectedProviders.split('|');
+        }
+        else {
+            CD.savedFilter.providers = CDData.providers;
+        }
+    },
+
+    readDataFromCookies: function() {
+        var hideCompleted = $.cookie("filter.hideCompleted");
 
         if (hideCompleted === null) {
             CD.savedFilter.hide_completed = true;
@@ -11,26 +42,22 @@ var CD = {
             CD.savedFilter.hide_completed = hideCompleted;
         }
 
-        var selectedStreams = $.cookie("classdiver.filter.selectedStreams");
-        if (selectedStreams) {
+        // If values is not present in cookies (first view of page) then we will initialize it with full list
+        var selectedStreams = $.cookie("filter.selectedStreams");
+        if (selectedStreams !== null) {
             CD.savedFilter.streams = selectedStreams.split('|');
         }
         else {
-            // handle case when cookies are not set - initial load of page or cookies were cleared
             CD.savedFilter.streams = CDData.streams;
         }
 
-        var selectedProviders = $.cookie("classdiver.filter.selectedProviders");
-        if (selectedProviders) {
+        var selectedProviders = $.cookie("filter.selectedProviders");
+        if (selectedProviders !== null) {
             CD.savedFilter.providers = selectedProviders.split('|');
         }
         else {
-            // handle case when cookies are not set - initial load of page or cookies were cleared
             CD.savedFilter.providers = CDData.providers;
         }
-
-        CD.fillProviders();
-        CD.fillStreams();
     },
 
     fillProviders: function() {
@@ -44,8 +71,8 @@ var CD = {
             noneSelectedText : 'Select providers'
         });
         $('#providers').bind("multiselectclick", CD.applyFilter)
-			.bind("multiselectcheckall", CD.applyFilter)
-			.bind("multiselectuncheckall", CD.applyFilter);
+			           .bind("multiselectcheckall", CD.applyFilter)
+			           .bind("multiselectuncheckall", CD.applyFilter);
     },
 
     isProviderSelected: function(provider) {
@@ -72,8 +99,8 @@ var CD = {
             noneSelectedText : 'Select streams'
         });
         $('#streams').bind("multiselectclick", CD.applyFilter)
-				 	.bind("multiselectcheckall", CD.applyFilter)
-					.bind("multiselectuncheckall", CD.applyFilter);
+				 	 .bind("multiselectcheckall", CD.applyFilter)
+					 .bind("multiselectuncheckall", CD.applyFilter);
     },
 
     isStreamSelected: function(stream) {
@@ -96,18 +123,10 @@ var CD = {
         filter.streams = $("#streams").multiselect("getChecked").map(function() {
             return this.id;
         }).get();
-//        if (selected_streams && selected_streams.length > 0) {
-//            filter.streams = selected_streams;
-//        }
         filter.providers = $("#providers").multiselect("getChecked").map(function() {
             return this.id;
         }).get();
-//        if (selected_providers && selected_providers.length > 0) {
-//            filter.providers = selected_providers;
-//        }
-		if (JSON.stringify(CD.savedFilter) == JSON.stringify(filter)) { // order of properties in object matters
-			return;
-		}
+
 		CD.showLoadingScreen(true);
 		setTimeout(function() {
 			try {
@@ -119,28 +138,45 @@ var CD = {
         CD.saveFilter(filter);
     },
 
-    saveFilter: function(filter) {
-        $.cookie("classdiver.filter.hideCompleted", filter.hide_completed, {
-            expires : 365,
-            // domain : 'classdiver.com',
-            path : '/'
-        });
-        if (filter.streams) {
-            $.cookie("classdiver.filter.selectedStreams", filter.streams.join('|'), {
-                expires : 365,
-                // domain : 'classdiver.com',
-                path : '/'
-            });
+    showLoadingScreen: function(show) {
+        if (show) {
+            $('#divLoading').show();
+        } else {
+            $('#divLoading').hide();
         }
-        if (filter.providers) {
-            $.cookie("classdiver.filter.selectedProviders", filter.providers.join('|'), {
-                expires : 365,
-                // domain : 'classdiver.com',
-                path : '/'
-            });
-        }
+    },
 
+    saveFilter: function(filter) {
+        if (Modernizr.localstorage) {
+            CD.saveDataToLocalStorage(filter);
+        } else {
+            CD.saveDataToCookies(filter);
+        }
         CD.savedFilter = filter;
+    },
+
+    saveDataToLocalStorage: function(filter) {
+        localStorage['filter.hideCompleted'] = filter.hide_completed;
+        localStorage['filter.selectedStreams'] = filter.streams.join('|');
+        localStorage['filter.selectedProviders'] = filter.providers.join('|');
+    },
+
+    saveDataToCookies: function(filter) {
+        $.cookie("filter.hideCompleted", filter.hide_completed, {
+            expires:365,
+            domain:'www.classdiver.com',
+            path:'/'
+        });
+        $.cookie("filter.selectedStreams", filter.streams.join('|'), {
+            expires:365,
+            domain:'www.classdiver.com',
+            path:'/'
+        });
+        $.cookie("filter.selectedProviders", filter.providers.join('|'), {
+            expires:365,
+            domain:'www.classdiver.com',
+            path:'/'
+        });
     },
 
     refreshCaption: function(button) {
@@ -174,14 +210,5 @@ var CD = {
         $(window).resize();
 
         mixpanel.track("calendar page loaded");
-    },
-
-	showLoadingScreen: function(show) {
-        if (show) {
-            $('#divLoading').show();
-        } else {
-            $('#divLoading').hide();
-        }
-    
     }
 };
