@@ -100,7 +100,7 @@ function processAndSendData(socket, items) {
         course.stream = item.Stream;
         course.provider = item.Platform;
         course.colorIndexId = courseProviderInfo[item.Platform].ColorIndex;
-        course.text = "Taught at " + item.Platform + " by Instructor(s) " + item.Instructors + "<br><a href='" + item.Url + "'>Link</a>";
+        course.text = "Taught at " + item.Platform + " by Instructor(s) " + item.Instructors + "<br><a href='" + item.Url + "' target='_blank'>Link</a>";
 
         // tag is not used, since currently it forces control to create separate lines for each tag and that doesnt scale
         // course.tag = item.Stream;
