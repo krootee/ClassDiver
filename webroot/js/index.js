@@ -19,15 +19,15 @@ $(function() {
 				nextInf.slideDown('fast');
 			});
 		});
-		// $('#scr' + val).mouseenter(function() {
-		// if (exitHandler)
-		// clearTimeout(exitHandler);
-		// });
-		// $('#scr' + val).mouseleave(function() {
-		// exitHandler = setTimeout(function() {
-		// alert("expired");
-		// }, 5000);
-		// });
+	});
+	$('#mNews').click(function() {
+		alert("News clicked!");
+	});
+	$('#mCal').click(function() {
+		alert("Calendar clicked!");
+	});
+	$('#mAbout').click(function() {
+		alert("About Us clicked!");
 	});
 	$('#toCal').click(function() {
 		window.location = 'calendar_full.html';

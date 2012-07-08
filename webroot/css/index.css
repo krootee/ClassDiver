@@ -3,7 +3,7 @@
 body {
 	background-color: white;
 	background-image: url(../img/bg.jpg);
-	background-repeat: no-repeat no-repeat;
+	background-repeat: no-repeat;
 	background-position: center 150px;
 }
 
@@ -125,15 +125,27 @@ body {
 	cursor: pointer;
 }
 
-.CD_mitem:hover,.CD_mselected {
+.CD_mitem:hover {
 	color: #333;
 	padding: 9px 24px 0px 26px;
+	background-image: url(../img/bg_menuhover.png);
+}
+
+.CD_mselecteditem {
+	height: 32px;
+	padding: 8px 25px 0px;
+	float: right;
+	font-family: arial, helvetica, sans-serif;
+	font-size: 16px;
+	text-shadow: 1px 1px 1px #fff;
+	cursor: pointer;
+	color: #333;
 	background-color: #d1e4b9;
-	/* 	background-color: #c2d97c; */
 }
 
 .CD_button {
 	color: #666;
+	background-image: url(../img/bg_menuhover.png);
 	border: 2px dashed #d1e4b9;
 	font-family: arial, helvetica, sans-serif;
 	font-size: 16pt;
