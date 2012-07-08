@@ -6117,8 +6117,7 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
 				buildDates();
 			} finally {
 				timenav.setSkipRescale(false);
-			}
-			
+			}	
 		};
 
         var filterMatch = function(filter, entry) {
@@ -7236,8 +7235,8 @@ if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefin
             var intervalsCount = Math.ceil(_interval.number) + 1;
             if (intervalsCount > MAX_INTERVALS_COUNT)
             {
-                timeIncrement = intervalsCount / MAX_INTERVALS_COUNT;
-                intervalsCount = MAX_INTERVALS_COUNT;
+                timeIncrement = Math.ceil(intervalsCount / MAX_INTERVALS_COUNT);
+                intervalsCount = Math.ceil(intervalsCount / timeIncrement);
             }
 
             var inc_time = 0,
