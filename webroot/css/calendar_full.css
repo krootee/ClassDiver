@@ -3,31 +3,43 @@
 body {
 	background-color: white;
 	margin: 0;
-	font-family: preloslabmedium,tahoma;
+	font-family: preloslabmedium, tahoma;
 	font-size: 12px;
-	color: #666;
+	color: #467600;
 }
 
 #divHeaderSmall {
 	background-color: white;
 	border-bottom: 2px groove #ddd;
- 	height: 63px;
+	height: 63px;
 }
 
 #divLogo {
- 	padding: 4px 9px 2px;
+	padding: 4px 0px 2px 4px;
 	float: left;
-	width: 250px;
+	cursor: pointer;
+}
+
+#divLogoText {
+	margin-top: 12px;
+	float: left;
+	font-family: preloslabmedium, tahoma;
+	font-weight: bold;
+	font-size: 28px;
+	letter-spacing: -1px;
+	color: #467600;
+	text-shadow: #fffede 0px 0px 4px;
+	cursor: pointer;
 }
 
 #divMenu {
 	height: 34px;
 	padding: 29px 10px 0px;
- 	text-align: right;
-	color: #666;
+	text-align: right;
+	color: #467600;
 	position: relative;
 	float: right;
-	font-family: preloslabmedium,tahoma;
+	font-family: preloslabmedium, tahoma;
 	font-size: 12px;
 }
 
@@ -53,16 +65,14 @@ body {
 }
 
 #divLoading {
-    display:    block;
-    position:   fixed;
-    overflow:   hidden;
-    z-index:    1000;
-    top:        0;
-    left:       0;
-    height:     100%;
-    width:      100%;
-    background: rgba( 255, 255, 255, .8 )
-    /*url('../img/loading.gif')*/
-    50% 50%
-    no-repeat;
+	display: block;
+	position: fixed;
+	overflow: hidden;
+	z-index: 1000;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background: rgba(255, 255, 255, .8) /*url('../img/loading.gif')*/ 
+     50% 50% no-repeat;
 }

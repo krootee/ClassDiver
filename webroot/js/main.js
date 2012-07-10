@@ -194,6 +194,9 @@ var CD = {
     },
 
     init: function() {
+    	$('#divLogo,#divLogoText').click(function() {
+    		window.location = 'index.html';
+		});
         $('#showOld').button().click(function() {
             CD.applyFilter();
             CD.refreshCaption($(this));
