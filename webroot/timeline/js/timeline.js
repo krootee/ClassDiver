@@ -6271,6 +6271,7 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
                         _date.stream            = data.date[i].stream;
                         _date.provider          = data.date[i].provider;
                         _date.colorIndexId      = data.date[i].colorIndexId;
+                        _date.courseId          = data.date[i].uniqueId;
 
                         if (filterMatch(filter, _date)) {
 						    _dates.push(_date);
@@ -7566,14 +7567,12 @@ if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefin
                 // OCN-51: Add color coding to timeline events
                 //
 				color = colors[0];
-                if (typeof data[i].colorIndexId != "undefined")
-                {
+                if (typeof data[i].colorIndexId != "undefined") {
 					var colorIndex = data[i].colorIndexId;
 
-					if (colorIndex < colors.length)
-					{
+					if (colorIndex < colors.length) {
 						color = colors[colorIndex];
-                }
+                    }
 				}
 
 				_marker_flag.attr('style', "background-color:" + color + ";");

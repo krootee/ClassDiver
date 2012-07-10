@@ -91,6 +91,9 @@ function processAndSendData(socket, items) {
     items.forEach(function (item) {
         var course = {};
 
+        // uniqueId will be used for bookmarking in the Timeline control - this id will never change
+        course.uniqueId = item.Id;
+
         // convert start/end dates from ISO 8601 "<year>-<month>-<day>" format to "<year>,<month>,<day>" control format
         // where month and day parts could not contain trailing 0
         course.startDate = isoDateToJson(item.Start);
