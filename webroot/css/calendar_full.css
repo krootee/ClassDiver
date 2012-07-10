@@ -11,7 +11,7 @@ body {
 #divHeaderSmall {
 	background-color: white;
 	border-bottom: 2px groove #ddd;
-	height: 63px;
+	height: 57px;
 }
 
 #divLogo {
@@ -21,7 +21,7 @@ body {
 }
 
 #divLogoText {
-	margin-top: 12px;
+	margin-top: 11px;
 	float: left;
 	font-family: preloslabmedium, tahoma;
 	font-weight: bold;
@@ -34,7 +34,7 @@ body {
 
 #divMenu {
 	height: 34px;
-	padding: 29px 10px 0px;
+	padding: 25px 10px 0px;
 	text-align: right;
 	color: #467600;
 	position: relative;

@@ -204,7 +204,7 @@ var CD = {
         CD.refreshCaption($('#showOld'));
 
         $(window).resize(function() {
-            var newHeight = $(window).height() - 113;
+            var newHeight = $(window).height() - 118;
             if (newHeight < 650) {
                 newHeight = 650;
             }

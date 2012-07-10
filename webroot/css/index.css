@@ -69,6 +69,21 @@ body {
 	margin-right: 60px;
 	margin-bottom: 160px;
 	cursor: pointer;
+	background-image: url(../img/arrow.png);
+	background-repeat: no-repeat;
+	background-position: 347px center;
+}
+
+#CD_text4:hover {
+	color: #79c9ec;
+	background-image: url(../img/arrow2.png);
+}
+
+#CD_link_to_cal {
+	padding-top: 59px;
+	padding-right: 45px;
+	float: right;
+	height: 121px;
 }
 
 .CD_footer {
