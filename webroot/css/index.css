@@ -115,3 +115,7 @@ body {
 .CD_soc {
 	padding: 4px;
 }
+
+.CD_soc img {
+	border: 0px;
+}
