@@ -6109,7 +6109,7 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
 				VMM.fireEvent(global, config.events.data_ready);
 			});
 		};
-		
+
         /* FILTERING
          ================================================== */
         function applyFilter(e, _filter) {
@@ -6119,7 +6119,7 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
 				buildDates();
 			} finally {
 				timenav.setSkipRescale(false);
-			}	
+			}
 		};
 
         var filterMatch = function(filter, entry) {
@@ -6377,7 +6377,7 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
 				goToEvent(found, true);
 			}
 			if (typeof config.onDataLoad == 'function') {
-				config.onDataLoad();
+				config.onDataLoad(_dates, that);
 			}
 		}
 		

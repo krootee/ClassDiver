@@ -114,6 +114,10 @@ body {
 	padding: 0.1em 0.8em !important;
 }
 
+.ui-autocomplete {
+    z-index: 1000 !important;
+}
+
 #divLoading {
 	display: block;
 	position: fixed;
