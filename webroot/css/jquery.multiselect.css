@@ -1,3 +1,9 @@
+.ui-item-color-0 { background-color: #F9FFE5 }
+.ui-item-color-1 { background-color: #E5EFFF }
+.ui-item-color-2 { background-color: #E5FFEF }
+.ui-item-color-3 { background-color: #EFEFEF }
+.ui-item-color-4 { background-color: #FFF1E5 }
+
 .ui-multiselect { padding:2px 0 2px 4px; text-align:left }
 .ui-multiselect span.ui-icon { float:right }
 .ui-multiselect-single .ui-multiselect-checkboxes input { position:absolute !important; top: auto !important; left:-9999px; }
@@ -11,7 +17,7 @@
 .ui-multiselect-header span.ui-icon { float:left }
 .ui-multiselect-header li.ui-multiselect-close { float:right; text-align:right; padding-right:0 }
 
-.ui-multiselect-menu { display:none; padding:3px; position:absolute; z-index:10000 }
+.ui-multiselect-menu { display:none; padding:3px; position:absolute; z-index:10000; text-align: left }
 .ui-multiselect-checkboxes { position:relative /* fixes bug in IE6/7 */; overflow-y:scroll }
 .ui-multiselect-checkboxes label { cursor:default; display:block; border:1px solid transparent; padding:3px 1px }
 .ui-multiselect-checkboxes label input { position:relative; top:1px }

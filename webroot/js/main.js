@@ -61,12 +61,11 @@ var CD = {
     },
 
     fillProviders: function() {
-        var options = [];
-        $.each(CDData.providers, function(key, provider) {
-            options.push('<option id="' + provider + '"' + (CD.isProviderSelected(provider) ? ' selected="selected"' : '') + '>' + provider + '</option>');
-        });
         $('#providers').empty();
-        $(options.join('')).appendTo('#providers');
+        $.each(CDData.providers, function(key, provider) {
+            $('#providers').append('<option id="' + provider.name + '"' + (CD.isProviderSelected(provider.name) ? ' selected="selected"' : '' + 'data-color_index="' + provider.color + '"') + '>' + provider.name + '</option>');
+            $('#' + provider.name).data('color_index', provider.color);
+        });
         $('#providers').multiselect({
             noneSelectedText : 'Select providers'
         });
@@ -89,12 +88,10 @@ var CD = {
     },
 
     fillStreams: function() {
-        var options = [];
-        $.each(CDData.streams, function(key, stream) {
-            options.push('<option id="' + stream + '"' + (CD.isStreamSelected(stream) ? ' selected="selected"' : '') + '>' + stream + '</option>');
-        });
         $('#streams').empty();
-        $(options.join('')).appendTo('#streams');
+        $.each(CDData.streams, function(key, stream) {
+            $('#streams').append('<option id="' + stream + '"' + (CD.isStreamSelected(stream) ? ' selected="selected"' : '') + '>' + stream + '</option>');
+        });
         $('#streams').multiselect({
             noneSelectedText : 'Select streams'
         });
@@ -118,18 +115,20 @@ var CD = {
 
     applyFilter: function() {
         var filter = {
-            hide_completed : !$("#showOld").is(':checked')
+            hide_completed: !$("#showOld").is(':checked'),
+            searchBoxCallback: CD.populateSearchBox
         };
-        filter.streams = $("#streams").multiselect("getChecked").map(function() {
-            return this.id;
-        }).get();
-        filter.providers = $("#providers").multiselect("getChecked").map(function() {
-            return this.id;
+
+        // do not use .val() from dropdown - its bugged!!!
+        filter.streams = $("#streams").multiselect("getChecked").map(function(){
+            return this.value;
         }).get();
 
-        filter.searchBoxCallback = CD.populateSearchBox;
+        filter.providers = $("#providers").multiselect("getChecked").map(function(){
+            return this.value;
+        }).get();
 
-		CD.showLoadingScreen(true);
+        CD.showLoadingScreen(true);
 		setTimeout(function() {
 			try {
 				VMM.fireEvent(global, VMM.Timeline.Config.events.apply_filter, filter);
@@ -165,19 +164,19 @@ var CD = {
 
     saveDataToCookies: function(filter) {
         $.cookie("filter.hideCompleted", filter.hide_completed, {
-            expires:365,
-            domain:'www.classdiver.com',
-            path:'/'
+            expires: 365,
+            domain: 'www.classdiver.com',
+            path: '/'
         });
         $.cookie("filter.selectedStreams", filter.streams.join('|'), {
-            expires:365,
-            domain:'www.classdiver.com',
-            path:'/'
+            expires: 365,
+            domain: 'www.classdiver.com',
+            path: '/'
         });
         $.cookie("filter.selectedProviders", filter.providers.join('|'), {
-            expires:365,
-            domain:'www.classdiver.com',
-            path:'/'
+            expires: 365,
+            domain: 'www.classdiver.com',
+            path: '/'
         });
     },
 
@@ -224,7 +223,7 @@ var CD = {
             if (_dates[date].asset != undefined) {
 
                 // this is a valid course; add it to the list
-                var entry = _dates[date].provider + ": " + _dates[date].headline;
+                var entry = _dates[date].provider + ": " + _dates[date].headline + " // " + _dates[date].instructors;
                 
                 availableTags.push({ label: entry, value: date });
             }

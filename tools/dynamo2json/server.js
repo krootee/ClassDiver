@@ -47,7 +47,7 @@ var dynamo = require('dynamo'),
     client = dynamo.createClient({accessKeyId: "AKIAI2NO4WLLHVLU5EHA", secretAccessKey: "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"}),
     db = client.get('us-east-1');
 
-app.listen(80);
+app.listen(8090);
 
 app.get('/', function (req, res) {
     res.sendfile(__dirname + '/process_data.html');
@@ -104,6 +104,7 @@ function processAndSendData(socket, items) {
         course.provider = item.Platform;
         course.colorIndexId = courseProviderInfo[item.Platform].ColorIndex;
         course.text = "Taught at " + item.Platform + " by Instructor(s) " + item.Instructors + "<br><a href='" + item.Url + "' target='_blank'>Link</a>";
+        course.instructors = item.Instructors.split(';');
 
         // tag is not used, since currently it forces control to create separate lines for each tag and that doesnt scale
         // course.tag = item.Stream;
@@ -165,7 +166,7 @@ function processAndSendData(socket, items) {
        return stream[0];
     });
     var mapProviders = sortProviders.map(function(provider) {
-        return provider[0];
+        return { name: provider[0], color: courseProviderInfo[provider[0]].ColorIndex };
     });
 
     data.helper = { streams : mapStreams, providers : mapProviders };
