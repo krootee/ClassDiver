@@ -230,7 +230,8 @@ var CD = {
 
         $( "#searchbox" ).autocomplete({
             source: availableTags,
-            minLength: 2
+            minLength: 2,
+            delay: 50
         });
 
         $( "#searchbox" ).bind( "autocompleteselect", function(event, ui) {
@@ -246,6 +247,12 @@ var CD = {
 
             // this causes the contents of the search box to not be modified when changing focus using the keyboard
             return false;
+        });
+
+        $( "#searchbox" ).bind( "autocompleteclose", function(event, ui) {
+
+            // this causes the contents of the search box to be cleared in case the search box loses focus, and nothing was selected
+            $(this).val(''); return false;
         });
     }
 };
