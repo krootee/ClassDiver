@@ -217,7 +217,7 @@ var CD = {
         mixpanel.track("calendar page loaded");
     },
 
-    populateSearchBox: function(_dates, timeNavObject) {
+    populateSearchBox: function(_dates, timeLineObject) {
         var availableTags = [];
 
         for (var date = 0; date < _dates.length; ++date) {
@@ -236,7 +236,7 @@ var CD = {
         $( "#searchbox" ).bind( "autocompleteselect", function(event, ui) {
 
             // ui.item.value contains the slide number
-            timeNavObject.setMarker(ui.item.value);
+            timeLineObject.goToEventPriviledged(ui.item.value);
 
             // this causes the contents of the search box to be cleared; otherwise the slide number would have been shown
             $(this).val(''); return false;
