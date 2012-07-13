@@ -127,6 +127,8 @@ var CD = {
             return this.id;
         }).get();
 
+        filter.searchBoxCallback = CD.populateSearchBox;
+
 		CD.showLoadingScreen(true);
 		setTimeout(function() {
 			try {
@@ -213,5 +215,31 @@ var CD = {
         $(window).resize();
 
         mixpanel.track("calendar page loaded");
+    },
+
+    populateSearchBox: function(_dates, timeNavObject) {
+        var availableTags = [];
+
+        for (var date = 0; date < _dates.length; ++date) {
+            if (_dates[date].asset != undefined) {
+
+                // this is a valid course; add it to the list
+                availableTags.push({ label: _dates[date].headline, value: date });
+            }
+        }
+
+        $( "#searchbox" ).autocomplete({
+            source: availableTags,
+            minLength: 2
+        });
+
+        $( "#searchbox" ).bind( "autocompleteselect", function(event, ui) {
+
+            // ui.item.value contains the slide number
+            timeNavObject.setMarker(ui.item.value);
+
+            // this causes the contents of the search box to be cleared; otherwise the slide number would have been shown
+            $(this).val(''); return false;
+        });
     }
 };

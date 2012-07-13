@@ -6377,7 +6377,7 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
 				goToEvent(found, true);
 			}
 			if (typeof config.onDataLoad == 'function') {
-				config.onDataLoad();
+				config.onDataLoad(_dates, timenav);
 			}
 		}
 		
