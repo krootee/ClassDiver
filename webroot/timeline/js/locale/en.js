@@ -25,7 +25,7 @@ if(typeof VMM != 'undefined') {
 		},
 		messages: {
 			loading_timeline: "Loading Timeline... ",
-			return_to_title: "Return to Title",
+			return_to_title: "Return to Today",
 			expand_timeline: "Expand Timeline",
 			contract_timeline: "Contract Timeline",
 			wikipedia: "From Wikipedia, the free encyclopedia",
