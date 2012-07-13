@@ -88,12 +88,10 @@ var CD = {
     },
 
     fillStreams: function() {
-        var options = [];
-        $.each(CDData.streams, function(key, stream) {
-            options.push('<option id="' + stream + '"' + (CD.isStreamSelected(stream) ? ' selected="selected"' : '') + '>' + stream + '</option>');
-        });
         $('#streams').empty();
-        $(options.join('')).appendTo('#streams');
+        $.each(CDData.streams, function(key, stream) {
+            $('#streams').append('<option id="' + stream + '"' + (CD.isStreamSelected(stream) ? ' selected="selected"' : '') + '>' + stream + '</option>');
+        });
         $('#streams').multiselect({
             noneSelectedText : 'Select streams'
         });
@@ -117,18 +115,20 @@ var CD = {
 
     applyFilter: function() {
         var filter = {
-            hide_completed : !$("#showOld").is(':checked')
+            hide_completed: !$("#showOld").is(':checked'),
+            searchBoxCallback: CD.populateSearchBox
         };
-        filter.streams = $("#streams").multiselect("getChecked").map(function() {
-            return this.id;
-        }).get();
-        filter.providers = $("#providers").multiselect("getChecked").map(function() {
-            return this.id;
+
+        // do not use .val() from dropdown - its bugged!!!
+        filter.streams = $("#streams").multiselect("getChecked").map(function(){
+            return this.value;
         }).get();
 
-        filter.searchBoxCallback = CD.populateSearchBox;
+        filter.providers = $("#providers").multiselect("getChecked").map(function(){
+            return this.value;
+        }).get();
 
-		CD.showLoadingScreen(true);
+        CD.showLoadingScreen(true);
 		setTimeout(function() {
 			try {
 				VMM.fireEvent(global, VMM.Timeline.Config.events.apply_filter, filter);
@@ -164,19 +164,19 @@ var CD = {
 
     saveDataToCookies: function(filter) {
         $.cookie("filter.hideCompleted", filter.hide_completed, {
-            expires:365,
-            domain:'www.classdiver.com',
-            path:'/'
+            expires: 365,
+            domain: 'www.classdiver.com',
+            path: '/'
         });
         $.cookie("filter.selectedStreams", filter.streams.join('|'), {
-            expires:365,
-            domain:'www.classdiver.com',
-            path:'/'
+            expires: 365,
+            domain: 'www.classdiver.com',
+            path: '/'
         });
         $.cookie("filter.selectedProviders", filter.providers.join('|'), {
-            expires:365,
-            domain:'www.classdiver.com',
-            path:'/'
+            expires: 365,
+            domain: 'www.classdiver.com',
+            path: '/'
         });
     },
 
