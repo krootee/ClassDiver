@@ -63,7 +63,7 @@ var CD = {
     fillProviders: function() {
         $('#providers').empty();
         $.each(CDData.providers, function(key, provider) {
-            $('#providers').append('<option id="' + provider.name + '"' + (CD.isProviderSelected(provider.name) ? ' selected="selected"' : '' + 'data-color_index="' + provider.color + '"') + '>' + provider.name + '</option>');
+            $('#providers').append('<option id="' + provider.name + '"' + (CD.isProviderSelected(provider.name) ? ' selected="selected"' : '') + '>' + provider.name + '</option>');
 			$('#' + provider.name).data('color_index', provider.color);
         });
         $('#providers').multiselect({
