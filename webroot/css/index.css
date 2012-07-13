@@ -38,7 +38,7 @@ body {
 	font-family: Impact, Charcoal, sans-serif;
 	font-weight: bold;
 	font-size: 52px;
-	text-shadow: white 0px 0px 5px;
+	text-shadow: white 0px 0px 2px;
 	text-transform: uppercase;
 	letter-spacing: 1px;
 	float: right;
@@ -54,7 +54,7 @@ body {
 	font-family: Verdana, Geneva, sans-serif;
 	font-weight: bold;
 	font-size: 32px;
-	text-shadow: white 0px 0px 4px;
+	text-shadow: white 0px 0px 2px;
 	text-transform: uppercase;
 	letter-spacing: -2px;
 	float: right;
