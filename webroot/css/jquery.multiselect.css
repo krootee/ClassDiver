@@ -4,6 +4,12 @@
 .ui-item-color-3 { background-color: #EFEFEF }
 .ui-item-color-4 { background-color: #FFF1E5 }
 
+.ui-item-bg-color-0 { background: #ffd700 !important }
+.ui-item-bg-color-1 { background: #87ceeb !important }
+.ui-item-bg-color-2 { background: #7fffd4 !important }
+.ui-item-bg-color-3 { background: #9d9d9d !important }
+.ui-item-bg-color-4 { background: #ffb6c1 !important }
+
 .ui-multiselect { padding:2px 0 2px 4px; text-align:left }
 .ui-multiselect span.ui-icon { float:right }
 .ui-multiselect-single .ui-multiselect-checkboxes input { position:absolute !important; top: auto !important; left:-9999px; }
