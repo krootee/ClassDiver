@@ -223,7 +223,7 @@ var CD = {
             if (_dates[date].asset != undefined) {
 
                 // this is a valid course; add it to the list
-                var entry = _dates[date].provider + ": " + _dates[date].headline;
+                var entry = _dates[date].provider + ": " + _dates[date].headline + " // " + _dates[date].instructors;
                 
                 availableTags.push({ label: entry, value: date });
             }
