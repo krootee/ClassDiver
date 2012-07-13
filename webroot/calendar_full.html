@@ -22,7 +22,8 @@
 <body>
 	<div id="divHeader">
 		<div id="divMenu">
-			<div class="menuShadow"></div>
+			<div id="menuShadow"></div>
+			<div id="menuShadowCover"></div>
 			<div style="float: right; width: 10px; height: 24px;"></div>
 			<div id="menuFilter" class="menuTitle menuTitleActive">
 				<span style="vertical-align: middle;">Filter</span>
@@ -41,7 +42,7 @@
 		</div>
 		<div id="divMenuFilter">
 			<nobr>
-                <label for="searchbox">Search:</label><input id="searchbox">&nbsp;|&nbsp;
+                <label for="searchbox">Search:&nbsp;</label><input id="searchbox">&nbsp;|&nbsp;
 				<input id="showOld" type="checkbox" /><label for="showOld">Show completed</label>&nbsp;|&nbsp;Provider:&nbsp;<select
 					id="providers" name="providers" multiple="multiple" size="1"><option>-- Providers --</select>&nbsp;|&nbsp;Stream:&nbsp;<select
 					id="streams" name="streams" multiple="multiple" size="1"><option>-- Streams --</select>
