@@ -193,3 +193,9 @@ body {
 .CD_soc img {
 	border: 0px;
 }
+
+#thanksToSiegfried {
+	float: right;
+	color: #b9b9b9;
+	text-shadow: none;
+}
