@@ -55,7 +55,6 @@ body {
 	letter-spacing: 1px;
 	margin-top: 2px;
 	color: #fffebe;
-	cursor: pointer;
 	/*rounded corners*/
 	border-top-left-radius: 4px;
 	-o-border-radius-topleft: 4px;
@@ -71,7 +70,11 @@ body {
 	-webkit-border-top-right-radius: 4px;
 }
 
-.menuTitle:hover {
+.menuTitleSelectable {
+	cursor: pointer;
+}
+
+.menuTitleSelectable:hover {
 	color: #fffebe;
 	text-shadow: #1e3300 0px 0px 2px;
 	background-color: #6a9000;
