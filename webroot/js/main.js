@@ -63,7 +63,7 @@ var CD = {
     fillProviders: function() {
         var options = [];
         $.each(CDData.providers, function(key, provider) {
-            options.push('<option id="' + provider + '"' + (CD.isProviderSelected(provider) ? ' selected="selected"' : '') + '>' + provider + '</option>');
+            options.push('<option id="' + provider.name + '"' + (CD.isProviderSelected(provider.name) ? ' selected="selected"' : '') + '>' + provider.name + '</option>');
         });
         $('#providers').empty();
         $(options.join('')).appendTo('#providers');
