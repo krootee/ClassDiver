@@ -1,6 +1,6 @@
 $(function() {
 	$('#CD_text4').mouseenter(function() {
-		$('#planner').effect('bounce', {
+		$('#CD_planner').effect('bounce', {
 			distance : 10,
 			times : 3,
 			direction: 'right'
