@@ -224,7 +224,9 @@ var CD = {
             if (_dates[date].asset != undefined) {
 
                 // this is a valid course; add it to the list
-                availableTags.push({ label: _dates[date].headline, value: date });
+                var entry = _dates[date].provider + ": " + _dates[date].headline;
+                
+                availableTags.push({ label: entry, value: date });
             }
         }
 
@@ -249,10 +251,10 @@ var CD = {
             return false;
         });
 
-        $( "#searchbox" ).bind( "autocompleteclose", function(event, ui) {
+        $( "#searchbox" ).blur( function() {
 
             // this causes the contents of the search box to be cleared in case the search box loses focus, and nothing was selected
-            $(this).val(''); return false;
+            $(this).val('');
         });
     }
 };
