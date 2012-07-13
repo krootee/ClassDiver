@@ -241,5 +241,11 @@ var CD = {
             // this causes the contents of the search box to be cleared; otherwise the slide number would have been shown
             $(this).val(''); return false;
         });
+
+        $( "#searchbox" ).bind( "autocompletefocus", function(event, ui) {
+
+            // this causes the contents of the search box to not be modified when changing focus using the keyboard
+            return false;
+        });
     }
 };
