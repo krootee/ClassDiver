@@ -7,7 +7,9 @@ var inspect = require('eyes').inspector(),
     path = require('path'),
     wrench = require("wrench"),
     mime = require("mime"),
-    async = require('async');
+    async = require('async'),
+    jsp = require("uglify-js").parser,
+    pro = require("uglify-js").uglify;
 
 var accessKeyId = "AKIAJDPNLVY6FJSOTFHA";
 var secretAccessKey = "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";
@@ -51,6 +53,7 @@ async.series({
         var uploadErrors = 0;
         var sourceDir = ".//..//..//webroot";
         var files = wrench.readdirSyncRecursive(sourceDir);
+        var tempFiles = [];
 
         if (files) {
             files.forEach(function (file) {
@@ -62,6 +65,26 @@ async.series({
                     // replace \ with / if we are running on Windows - S3 has folders, but they are automatically created by having full path to filename with / in it
                     file = file.replace(/\\/g, "/");
                     console.log(file);
+
+                    // If JavaScript file then minify it before upload
+                    var extensionOffset = file.lastIndexOf('.');
+
+                    if (extensionOffset > 0 && file.substr(extensionOffset + 1) === 'js') {
+                        console.log('Reading file ' + filePath);
+                        var jsBody = fs.readFileSync(filePath, 'utf8');
+                        // Uglify.js magic
+                        var ast = jsp.parse(jsBody); // parse code and get the initial AST
+                        ast = pro.ast_mangle(ast); // get a new AST with mangled names
+                        ast = pro.ast_squeeze(ast); // get an AST with compression optimizations
+                        var minifiedBody = pro.gen_code(ast); // compressed code here
+                        console.log('Minification - initial size = ' + jsBody.length + ', output size = ' + minifiedBody.length);
+
+                        // store in temporary file
+                        filePath += '.temp';
+                        fs.writeFileSync(filePath, minifiedBody);
+                        fileInfo = fs.statSync(filePath);
+                        tempFiles.push(filePath);
+                    }
 
                     var fileOptions = {
                         BucketName : s3BucketName,
@@ -84,7 +107,7 @@ async.series({
                 function(item, callbackFile) {
                     s3.PutObject(item, function (err, data) {
                         if (err) {
-                            inspect(err, "Error during upload of file " + item.ObjectName);
+                            inspect(err, "Error during upload of file " + item.ObjectName + " length = " + item.ContentLength);
                             uploadErrors++;
                         }
                         else {
@@ -97,6 +120,13 @@ async.series({
                     if (uploadErrors > 0) {
                         console.log("Upload failed for " + uploadErrors + " files.");
                     }
+
+                    // clean up temporary minified JS files
+                    tempFiles.forEach(function(file) {
+                        console.log('Removing temporary file ' + file);
+                       fs.unlinkSync(file);
+                    });
+
                     callback(err, (err === null));
             });
         }
