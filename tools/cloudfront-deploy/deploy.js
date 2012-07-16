@@ -89,6 +89,9 @@ async.series({
                     var fileOptions = {
                         BucketName : s3BucketName,
                         Acl : "public-read",
+//                        MetaData : {
+//                            'Cache-Control': 'max-age=1209600' // 2 weeks
+//                        },
                         ContentType : mime.lookup(filePath),
                         ObjectName : file,
                         ContentLength : fileInfo.size,
