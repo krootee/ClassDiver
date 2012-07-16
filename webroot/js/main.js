@@ -1,10 +1,33 @@
 var CD = {
 	savedFilter: {},
 
-	storage: (Modernizr.localstorage ? new LocalStorage() : new CookieStorage()),
-	
+    html5Storage: {
+        get: function(key) {
+            return localStorage[key];
+        },
+        set: function(key, value) {
+            localStorage[key] = value;
+        }
+    },
+
+    cookieStorage: {
+        get: function(key) {
+            return $.cookie(key);
+        },
+        set: function(key, value) {
+            $.cookie(key, value, { expires: 365, domain: 'www.classdiver.com', path: '/' });
+        }
+    },
+
     readFilter: function() {
-		CD.readData();
+		if (Modernizr.localstorage) {
+            CD.storage = CD.html5Storage;
+        }
+        else {
+            CD.storage = CD.cookieStorage;
+        }
+
+        CD.readData();
         CD.fillProviders();
         CD.fillStreams();
     },
@@ -218,26 +241,3 @@ var CD = {
 		return false;
 	}
 };
-
-// pseudo-polymorphic types for filter persistence 
-function LocalStorage() {
-	this.get = function(key) {
-		return localStorage[key];
-	};
-	this.set = function(key, value) {
-		localStorage[key] = value;
-	};
-}
-
-function CookieStorage() {
-	this.get = function(key) {
-		return $.cookie(key);
-	};
-	this.set = function(key, value) {
-		$.cookie(key, value, {
-			expires: 365,
-			domain: 'www.classdiver.com',
-			path: '/'
-		})
-	};
-}
