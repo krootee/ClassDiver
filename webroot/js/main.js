@@ -195,7 +195,7 @@ var CD = {
     },
 
     init: function() {
-    	$('#divLogo,#divLogoText,#menuIndex').click(function() {
+    	$('#divLogoText,#menuIndex').click(function() {
     		window.location = 'index.html';
 		});
         $('#showOld').button().click(function() {
