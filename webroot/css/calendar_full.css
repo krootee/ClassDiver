@@ -49,15 +49,16 @@ body {
 
 #divLogoText {
 	position: absolute;
-	top: 1px;
+	top: 2px;
 	left: 7px;
 	float: left;
 	cursor: pointer;
-	font-family: "Times New Roman", Times, serif;
+	font-family: "Courier New", Courier, monospace;
 	font-weight: bold;
 	font-size: 16px;
+	letter-spacing: -1px;
 	color: #333;
-	text-shadow: #999 0px 0px 1px;
+	text-shadow: #ccc 0px 0px 2px;
 /* 	border: 1px solid red; */
 }
 
