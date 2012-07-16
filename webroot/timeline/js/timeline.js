@@ -5795,11 +5795,9 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
 	
 	VMM.Timeline = function(w, h, conf, _timeline_id) {
 
-        var that = this;
-
 		var $timeline, $feedback, $messege, slider, timenav, version, timeline_id;
 		var events = {}, data = {}, _dates = [], config = {}, filter = {};
-		var has_width = false, has_height = false, ie7 = false, is_moving = false;
+		var has_width = false, has_height = false, ie7 = false;
 		
 		if (type.of(_timeline_id) == "string") {
 			timeline_id = 			_timeline_id;
@@ -5821,7 +5819,8 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
 				headline:		"TIMELINE_HEADLINE",
 				slide_change:	"SLIDE_CHANGE",
 				resize:			"resize",
-                apply_filter:   "APPLY_FILTER"
+                apply_filter:   "APPLY_FILTER",
+				go_to_event:    "GO_TO_EVENT"
 			},
 			id: 					timeline_id,
 			type: 					"timeline",
@@ -5897,22 +5896,62 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
 			has_height = true;
 		}
 		
-		if(window.location.hash) {
-			 var hash					=	window.location.hash.substring(1);
-			 if (!isNaN(hash)) {
-			 	 config.current_slide		=	parseInt(hash);
-			 }
-		}
-		
 		window.onhashchange = function () {
 			if (config.hash_bookmark) {
-				if (is_moving) {
-					var hash					=	window.location.hash.substring(1);
-					goToEvent(parseInt(hash));
-				} else {
-					is_moving = false;
+				var uid = getUidFromWindowHash();
+				if (uid) {
+					if (_dates[slider.getCurrentNumber()].uniqueid == uid) {
+						return; // prevent self-triggering repeat
+					}
+					var idx = getVisibleSlideIdxByUid(uid);
+					if (idx) {
+						goToEvent(idx);
+						var ok = true;
+					} else if (goToHiddenEvent(uid)) {
+						var ok = true;
+					}
+				}
+				if(window.location.hash && !ok) {
+					setHash(_dates[slider.getCurrentNumber()].uniqueid);
 				}
 			}
+		}
+		
+		var getUidFromWindowHash = function() {
+			var hash = window.location.hash;
+			if (hash && hash.length > 0) {
+				return parseInt(hash.substring(1));
+			}
+		}
+		
+		var getVisibleSlideIdxByUid = function(uid) {
+			for (var i = 0; i < _dates.length; i++) {
+				if (_dates[i].uniqueid == uid) {
+					return i;
+				}
+			}
+		}
+		
+		var goToHiddenEvent = function(uid) {
+			// skip if already on that event
+			if (_dates[slider.getCurrentNumber()].uniqueid == uid) {
+				return true;
+			}
+
+			// iterate through list of all items
+			for (var i = 0; i < data.date.length; i++) {
+				if (data.date[i].uniqueId == uid) {
+					if (typeof config.onNavigateToHidden == 'function') {
+						var filterDelta = {
+							hide_completed: VMM.Date.parse(data.date[i].endDate).getTime() > new Date().getTime(),
+							provider: data.date[i].provider,
+							stream: data.date[i].stream
+						};
+						return config.onNavigateToHidden(filterDelta, uid);
+					}
+				}
+			}
+			return false;
 		}
 		
 		/* CREATE CONFIG
@@ -5939,6 +5978,7 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
 			
 			config.nav.width			=	config.width;
 			config.nav.height			=	500;
+			config.nav.getSlideNumberForToday = getSlideNumberForToday;
 			config.feature.width		=	config.width;
 			config.feature.height		=	config.height - config.nav.height;
 			VMM.Timeline.Config			=	config;
@@ -5956,7 +5996,7 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
 			$feedback = 			VMM.appendAndGetElement($timeline, "<div>", "feedback", "");
 			$messege = 				VMM.appendAndGetElement($feedback, "<div>", "messege", "Timeline");
 			slider = 				new VMM.Slider(timeline_id + " div.slider", config);
-			timenav = 				new VMM.Timeline.TimeNav(that, timeline_id + " div.navigation");
+			timenav = 				new VMM.Timeline.TimeNav(timeline_id + " div.navigation");
 
 			if (!has_width) {
 				config.width = VMM.Lib.width($timeline);
@@ -6019,22 +6059,20 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
 		}
 		
 		function onSlideUpdate(e) {
-			is_moving = true;
 			config.current_slide = slider.getCurrentNumber();
-			setHash(config.current_slide);
+			setHash(_dates[config.current_slide].uniqueid);
 			timenav.setMarker(config.current_slide, config.ease,config.duration);
 		};
 		
 		function onMarkerUpdate(e) {
-			is_moving = true;
 			config.current_slide = timenav.getCurrentNumber();
-			setHash(config.current_slide);
+			setHash(_dates[config.current_slide].uniqueid);
 			slider.setSlide(config.current_slide);
 		};
 
-        this.goToEventPriviledged = function(n, fast) {
-            return goToEvent(n, fast);
-        }
+		function navigateToEvent(e, params) {
+			goToEvent(params.id, params.fast);
+		};
         
 		var goToEvent = function(n, fast) {
 			if (n <= _dates.length - 1 && n >= 0) {
@@ -6075,6 +6113,7 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
 			VMM.bindEvent(global, onDataReady, config.events.data_ready);
 			VMM.bindEvent(global, showMessege, config.events.messege);
             VMM.bindEvent(global, applyFilter, config.events.apply_filter);
+			VMM.bindEvent(global, navigateToEvent, config.events.go_to_event);
 			
 			/* GET DATA
 			================================================== */
@@ -6156,12 +6195,7 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
 			VMM.Lib.detach($feedback);
 		}
 
-        // this function is required for both this and other objects to be able to call "getSlideNumberCorrespondingToToday"
-        this.getSlideNumberCorrespondingToTodayPriviledged = function() {
-            return getSlideNumberCorrespondingToToday();
-        }
-
-        var getSlideNumberCorrespondingToToday = function() {
+        var getSlideNumberForToday = function() {
             var eventNumber = 0;
             var minDistance = _dates[0].fulldate;
             var tempDistance = 0;
@@ -6188,8 +6222,8 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
 				config.current_slide = _dates.length - 1;
 			}
 
-            if (config.start_at_current_date) {
-                config.current_slide = getSlideNumberCorrespondingToToday();
+            if (config.start_at_current_date && !config.current_slide) {
+                config.current_slide = getSlideNumberForToday();
             }
 
             // CREATE DOM STRUCTURE
@@ -6208,7 +6242,8 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
 			// RESIZE EVENT LISTENERS
 			VMM.bindEvent(global, reSize, config.events.resize);
 			//VMM.bindEvent(global, function(e) {e.preventDefault()}, "touchmove");
-			
+
+			setHash(_dates[slider.getCurrentNumber()].uniqueid);
 		};
 		
 		var updateSize = function() {
@@ -6229,8 +6264,8 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
 		
 		// BUILD DATE OBJECTS
 		var buildDates = function() {
-            if (typeof _dates !== 'undefined') {
-                var _selected = _dates[slider.getCurrentNumber()];
+            if (_dates.length > 0) {
+                var _selected = _dates[slider.getCurrentNumber()].uniqueid;
             }
 			_dates = [];
 			VMM.fireEvent(global, config.events.messege, "Building Dates");
@@ -6281,13 +6316,13 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
 						_date.content			= "";
 						_date.tag				= data.date[i].tag;
 						_date.slug				= data.date[i].slug;
-						_date.uniqueid			= VMM.Util.unique_ID(7);
+						_date.uniqueid			= data.date[i].uniqueId;
                         _date.stream            = data.date[i].stream;
                         _date.provider          = data.date[i].provider;
                         _date.colorIndexId      = data.date[i].colorIndexId;
                         _date.courseId          = data.date[i].uniqueId;
                         _date.instructors       = data.date[i].instructors;
-                        
+
                         if (filterMatch(filter, _date)) {
 						    _dates.push(_date);
 					    } 
@@ -6331,7 +6366,7 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
 					_date.startdate.setMinutes(td.getMinutes() - 1);
 				}
 				
-				_date.uniqueid		= VMM.Util.unique_ID(7);
+				_date.uniqueid		= -1;
 				_date.enddate		= _date.startdate;
 				_date.title			= data.headline;
 				_date.headline		= data.headline;
@@ -6358,31 +6393,45 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
 				});
             }
 
-            // preserve selection made before filtering, if any
-            if (typeof _selected != 'undefined') {
-                var found = 0;
-                for (var i = 0; i < _dates.length; i++) {
-                    if (_dates[i].headline == _selected.headline
-                        && _dates[i].provider == _selected.provider
-                        && _dates[i].fulldate == _selected.fulldate) {
-                        found = i;
-                        break;
-                    }
-                }
+			if (typeof _selected == 'undefined') {
+				// first page load
+				var uid = getUidFromWindowHash();
+				if (uid) {
+					var idx = getVisibleSlideIdxByUid(uid);
+					if (idx) {
+						config.current_slide = idx;
+						var ok = true;
+					} else if (goToHiddenEvent(uid)) {
+						var ok = true;
+					}
+				}
+				if (!ok) {
+					config.current_slide = getSlideNumberForToday();
+				}
+			} else {
+				// filtered page load preserve/set selection
+				if (typeof filter.uid != 'undefined') {
+					var _selected = filter.uid;
+					delete filter.uid;
+				}
+				var found = 0;
+				for (var i = 0; i < _dates.length; i++) {
+					if (_dates[i].uniqueid == _selected) {
+						found = i;
+						break;
+					}
+				}
 				if (found > 0) {
-					config.start_at_current_date = false;
 					config.current_slide = found;
 				} else {
-					config.start_at_current_date = true;
+					config.current_slide = getSlideNumberForToday();
 				}
 			}
-
+			
 			onDatesProcessed();
-			if (found > 0) {
-				goToEvent(found, true);
-			}
+
 			if (typeof config.onDataLoad == 'function') {
-				config.onDataLoad(_dates, that);
+				config.onDataLoad(_dates);
 			}
 		}
 		
@@ -6395,14 +6444,14 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
 
 if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefined') {
 
-    VMM.Timeline.TimeNav = function(outerObjectReference, parent, content_width, content_height) {
+    VMM.Timeline.TimeNav = function(parent, content_width, content_height) {
         trace("VMM.Timeline.TimeNav");
 
         var events = {}, timespan = {}, layout = parent;
         var timeouts = {
             interval_position: ""
         };
-        var data = [], era_markers = [], markers = [], interval_array = [], interval_major_array = [], eras, content, tags = [], skipRescale = false;;
+        var data = [], era_markers = [], markers = [], interval_array = [], interval_major_array = [], eras, content, tags = [], skipRescale = false;
         var timenav_pos = {
             left:"",
             visible: {
@@ -6555,10 +6604,7 @@ if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefin
 
         function onBackHome(e) {
 			VMM.DragSlider.cancelSlide();
-
-            // OCN-138: Replace "Return to Title" button to "Return to Today"
-            var currentSlide = outerObjectReference.getSlideNumberCorrespondingToTodayPriviledged();
-			goToMarker(currentSlide);
+			goToMarker(config.nav.getSlideNumberForToday());
 			upDate();
         }
 

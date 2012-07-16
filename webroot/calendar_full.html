@@ -61,7 +61,8 @@
 				css : 'timeline/css/timeline.css',
 				js : 'timeline/js/timeline.js',
                 filter : CD.savedFilter,
-                onDataLoad: function(_dates, timeNavObject) {CD.showLoadingScreen(false); CD.populateSearchBox(_dates, timeNavObject);}
+                onDataLoad: CD.onDataLoad,
+                onNavigateToHidden: CD.onNavigateToHidden
 			}
 		</script>
 		<script type="text/javascript" src="timeline/js/timeline-embed.js"></script>

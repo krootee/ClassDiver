@@ -1,21 +1,19 @@
 var CD = {
-    savedFilter: {},
+	savedFilter: {},
 
+	storage: (Modernizr.localstorage ? new LocalStorage() : new CookieStorage()),
+	
     readFilter: function() {
-        if (Modernizr.localstorage) {
-            CD.readDataFromLocalStorage();
-        } else {
-            CD.readDataFromCookies();
-        }
+		CD.readData();
         CD.fillProviders();
         CD.fillStreams();
     },
 
-    readDataFromLocalStorage: function() {
-        CD.savedFilter.hide_completed = (localStorage['filter.hideCompleted'] === "true");
+    readData: function() {
+        CD.savedFilter.hide_completed = (CD.storage.get('filter.hideCompleted') === "true");
 
-        // If values is not present in localStorage (first view of page) then we will initialize it with full list
-        var selectedStreams = localStorage['filter.selectedStreams'];
+        // If values is not present (first view of page) then we will initialize it with full list
+        var selectedStreams = CD.storage.get('filter.selectedStreams');
         if (typeof selectedStreams !== "undefined" && selectedStreams !== null) {
             CD.savedFilter.streams = selectedStreams.split('|');
         }
@@ -23,36 +21,8 @@ var CD = {
             CD.savedFilter.streams = CDData.streams;
         }
 
-        var selectedProviders = localStorage['filter.selectedProviders'];
+        var selectedProviders = CD.storage.get('filter.selectedProviders');
         if (typeof selectedProviders !== "undefined" && selectedProviders !== null) {
-            CD.savedFilter.providers = selectedProviders.split('|');
-        }
-        else {
-            CD.savedFilter.providers = CDData.providers;
-        }
-    },
-
-    readDataFromCookies: function() {
-        var hideCompleted = $.cookie("filter.hideCompleted");
-
-        if (hideCompleted === null) {
-            CD.savedFilter.hide_completed = true;
-        }
-        else {
-            CD.savedFilter.hide_completed = hideCompleted;
-        }
-
-        // If values is not present in cookies (first view of page) then we will initialize it with full list
-        var selectedStreams = $.cookie("filter.selectedStreams");
-        if (selectedStreams !== null) {
-            CD.savedFilter.streams = selectedStreams.split('|');
-        }
-        else {
-            CD.savedFilter.streams = CDData.streams;
-        }
-
-        var selectedProviders = $.cookie("filter.selectedProviders");
-        if (selectedProviders !== null) {
             CD.savedFilter.providers = selectedProviders.split('|');
         }
         else {
@@ -113,10 +83,9 @@ var CD = {
         return result;
     },
 
-    applyFilter: function() {
+    applyFilter: function(uid) {
         var filter = {
-            hide_completed: !$("#showOld").is(':checked'),
-            searchBoxCallback: CD.populateSearchBox
+            hide_completed: !$("#showOld").is(':checked')
         };
 
         // do not use .val() from dropdown - its bugged!!!
@@ -131,6 +100,9 @@ var CD = {
         CD.showLoadingScreen(true);
 		setTimeout(function() {
 			try {
+				if (typeof uid != 'undefined') {
+					filter.uid = uid;
+				}
 				VMM.fireEvent(global, VMM.Timeline.Config.events.apply_filter, filter);
 			} finally {
 				CD.showLoadingScreen(false);
@@ -139,6 +111,11 @@ var CD = {
         CD.saveFilter(filter);
     },
 
+	onDataLoad: function(_dates) {
+		CD.showLoadingScreen(false); 
+		CD.populateSearchBox(_dates);
+	},
+	
     showLoadingScreen: function(show) {
         if (show) {
             $('#divLoading').show();
@@ -148,50 +125,16 @@ var CD = {
     },
 
     saveFilter: function(filter) {
-        if (Modernizr.localstorage) {
-            CD.saveDataToLocalStorage(filter);
-        } else {
-            CD.saveDataToCookies(filter);
-        }
+		CD.storage.set('filter.hideCompleted', filter.hide_completed);
+		CD.storage.set('filter.selectedStreams', filter.streams.join('|'));
+		CD.storage.set('filter.selectedProviders', filter.providers.join('|'));
         CD.savedFilter = filter;
     },
 
-    saveDataToLocalStorage: function(filter) {
-        localStorage['filter.hideCompleted'] = filter.hide_completed;
-        localStorage['filter.selectedStreams'] = filter.streams.join('|');
-        localStorage['filter.selectedProviders'] = filter.providers.join('|');
-    },
-
-    saveDataToCookies: function(filter) {
-        $.cookie("filter.hideCompleted", filter.hide_completed, {
-            expires: 365,
-            domain: 'www.classdiver.com',
-            path: '/'
-        });
-        $.cookie("filter.selectedStreams", filter.streams.join('|'), {
-            expires: 365,
-            domain: 'www.classdiver.com',
-            path: '/'
-        });
-        $.cookie("filter.selectedProviders", filter.providers.join('|'), {
-            expires: 365,
-            domain: 'www.classdiver.com',
-            path: '/'
-        });
-    },
-
     refreshCaption: function(button) {
-        var options;
-        if (button.attr('checked')) {
-            options = {
-                label : "Hide completed"
-            };
-        } else {
-            options = {
-                label : "Show completed"
-            };
-        }
-        button.button("option", options);
+        button.button("option", {
+			label : button.attr('checked') ? "Hide completed" : "Show completed"
+		});
     },
 
     init: function() {
@@ -216,16 +159,16 @@ var CD = {
         mixpanel.track("calendar page loaded");
     },
 
-    populateSearchBox: function(_dates, timeLineObject) {
+    populateSearchBox: function(_dates) {
         var availableTags = [];
 
-        for (var date = 0; date < _dates.length; ++date) {
-            if (_dates[date].asset != undefined) {
+        for (var i = 0; i < _dates.length;i++) {
+            if (_dates[i].asset != undefined) {
 
                 // this is a valid course; add it to the list
-                var entry = _dates[date].provider + ": " + _dates[date].headline + " // " + _dates[date].instructors;
+                var entry = _dates[i].provider + ": " + _dates[i].headline + " (" + _dates[i].date + ") // " + _dates[i].instructors;
                 
-                availableTags.push({ label: entry, value: date });
+                availableTags.push({ label: entry, value: i });
             }
         }
 
@@ -238,7 +181,7 @@ var CD = {
         $( "#searchbox" ).bind( "autocompleteselect", function(event, ui) {
 
             // ui.item.value contains the slide number
-            timeLineObject.goToEventPriviledged(ui.item.value);
+			VMM.fireEvent(global, VMM.Timeline.Config.events.go_to_event, {byUid: false, id: ui.item.value});
 
             // this causes the contents of the search box to be cleared; otherwise the slide number would have been shown
             $(this).val(''); return false;
@@ -255,5 +198,46 @@ var CD = {
             // this causes the contents of the search box to be cleared in case the search box loses focus, and nothing was selected
             $(this).val('');
         });
-    }
+    },
+	
+	onNavigateToHidden: function(filter_delta, uid) {
+		if (confirm("Change current filter settings to display item?")) {
+			$("#showOld").attr("checked", !filter_delta.hide_completed);
+			CD.refreshCaption($("#showOld"));
+
+			$("#providers").find("[id='" + filter_delta.provider + "']").attr("selected", "selected");
+			$("#streams").find("[id='" + filter_delta.stream + "']").attr("selected", "selected");
+
+			$("#providers").multiselect("refresh");
+			$("#streams").multiselect("refresh");
+
+			// show dialog
+			CD.applyFilter(uid);
+			return true;
+		}
+		return false;
+	}
 };
+
+// pseudo-polymorphic types for filter persistence 
+function LocalStorage() {
+	this.get = function(key) {
+		return localStorage[key];
+	};
+	this.set = function(key, value) {
+		localStorage[key] = value;
+	};
+}
+
+function CookieStorage() {
+	this.get = function(key) {
+		return $.cookie(key);
+	};
+	this.set = function(key, value) {
+		$.cookie(key, value, {
+			expires: 365,
+			domain: 'www.classdiver.com',
+			path: '/'
+		})
+	};
+}
