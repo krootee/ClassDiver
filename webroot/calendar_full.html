@@ -42,8 +42,7 @@
 			<div id="menuShadowCover"></div>
 			<div style="float: left; width: 150px; height: 24px;"></div>
 			<div style="float: left; margin-top: 1px;">
-				<div class="g-plusone" data-size="medium"
-					data-href="http:www.classdiver.com"></div>
+				<div class="g-plusone" data-size="medium" data-href="http://www.classdiver.com"></div>
 			</div>
 			<div style="float: left; margin-top: 1px;">
 				<a href="https://twitter.com/share" class="twitter-share-button"
@@ -52,8 +51,8 @@
 			</div>
 			<div style="float: left; margin-top: 1px;">
 				<div class="fb-like" data-href="http://www.classdiver.com"
-					data-send="true" data-layout="button_count" data-width="450"
-					data-show-faces="true"></div>
+					data-send="false" data-layout="button_count" data-width="450"
+					data-show-faces="false"></div>
 			</div>
 			<div style="float: right; width: 10px; height: 24px;"></div>
 			<div id="menuFilter" class="menuTitle menuTitleActive">
@@ -133,7 +132,12 @@
 	  })();
 	</script>
 	<!-- google +1 -->
-	<script type="text/javascript"
-		src="https://apis.google.com/js/plusone.js"></script>
+	<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
 </body>
 </html>
