@@ -49,7 +49,11 @@ var CD = {
             CD.savedFilter.providers = selectedProviders.split('|');
         }
         else {
-            CD.savedFilter.providers = CDData.providers;
+            var providers = [];
+			for (var i = 0; i < CDData.providers.length; i++) {
+				providers.push(CDData.providers[i].name);
+			}
+			CD.savedFilter.providers = providers;
         }
     },
 
@@ -74,7 +78,7 @@ var CD = {
         var result = false;
         if (CD.savedFilter.providers) {
             $.each(CD.savedFilter.providers, function(key, val) {
-                if (val === provider) {
+				if (val === provider) {
                     result = true;
                     return false;
                 }
