@@ -62,9 +62,12 @@ var CD = {
         $('#providers').multiselect({
             noneSelectedText : 'Select providers'
         });
-        $('#providers').bind("multiselectclick", CD.applyFilter)
-			           .bind("multiselectcheckall", CD.applyFilter)
-			           .bind("multiselectuncheckall", CD.applyFilter);
+		var eventHandler = function(event, ui) {
+			CD.applyFilter();
+		};
+		$('#providers').bind("multiselectclick", eventHandler)
+			           .bind("multiselectcheckall", eventHandler)
+			           .bind("multiselectuncheckall", eventHandler);
     },
 
     isProviderSelected: function(provider) {
@@ -88,9 +91,12 @@ var CD = {
         $('#streams').multiselect({
             noneSelectedText : 'Select streams'
         });
-        $('#streams').bind("multiselectclick", CD.applyFilter)
-				 	 .bind("multiselectcheckall", CD.applyFilter)
-					 .bind("multiselectuncheckall", CD.applyFilter);
+		var eventHandler = function(event, ui) {
+			CD.applyFilter();
+		};
+        $('#streams').bind("multiselectclick", eventHandler)
+				 	 .bind("multiselectcheckall", eventHandler)
+					 .bind("multiselectuncheckall", eventHandler);
     },
 
     isStreamSelected: function(stream) {
