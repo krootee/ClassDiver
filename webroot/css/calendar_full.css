@@ -114,6 +114,28 @@ body {
 	float: right;
 	font-family: Tahoma, Geneva, sans-serif;
 	font-size: 12px;
+	line-height: 20px;
+}
+
+#divSearch {
+	float: left;
+	border: 1px solid #abadb3;
+	border-radius: 4px;
+	-o-border-radius: 4px;
+	-icab-border-radius: 4px;
+	-khtml-border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	background-image: url('../img/search.png');
+	background-repeat: no-repeat;
+	margin-top: 2px;
+	height: 21px;
+}
+
+#divSearch > input {
+	height: 18px;
+	border: none;
+	outline: none;
 }
 
 #divCalendarFull {
