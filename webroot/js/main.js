@@ -33,7 +33,11 @@ var CD = {
     },
 
     readData: function() {
-        CD.savedFilter.hide_completed = (CD.storage.get('filter.hideCompleted') === "true");
+        var hideCompleted = CD.storage.get('filter.hideCompleted');
+		if (typeof hideCompleted == 'undefined') {
+			hideCompleted = true;
+		}
+		CD.savedFilter.hide_completed = hideCompleted;
 
         // If values is not present (first view of page) then we will initialize it with full list
         var selectedStreams = CD.storage.get('filter.selectedStreams');
