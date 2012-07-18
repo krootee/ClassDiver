@@ -90,21 +90,20 @@ body {
 /* 	border: 1px solid red; */
 }
 
-#CD_text4:hover {
-/*	margin-right: 35px;*/
-}
-
 #CD_link_to_cal_curly {
-	float: right;
 	font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
 	font-weight: normal;
 	font-size: 192px;
-	margin-top: -76px;
+	position: absolute;
+	right: 0px;
+	bottom: -74px;
 /* 	border: 1px solid red; */
 }
 
 #CD_link_to_cal {
+	position: relative;
 	margin-top: 36px;
+	padding-right: 64px;
 	float: right;
 /* 	border: 1px solid red; */
 }
@@ -125,8 +124,9 @@ body {
 	float: left;
 	text-align: left;
 	clear: both;
+	margin-top: 37px;
 	margin-left: 326px;
-	margin-bottom: 70px;
+	margin-bottom: 79px;
 /* 	border: 1px solid red; */
 }
 
@@ -147,16 +147,19 @@ body {
 }
 
 #CD_link_to_soc_curly {
-	float: left;
 	font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
 	font-weight: normal;
 	font-size: 116px;
-	margin-top: -42px;
+	position: absolute;
+	left: 0px;
+	bottom: -56px;
 /* 	border: 1px solid red; */
 }
 
 #CD_link_to_soc {
+	position: relative;
 	margin-top: 38px;
+	padding-left: 39px;
 	float: left;
 /* 	border: 1px solid red; */
 }
