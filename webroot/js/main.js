@@ -213,7 +213,7 @@ var CD = {
 
 		
 		var lastSelectionHash = CD.storage.get('lastSelectionHash');
-		if (lastSelectionHash) {
+		if (lastSelectionHash && !window.location.hash) {
 			window.location.hash = lastSelectionHash;
 		}
 		
