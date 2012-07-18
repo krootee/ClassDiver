@@ -33,7 +33,11 @@ var CD = {
     },
 
     readData: function() {
-        CD.savedFilter.hide_completed = (CD.storage.get('filter.hideCompleted') === "true");
+        var hideCompleted = CD.storage.get('filter.hideCompleted');
+		if (typeof hideCompleted == 'undefined') {
+			hideCompleted = true;
+		}
+		CD.savedFilter.hide_completed = hideCompleted;
 
         // If values is not present (first view of page) then we will initialize it with full list
         var selectedStreams = CD.storage.get('filter.selectedStreams');
@@ -63,9 +67,6 @@ var CD = {
             $('#providers').append('<option id="' + provider.name + '"' + (CD.isProviderSelected(provider.name) ? ' selected="selected"' : '') + '>' + provider.name + '</option>');
 			$('#' + provider.name).data('color_index', provider.color);
         });
-        $('#providers').multiselect({
-            noneSelectedText : 'Select providers'
-        });
 		var eventHandler = function(event, ui) {
 			CD.applyFilter();
 		};
@@ -91,9 +92,6 @@ var CD = {
         $('#streams').empty();
         $.each(CDData.streams, function(key, stream) {
             $('#streams').append('<option id="' + stream + '"' + (CD.isStreamSelected(stream) ? ' selected="selected"' : '') + '>' + stream + '</option>');
-        });
-        $('#streams').multiselect({
-            noneSelectedText : 'Select streams'
         });
 		var eventHandler = function(event, ui) {
 			CD.applyFilter();
@@ -171,7 +169,17 @@ var CD = {
     },
 
     init: function() {
-    	$('#divLogoText,#menuIndex').click(function() {
+        $('#providers').multiselect({
+            noneSelectedText : 'Select providers',
+            height : 'auto'
+        });
+
+        $('#streams').multiselect({
+            noneSelectedText : 'Select streams',
+            height : 'auto'
+        });
+
+        $('#divLogoText,#menuIndex').click(function() {
     		window.location = 'index.html';
 		});
         $('#showOld').button().click(function() {
