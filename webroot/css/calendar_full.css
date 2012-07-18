@@ -134,6 +134,7 @@ body {
 
 #divSearch > input {
 	height: 18px;
+	width: 200px;
 	border: none;
 	outline: none;
 }
