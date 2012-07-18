@@ -5860,8 +5860,8 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
 				width: 				960,
 				height: 			500,
 				marker: {
-					width: 			150,
-					height: 		48
+					width: 			180,
+					height: 		30
 				}
 			},
 			feature: {
@@ -5978,7 +5978,6 @@ if(typeof VMM != 'undefined' && typeof VMM.Timeline == 'undefined') {
 			}
 			
 			config.nav.width			=	config.width;
-			config.nav.height			=	500;
 			config.nav.getSlideNumberForToday = getSlideNumberForToday;
 			config.feature.width		=	config.width;
 			config.feature.height		=	config.height - config.nav.height;
@@ -6479,8 +6478,12 @@ if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefin
         /* ADD to Config
          ================================================== */
         var config				= 	VMM.Timeline.Config;
-        config.nav.rows			= 	[1, config.nav.marker.height, config.nav.marker.height*2, config.nav.marker.height*3, config.nav.marker.height*4,
-            config.nav.marker.height*5, config.nav.marker.height*6, config.nav.marker.height*7, config.nav.marker.height*8];
+
+		var total_rows = 13;
+		config.nav.rows			= 	[];
+		for (var i = 0; i < total_rows; i++) {
+			config.nav.rows.push(5 + i * (config.nav.marker.height + 4));
+		}
 
         if (content_width != null && content_width != "") {
             config.nav.width	= 	content_width;
@@ -7012,10 +7015,6 @@ if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefin
 
             config.nav.minor_width = config.width;
 
-            VMM.Lib.removeClass(".flag", "row1");
-            VMM.Lib.removeClass(".flag", "row2");
-            VMM.Lib.removeClass(".flag", "row3");
-
             for(var i = 0; i < markers.length; i++) {
 
                 var _line,
@@ -7108,6 +7107,8 @@ if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefin
                     VMM.Lib.stop(_marker_flag);
                     VMM.Lib.css(_marker_flag, "top", config.nav.rows[row]);
                 }
+				VMM.Lib.css(_marker_flag, "height", config.nav.marker.height);
+				VMM.Lib.css(_marker_flag, "width", config.nav.marker.width);
 
                 // IS THE MARKER A REPRESENTATION OF A START SCREEN?
                 if (config.start_page && markers[i].type == "start") {
@@ -7650,11 +7651,11 @@ if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefin
                 _marker_thumb			= "";
 
                 // THUMBNAIL
-                if (data[i].asset != null && data[i].asset != "") {
-                    VMM.appendElement(_marker_content, VMM.MediaElement.thumbnail(data[i].asset, 24, 24, data[i].uniqueid));
-                } else {
-                    VMM.appendElement(_marker_content, "<div style='margin-right:7px;height:50px;width:2px;float:left;'></div>");
-                }
+//                if (data[i].asset != null && data[i].asset != "") {
+//                    VMM.appendElement(_marker_content, VMM.MediaElement.thumbnail(data[i].asset, 24, 24, data[i].uniqueid));
+//                } else {
+//                    VMM.appendElement(_marker_content, "<div style='margin-right:7px;height:50px;width:2px;float:left;'></div>");
+//                }
 
                 // ADD DATE AND TITLE
                 if (data[i].title == "" || data[i].title == " " ) {
