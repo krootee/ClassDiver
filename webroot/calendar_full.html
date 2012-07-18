@@ -54,17 +54,26 @@
 			</div>
 		</div>
 		<div id="divLogoText">ClassDiver</div>
-		<div id="divMenuFilter">
-			<div style="float: left;">
+		<div id="divMenuFilter" class="subMenu">
+			<div class="subMenuSection">
 				<div id="divSearch">
-					<label for="searchbox">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input id="searchbox" />&nbsp;
+					<label for="searchbox">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input id="searchbox" />
 				</div>
 
 			</div>
-			<div style="float: left;">
-				&nbsp;|&nbsp;<input id="showOld" type="checkbox" /><label for="showOld">Show completed</label>&nbsp;|&nbsp;Provider:&nbsp;<select
-					id="providers" name="providers" multiple="multiple" size="1"><option>-- Providers --</select>&nbsp;|&nbsp;Category:&nbsp;<select
-					id="streams" name="streams" multiple="multiple" size="1"><option>-- Category --</select>
+			<div class="subMenuSeparator"></div>
+			<div class="subMenuSection">
+				<input id="showOld" type="checkbox" /><label for="showOld">Show completed</label>
+			</div>
+			<div class="subMenuSeparator"></div>
+			<div class="subMenuSection"><div style="margin-top: 5px;">Provider:&nbsp;</div></div>
+			<div class="subMenuSection">
+				<select id="providers" name="providers" multiple="multiple" size="1"><option>-- Providers --</select>
+			</div>
+			<div class="subMenuSeparator"></div>
+			<div class="subMenuSection"><div style="margin-top: 5px;">Category:&nbsp;</div></div>
+			<div class="subMenuSection">
+				<select id="streams" name="streams" multiple="multiple" size="1"><option>-- Category --</select>
 			</div>
 		</div>
 	</div>
