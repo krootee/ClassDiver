@@ -203,6 +203,12 @@ var CD = {
         });
         $(window).resize();
 
+		
+		var lastSelectionHash = CD.storage.get('lastSelectionHash');
+		if (lastSelectionHash) {
+			window.location.hash = lastSelectionHash;
+		}
+		
         mixpanel.track("calendar page loaded");
     },
 
@@ -277,5 +283,10 @@ var CD = {
 			.html("Change current filter settings to display item?")
 			.dialog({buttons : dialogButtons})
 			.dialog("open");
+	},
+	unload: function() {
+		if (window.location.hash) {
+			CD.storage.set('lastSelectionHash', window.location.hash);
+		}
 	}
 };

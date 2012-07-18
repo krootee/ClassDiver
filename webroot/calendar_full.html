@@ -90,7 +90,10 @@
 			$(document).ready(function(){
                 CD.init();
             });
-		</script>
+            $(window).unload(function(){
+                CD.unload();    
+            });
+        </script>
 	</div>
 	<div id="divFooter" class="container_12">&copy; 2012 ClassDiver</div>
 	<div id="dialogConfirm" style="display: none;"></div>
