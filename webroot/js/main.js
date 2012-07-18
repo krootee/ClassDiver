@@ -63,9 +63,6 @@ var CD = {
             $('#providers').append('<option id="' + provider.name + '"' + (CD.isProviderSelected(provider.name) ? ' selected="selected"' : '') + '>' + provider.name + '</option>');
 			$('#' + provider.name).data('color_index', provider.color);
         });
-        $('#providers').multiselect({
-            noneSelectedText : 'Select providers'
-        });
 		var eventHandler = function(event, ui) {
 			CD.applyFilter();
 		};
@@ -91,9 +88,6 @@ var CD = {
         $('#streams').empty();
         $.each(CDData.streams, function(key, stream) {
             $('#streams').append('<option id="' + stream + '"' + (CD.isStreamSelected(stream) ? ' selected="selected"' : '') + '>' + stream + '</option>');
-        });
-        $('#streams').multiselect({
-            noneSelectedText : 'Select streams'
         });
 		var eventHandler = function(event, ui) {
 			CD.applyFilter();
@@ -171,7 +165,17 @@ var CD = {
     },
 
     init: function() {
-    	$('#divLogoText,#menuIndex').click(function() {
+        $('#providers').multiselect({
+            noneSelectedText : 'Select providers',
+            height : 'auto'
+        });
+
+        $('#streams').multiselect({
+            noneSelectedText : 'Select streams',
+            height : 'auto'
+        });
+
+        $('#divLogoText,#menuIndex').click(function() {
     		window.location = 'index.html';
 		});
         $('#showOld').button().click(function() {
