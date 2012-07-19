@@ -103,6 +103,7 @@ body {
 #CD_link_to_cal {
 	position: relative;
 	margin-top: 36px;
+	margin-bottom: 44px;
 	padding-right: 64px;
 	float: right;
 /* 	border: 1px solid red; */
@@ -130,17 +131,6 @@ body {
 /* 	border: 1px solid red; */
 }
 
-#CD_text5 a {
-	color: #666;
-	text-decoration: none;
-	border-bottom: 1px dotted #666;
-}
-
-#CD_text5 a:hover {
-	color: #000;
-	border-bottom: 1px solid #000;
-}
-
 #CD_social {
 	float: left;
 /* 	border: 1px solid red; */
@@ -162,6 +152,17 @@ body {
 	padding-left: 39px;
 	float: left;
 /* 	border: 1px solid red; */
+}
+
+#CD_link_to_soc a {
+	color: #666;
+	text-decoration: none;
+	border-bottom: 1px dotted #666;
+}
+
+#CD_link_to_soc a:hover {
+	color: #000;
+	border-bottom: 1px solid #000;
 }
 
 .CD_footer {
