@@ -199,7 +199,8 @@ var CD = {
 			draggable : true,
 			show : "fade",
 			hide : "fade",
-			title : "Confirm"
+			title : "Confirm",
+			width: 320
 		});
 
 		$(window).resize(function() {

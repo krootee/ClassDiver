@@ -7624,7 +7624,8 @@ if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefin
 
             for(var i = 0; i < data.length; i++) {
 
-                var color, _marker, _marker_flag, _marker_content, _marker_dot, _marker_line, _marker_line_event, _marker_title = "", has_title = false;
+                var color, _marker, _marker_flag, _marker_content, _marker_dot, _marker_line, _marker_line_event, _marker_title = "", 
+					_marker_flag_outer, _marker_flag_middle, _marker_flag_inner, has_title = false;
 
                 _marker					= VMM.appendAndGetElement($content, "<div>", "marker");
                 _marker_flag			= VMM.appendAndGetElement(_marker, "<div>", "flag");
@@ -7657,6 +7658,12 @@ if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefin
 //                    VMM.appendElement(_marker_content, "<div style='margin-right:7px;height:50px;width:2px;float:left;'></div>");
 //                }
 
+				VMM.appendElement(_marker_content, "<div class='thumbnail thumb-logo" + data[i].colorIndexId + "'></div>");
+
+				_marker_flag_outer = VMM.appendAndGetElement(_marker_content, "<div>", "flag-outer");
+				_marker_flag_middle = VMM.appendAndGetElement(_marker_flag_outer, "<div>", "flag-middle");
+				_marker_flag_inner = VMM.appendAndGetElement(_marker_flag_middle, "<div>", "flag-inner");
+				
                 // ADD DATE AND TITLE
                 if (data[i].title == "" || data[i].title == " " ) {
                     trace("TITLE NOTHING")
@@ -7671,7 +7678,7 @@ if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefin
                             has_title = true;
                         } else if (m.type == "twitter") {
                             has_title = false;
-                            VMM.appendElement(_marker_content, "<h3 id='text_thumb_" + m.id + "'>" + _marker_title + "</h3>");
+                            VMM.appendElement(_marker_flag_inner, "<h3 id='text_thumb_" + m.id + "'>" + _marker_title + "</h3>");
                         } else {
                             has_title = false;
                         }
@@ -7686,7 +7693,7 @@ if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefin
 
 
                 if (has_title) {
-                    VMM.appendElement(_marker_content, "<h3>" + _marker_title + "</h3>");
+                    VMM.appendElement(_marker_flag_inner, "<h3>" + _marker_title + "</h3>");
                 }
 
                 // ADD ID
