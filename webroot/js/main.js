@@ -36,6 +36,8 @@ var CD = {
         var hideCompleted = CD.storage.get('filter.hideCompleted');
 		if (typeof hideCompleted == 'undefined') {
 			hideCompleted = true;
+		} else {
+			hideCompleted = (hideCompleted == 'true'); // string to boolean
 		}
 		CD.savedFilter.hide_completed = hideCompleted;
 
