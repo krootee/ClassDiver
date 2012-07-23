@@ -184,6 +184,9 @@ var CD = {
         $('#divLogoText,#menuIndex').click(function() {
     		window.location = 'index.html';
 		});
+        $('#menuPlanner').click(function() {
+    		alert('Planner coming soon...');
+		});
         $('#showOld').button().click(function() {
             CD.applyFilter();
             CD.refreshCaption($(this));
