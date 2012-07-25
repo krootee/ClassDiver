@@ -2,6 +2,6 @@ Tool to read data from DynamoDB, transform it into VeriteCo format and send back
 
 How to use:
 0) Install Node.js version >=0.8.1 - http://nodejs.org/
-1) Start server - typo "npm start" in current directory
-2) Open in browser "localhost" - you will receive html page.
+1) Start server - type "npm start" in current directory
+2) Open in browser "localhost:8090" - you will receive html page.
 3) Press "Convert" button
