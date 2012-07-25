@@ -15,9 +15,9 @@ var courseProviderInfo = {
         ActivitiesStart: "2011,10,30",
         Text: "<p>Online free education from <a href='http://www.udacity.com'>Udacity</a> - a digital university with the mission to democratize education.</p>"
     },
-    "MITx": {
-        Name : "MITx",
-        Url: "MITx.mit.edu",
+    "edX": {
+        Name : "edX",
+        Url: "www.edx.org",
         ColorIndex: 2,
         Media: "http://www.youtube.com/watch?v=p2Q6BrNhdh8",
         ActivitiesStart: "2012,3,4",
