@@ -1,4 +1,5 @@
 var https = require('https');
+var inspect = require('eyes').inspector();
 var awssum = require('awssum');
 var amazon = awssum.load('amazon/amazon');
 var SimpleDB = awssum.load('amazon/simpledb').SimpleDB;
@@ -40,6 +41,8 @@ function parseData(data) {
 			printOut(arr[i], arr[i]['courses'][j]);
 		}
 	}
+	// TEST
+	selectFromSimpleDb();
 }
 
 function printOut(course, courseInst) {
@@ -58,7 +61,7 @@ function printOut(course, courseInst) {
 	console.log('asset_credit=Coursera.org');
 }
 
-function insertToSimpleDb(course, courseInst) {
+function insertToSimpleDb() {
 	sdb
 			.PutAttributes(
 					{
@@ -75,13 +78,34 @@ function insertToSimpleDb(course, courseInst) {
 								'coursera',
 								'0',
 								'Taught at Coursera by Instructor(s) Nick Parlante<br><a href="https://www.coursera.org/course/cs101" target="_blank">Link</a>',
-								'Kolja', 'Vasja',
-								'https://s3.amazonaws.com/coursera/topics/automata/large-icon.png', 'Coursera.org' ],
+								'Kolja', 'Vasja', 'https://s3.amazonaws.com/coursera/topics/automata/large-icon.png',
+								'Coursera.org' ],
 						AttributeReplace : [ true, true, true, true, true, true, true, true, false, true, true, true ]
 					}, function(err, data) {
-						console.log('Error :', err);
-						console.log('Data  :', data);
+						inspect(err, 'Error');
+						inspect(data, 'Data');
 					});
+}
+
+function getFromSimpleDb() {
+	sdb.GetAttributes({
+		DomainName : 'CoursesDelta',
+		ItemName : '1',
+		ConsistentRead : true
+	}, function(err, data) {
+		inspect(err, 'Error');
+		inspect(data, 'Data');
+	});
+}
+
+function selectFromSimpleDb() {
+	sdb.Select({
+		SelectExpression : 'SELECT * FROM CoursesDelta WHERE instructors IN ("Petja", "Serega", "Vasja") AND startDate < "2013-01-01"',
+		ConsistentRead : true
+	}, function(err, data) {
+		inspect(err, 'Error');
+		inspect(data, 'Data');
+	});
 }
 
 function generateId() {
