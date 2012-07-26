@@ -12,6 +12,7 @@ var sdb = new SimpleDB({
 });
 
 var startId = 0;
+var mnths = [ 'jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec' ];
 
 exports.loadCourses = function() {
 	https.get({
@@ -41,15 +42,20 @@ function parseData(data) {
 			printOut(arr[i], arr[i]['courses'][j]);
 		}
 	}
-	// TEST
-	selectFromSimpleDb();
 }
 
 function printOut(course, courseInst) {
 	console.log('id=' + generateId());
 	console.log('localId=' + courseInst['id']);
-	console.log('startDate=' + courseInst['start_date_string']);
-	console.log('endDate=' + courseInst['duration_string']);
+	var startDate = dateStrToDate(courseInst['start_date_string']);
+	console.log('startDate=' + startDate);
+	var dur = durationStrToDays(courseInst['duration_string']);
+	var endDate = null;
+	if (startDate && dur > 0) {
+		endDate = startDate;
+		endDate.setDate(endDate.getDate() + dur);
+	}
+	console.log('endDate=' + endDate);
 	console.log('headline=' + (courseInst['name'] == '' ? course['name'] : courseInst['name']));
 	console.log('stream=' + course['categories'][0]['name']);
 	console.log('provider=Coursera');
@@ -59,6 +65,51 @@ function printOut(course, courseInst) {
 	console.log('instructors=' + course['instructor'].replace('<br>', ', '));
 	console.log('asset_media=' + course['large_icon']);
 	console.log('asset_credit=Coursera.org');
+}
+
+function durationStrToDays(durationStr) {
+	return durationStr && durationStr.indexOf('weeks') >= 0 ? 7 * durationStr.split(' ')[0] : 0;
+}
+
+function dateStrToDate(dateStr) {
+	if (!dateStr) {
+		return null;
+	}
+	var strTmp = dateStr;
+	strTmp = strTmp.replace(/\s{2,}|^\s|\s$/g, ' '); // unecessary spaces
+	strTmp = strTmp.replace(/[\t\r\n]/g, ''); // unecessary chars
+	strTmp = strTmp.trim();
+	var fullDatePattern = new RegExp('^\\d{1,2}\\s(' + mnths.join('|') + ')[^\\s]*\\s\\d{4}$', 'gi');
+	if (fullDatePattern.test(strTmp)) {
+		var parts = strTmp.split(' ');
+		var date = new Date();
+		date.setUTCFullYear(parts[2]);
+		date.setUTCMonth(mnths.indexOf(parts[1].slice(0, 3).toLowerCase()));
+		date.setUTCDate(parts[0]);
+		date.setUTCHours(0);
+		date.setUTCMinutes(0);
+		date.setUTCSeconds(0);
+		date.setUTCMilliseconds(0);
+		return date;
+	}
+	var monthYearPattern = new RegExp('^(' + mnths.join('|') + ')[^\\s]*\\s\\d{4}$', 'gi');
+	if (monthYearPattern.test(strTmp)) {
+		var parts = strTmp.split(' ');
+		var date = new Date();
+		date.setUTCFullYear(parts[1]);
+		date.setUTCMonth(mnths.indexOf(parts[0].slice(0, 3).toLowerCase()));
+		date.setUTCDate(1);
+		date.setUTCHours(0);
+		date.setUTCMinutes(0);
+		date.setUTCSeconds(0);
+		date.setUTCMilliseconds(0);
+		return date;
+	}
+	return null;
+}
+
+function generateId() {
+	return (++startId).toString();
 }
 
 function insertToSimpleDb() {
@@ -99,15 +150,13 @@ function getFromSimpleDb() {
 }
 
 function selectFromSimpleDb() {
-	sdb.Select({
-		SelectExpression : 'SELECT * FROM CoursesDelta WHERE instructors IN ("Petja", "Serega", "Vasja") AND startDate < "2013-01-01"',
-		ConsistentRead : true
-	}, function(err, data) {
-		inspect(err, 'Error');
-		inspect(data, 'Data');
-	});
-}
-
-function generateId() {
-	return (++startId).toString();
+	sdb
+			.Select(
+					{
+						SelectExpression : 'SELECT * FROM CoursesDelta WHERE instructors IN ("Petja", "Serega", "Vasja") AND startDate < "2013-01-01"',
+						ConsistentRead : true
+					}, function(err, data) {
+						inspect(err, 'Error');
+						inspect(data, 'Data');
+					});
 }
