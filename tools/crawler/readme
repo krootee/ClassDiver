@@ -1,0 +1,4 @@
+Run crawler by the command from current folder:
+	node server.js <accessKeyId> <secretAccessKey>
+
+NB! IT IS NOT POSSIBLE TO PASS COMMAND LINE PARAMETERS TO THE NPM SCRIPT.
