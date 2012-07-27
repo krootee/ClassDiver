@@ -1,2 +1,2 @@
 var coursera = require('./coursera.js');
-coursera.loadCourses();
+var json = coursera.loadCourses();

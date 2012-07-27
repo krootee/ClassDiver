@@ -11,10 +11,9 @@ var sdb = new SimpleDB({
 	'region' : amazon.US_EAST_1
 });
 
-var startId = 0;
 var mnths = [ 'jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec' ];
 
-exports.loadCourses = function() {
+exports.loadCourses = function(cb) {
 	https.get({
 		host : 'www.coursera.org',
 		path : '/maestro/api/topic/list?full=1',
@@ -23,18 +22,17 @@ exports.loadCourses = function() {
 		res.setEncoding('utf8');
 		var data = '';
 		res.on('data', function(chunk) {
-			// process.stdout.write(chunk + '\n');
 			data += chunk;
 		});
 		res.on('end', function() {
-			parseData(data);
+			parseData(data, cb);
 		});
 	}).on('error', function(e) {
 		console.error(e);
 	});
 };
 
-function parseData(data) {
+function parseData(data, cb) {
 	var arr = eval("(" + data + ")");
 	// arr should be an array of courses
 	for ( var i = 0; i < arr.length; i++) {
@@ -45,7 +43,7 @@ function parseData(data) {
 }
 
 function printOut(course, courseInst) {
-	console.log('id=' + generateId());
+	console.log('id=' + generateId(course['short_name'], courseInst['id']));
 	console.log('localId=' + courseInst['id']);
 	var startDate = dateStrToDate(courseInst['start_date_string']);
 	console.log('startDate=' + startDate);
@@ -108,8 +106,8 @@ function dateStrToDate(dateStr) {
 	return null;
 }
 
-function generateId() {
-	return (++startId).toString();
+function generateId(courseId, rerunId) {
+	return 'coursera:' + courseId + ':' + rerunId;
 }
 
 function insertToSimpleDb() {
