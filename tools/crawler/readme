@@ -1,4 +1,6 @@
-Run crawler by the command from current folder:
-	node server.js <accessKeyId> <secretAccessKey>
+Application to automatically download courses from Coursera and Udacity.
 
-NB! IT IS NOT POSSIBLE TO PASS COMMAND LINE PARAMETERS TO THE NPM SCRIPT.
+How to use:
+0) Install Node.js version >=0.8.1 - http://nodejs.org/
+1) Provide correct access credentials in file ./simpledb-access.js
+2) Start server in bash - type "npm start" in current directory
