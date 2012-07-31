@@ -12,7 +12,7 @@ var Coursera = function() {
 
 util.inherits(Coursera, Provider);
 
-Coursera.prototype.load = function() {
+Coursera.prototype.load = function(cb) {
 	https.get({
 		host : 'www.coursera.org',
 		path : '/maestro/api/topic/list?full=1',
@@ -24,7 +24,7 @@ Coursera.prototype.load = function() {
 			data += chunk;
 		});
 		res.on('end', function() {
-			parseData(data);
+			parseData(cb, data);
 		});
 	}).on('error', function(e) {
 		console.error(e);
@@ -33,44 +33,52 @@ Coursera.prototype.load = function() {
 
 exports.Coursera = Coursera;
 
-function parseData(data) {
+function parseData(cb, data) {
+	var courses = {};
 	var arr = eval("(" + data + ")");
 	// arr should be an array of courses
-	for ( var i = 0; i < arr.length; i++) {
+	for ( var i = 0; i < 10/* arr.length */; i++) {
 		for ( var j = 0; j < arr[i]['courses'].length; j++) {
-			printOut(arr[i], arr[i]['courses'][j]);
+			var course = toCourseJSON(arr[i], arr[i]['courses'][j]);
+			courses[course.id] = course;
 		}
 	}
-	// TEST
-	dbutils.getAllCourses(function(data) {
-		console.log(data);
+	dbutils.getAllCourses(function(coursesMan) {
+		for ( var id in coursesMan) {
+			for ( var prop in coursesMan[id]) {
+				courses[id][prop] = coursesMan[id][prop];
+			}
+		}
+		cb(courses);
 	}, true);
-	dbutils.getAllCourses(function(data) {
-		console.log(data);
-	});
 }
 
-function printOut(course, courseInst) {
-	console.log('id='
-			+ Provider.prototype.generateId.call(this, [ 'coursera', course['short_name'], courseInst['id'] ], ':'));
+function toCourseJSON(course, courseInst) {
+	var c = {};
+	c.id = Provider.prototype.generateId.call(this, [ 'coursera', course['short_name'], courseInst['id'] ], ':');
 	var startDate = dateStrToDate(courseInst['start_date_string']);
-	console.log('startDate=' + startDate);
+	if (startDate) {
+		c.startDate = startDate.toISOString();
+	}
 	var dur = durationStrToDays(courseInst['duration_string']);
 	var endDate = null;
 	if (startDate && dur > 0) {
 		endDate = startDate;
 		endDate.setDate(endDate.getDate() + dur);
 	}
-	console.log('endDate=' + endDate);
-	console.log('headline=' + (courseInst['name'] == '' ? course['name'] : courseInst['name']));
-	console.log('stream=' + course['categories'][0]['name']);
-	console.log('provider=Coursera');
-	console.log('colorIndexId=0');
-	console.log('text=Taught at Coursera by Instructor(s) ' + course['instructor'].replace('<br>', ', ')
-			+ '<br><a href="' + course['social_link'] + '" target="_blank">Link</a>');
-	console.log('instructors=' + course['instructor'].replace('<br>', ', '));
-	console.log('asset_media=' + course['large_icon']);
-	console.log('asset_credit=Coursera.org');
+	if (endDate) {
+		c.endDate = endDate.toISOString();
+	}
+	c.title = (courseInst['name'] == '' ? course['name'] : courseInst['name']);
+	c.category = [];
+	for ( var i in course['categories']) {
+		c.category.push(course['categories'][i]['name']);
+	}
+	c.provider = 'coursera';
+	c.instructor = course['instructor'].replace('<br>', ', ');
+	c.link = course['social_link'];
+	c.icon = course['large_icon'];
+	return c;
 }
 
 function durationStrToDays(durationStr) {
