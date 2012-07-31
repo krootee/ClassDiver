@@ -44,11 +44,7 @@ function parseData(cb, data) {
 		}
 	}
 	dbutils.getAllCourses(function(coursesMan) {
-		for ( var id in coursesMan) {
-			for ( var prop in coursesMan[id]) {
-				courses[id][prop] = coursesMan[id][prop];
-			}
-		}
+		Provider.prototype.mergeCourses.call(this, courses, coursesMan);
 		cb(courses);
 	}, true);
 }
