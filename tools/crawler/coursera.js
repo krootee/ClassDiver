@@ -1,12 +1,11 @@
 var util = require("util");
+var dbutils = require('./dbutils.js');
 var https = require('https');
 var Provider = require('./provider.js').Provider;
 var mnths = [ 'jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec' ];
-var dbutils = null;
 
-var Coursera = function(dbutilsModule) {
+var Coursera = function() {
 	var self = this;
-	dbutils = dbutilsModule;
 	Coursera.super_.call(this);
 	return self;
 };
@@ -42,6 +41,13 @@ function parseData(data) {
 			printOut(arr[i], arr[i]['courses'][j]);
 		}
 	}
+	// TEST
+	dbutils.getAllCourses(function(data) {
+		console.log(data);
+	}, true);
+	dbutils.getAllCourses(function(data) {
+		console.log(data);
+	});
 }
 
 function printOut(course, courseInst) {
