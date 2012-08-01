@@ -173,13 +173,13 @@ var CD = {
     init: function() {
         $('#providers').multiselect({
             noneSelectedText : 'Select providers',
-            selectedText: "# of # selected",
+            selectedText: "#/# selected",
             height : 'auto'
         });
 
         $('#streams').multiselect({
             noneSelectedText : 'Select streams',
-            selectedText: "# of # selected",
+            selectedText: "#/# selected",
             height : 'auto'
         });
 
