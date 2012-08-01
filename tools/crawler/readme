@@ -1,0 +1,6 @@
+Application to automatically download courses from Coursera and Udacity.
+
+How to use:
+0) Install Node.js version >=0.8.1 - http://nodejs.org/
+1) Provide correct access credentials in file ./simpledb-access.js
+2) Start server in bash - type "npm start" in current directory

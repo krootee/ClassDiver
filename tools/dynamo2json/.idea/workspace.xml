@@ -25,7 +25,7 @@
       <file leaf-file-name="server.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="25" selection-start="984" selection-end="984" vertical-scroll-proportion="-0.6934732">
+            <state line="32" column="6" selection-start="1642" selection-end="1642" vertical-scroll-proportion="-0.495338">
               <folding />
             </state>
           </provider>
@@ -88,16 +88,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope">
-        <subPane subId="Project Files">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -114,6 +104,16 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="dynamo2json" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -265,7 +265,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/server.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="25" selection-start="984" selection-end="984" vertical-scroll-proportion="-0.6934732">
+        <state line="32" column="6" selection-start="1642" selection-end="1642" vertical-scroll-proportion="-0.495338">
           <folding />
         </state>
       </provider>
