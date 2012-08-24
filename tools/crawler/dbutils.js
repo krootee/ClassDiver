@@ -3,6 +3,8 @@ var awssum = require('awssum');
 var amazon = awssum.load('amazon/amazon');
 var SimpleDB = awssum.load('amazon/simpledb').SimpleDB;
 var sdbopts = require('./simpledb-access.js');
+var COURSES_TABLE = 'Courses';
+
 if (!sdbopts.accessKeyId) {
 	throw 'Coursera: accessKeyID is required';
 }
@@ -11,7 +13,7 @@ if (!sdbopts.secretAccessKey) {
 }
 var sdb = new SimpleDB(sdbopts);
 
-exports.putCourse = function(course, manual) {
+exports.putCourse = function(course) {
 	var attrNumber = 0;
 	var attrNames = [];
 	var attrValues = [];
@@ -32,11 +34,12 @@ exports.putCourse = function(course, manual) {
 	// console.log(new Array(1 + attrNumber).join(' true').split(' ').slice(1));
 	// console.log();
 	sdb.PutAttributes({
-		DomainName : (manual == true ? 'CoursesMan' : 'CoursesAuto'),
+		DomainName : COURSES_TABLE,
 		ItemName : course.id,
 		AttributeName : attrNames,
 		AttributeValue : attrValues,
-		AttributeReplace : new Array(1 + attrNumber).join(' true').split(' ').slice(1)
+		AttributeReplace : new Array(1 + attrNumber).join(' true').split(' ')
+				.slice(1)
 	}, function(err, data) {
 		if (err) {
 			inspect(err, 'Error');
@@ -44,9 +47,9 @@ exports.putCourse = function(course, manual) {
 	});
 };
 
-exports.getCourse = function(cb, key, manual) {
+exports.getCourse = function(cb, key) {
 	sdb.GetAttributes({
-		DomainName : (manual == true ? 'CoursesMan' : 'CoursesAuto'),
+		DomainName : COURSES_TABLE,
 		ItemName : key,
 		ConsistentRead : true
 	}, function(err, data) {
@@ -58,9 +61,9 @@ exports.getCourse = function(cb, key, manual) {
 	});
 };
 
-exports.getAllCourses = function(cb, manual) {
+exports.getAllCourses = function(cb) {
 	sdb.Select({
-		SelectExpression : 'SELECT * FROM ' + (manual == true ? 'CoursesMan' : 'CoursesAuto'),
+		SelectExpression : 'SELECT * FROM ' + COURSES_TABLE,
 		ConsistentRead : true
 	}, function(err, data) {
 		if (err) {

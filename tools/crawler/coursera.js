@@ -1,8 +1,8 @@
 var util = require("util");
-var dbutils = require('./dbutils.js');
 var https = require('https');
 var Provider = require('./provider.js').Provider;
-var mnths = [ 'jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec' ];
+var mnths = [ 'jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep',
+		'okt', 'nov', 'dec' ];
 
 var Coursera = function() {
 	var self = this;
@@ -37,21 +37,19 @@ function parseData(cb, data) {
 	var courses = {};
 	var arr = eval("(" + data + ")");
 	// arr should be an array of courses
-	for ( var i = 0; i < 10/* arr.length */; i++) {
+	for ( var i = 0; i < arr.length; i++) {
 		for ( var j = 0; j < arr[i]['courses'].length; j++) {
 			var course = toCourseJSON(arr[i], arr[i]['courses'][j]);
 			courses[course.id] = course;
 		}
 	}
-	dbutils.getAllCourses(function(coursesMan) {
-		Provider.prototype.mergeCourses.call(this, courses, coursesMan);
-		cb(courses);
-	}, true);
+	cb(courses);
 }
 
 function toCourseJSON(course, courseInst) {
 	var c = {};
-	c.id = Provider.prototype.generateId.call(this, [ 'coursera', course['short_name'], courseInst['id'] ], ':');
+	c.id = Provider.prototype.generateId.call(this, [ 'coursera',
+			course['short_name'], courseInst['id'] ], ':');
 	var startDate = dateStrToDate(courseInst['start_date_string']);
 	if (startDate) {
 		c.startDate = startDate.toISOString();
@@ -78,7 +76,8 @@ function toCourseJSON(course, courseInst) {
 }
 
 function durationStrToDays(durationStr) {
-	return durationStr && durationStr.indexOf('weeks') >= 0 ? 7 * durationStr.split(' ')[0] : 0;
+	return durationStr && durationStr.indexOf('weeks') >= 0 ? 7 * durationStr
+			.split(' ')[0] : 0;
 }
 
 function dateStrToDate(dateStr) {
@@ -89,7 +88,8 @@ function dateStrToDate(dateStr) {
 	strTmp = strTmp.replace(/\s{2,}|^\s|\s$/g, ' '); // unecessary spaces
 	strTmp = strTmp.replace(/[\t\r\n]/g, ''); // unecessary chars
 	strTmp = strTmp.trim();
-	var fullDatePattern = new RegExp('^\\d{1,2}\\s(' + mnths.join('|') + ')[^\\s]*\\s\\d{4}$', 'gi');
+	var fullDatePattern = new RegExp('^\\d{1,2}\\s(' + mnths.join('|')
+			+ ')[^\\s]*\\s\\d{4}$', 'gi');
 	if (fullDatePattern.test(strTmp)) {
 		var parts = strTmp.split(' ');
 		var date = new Date();
@@ -102,7 +102,8 @@ function dateStrToDate(dateStr) {
 		date.setUTCMilliseconds(0);
 		return date;
 	}
-	var monthYearPattern = new RegExp('^(' + mnths.join('|') + ')[^\\s]*\\s\\d{4}$', 'gi');
+	var monthYearPattern = new RegExp('^(' + mnths.join('|')
+			+ ')[^\\s]*\\s\\d{4}$', 'gi');
 	if (monthYearPattern.test(strTmp)) {
 		var parts = strTmp.split(' ');
 		var date = new Date();

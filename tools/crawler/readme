@@ -4,3 +4,26 @@ How to use:
 0) Install Node.js version >=0.8.1 - http://nodejs.org/
 1) Provide correct access credentials in file ./simpledb-access.js
 2) Start server in bash - type "npm start" in current directory
+
+Courses JSON format (internal model, sample):
+
+{
+	'unique_course_id1'	:
+	{
+		'id'			: 'unique_course_key1',	// required
+		'startDate'		: 'date_in_ISO_format',
+		'endDate'		: 'date_in_ISO_format',
+		'title'			: 'title_string',
+		'category'		: 'category' || [],
+		'provider		: 'provider',
+		'instructor'	: 'instructor' || [],
+		'link'			: 'link_to_providers_resource',
+		'icon'			: 'media_icon'
+	}
+	. . .
+	'unique_course_idN'	:
+	{
+		. . .
+	}
+	
+}
