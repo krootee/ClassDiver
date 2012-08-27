@@ -2,18 +2,19 @@ var inspect = require('eyes').inspector();
 var awssum = require('awssum');
 var amazon = awssum.load('amazon/amazon');
 var SimpleDB = awssum.load('amazon/simpledb').SimpleDB;
-var sdbopts = require('./simpledb-access.js');
-var COURSES_TABLE = 'Courses';
+var S3 = awssum.load('amazon/s3').S3;
+var awsconfig = require('./aws-config.js');
 
-if (!sdbopts.accessKeyId) {
+if (!awsconfig.access.accessKeyId) {
 	throw 'Coursera: accessKeyID is required';
 }
-if (!sdbopts.secretAccessKey) {
+if (!awsconfig.access.secretAccessKey) {
 	throw 'Coursera: secretAccessKey is required';
 }
-var sdb = new SimpleDB(sdbopts);
+var simpledb = new SimpleDB(awsconfig.access);
+var s3 = new S3(awsconfig.access);
 
-exports.putCourse = function(course) {
+exports.putCourseToDB = function putCourseToDB(course) {
 	var attrNumber = 0;
 	var attrNames = [];
 	var attrValues = [];
@@ -33,8 +34,8 @@ exports.putCourse = function(course) {
 	// console.log(attrValues);
 	// console.log(new Array(1 + attrNumber).join(' true').split(' ').slice(1));
 	// console.log();
-	sdb.PutAttributes({
-		DomainName : COURSES_TABLE,
+	simpledb.PutAttributes({
+		DomainName : awsconfig.simpledb.COURSES_TABLE,
 		ItemName : course.id,
 		AttributeName : attrNames,
 		AttributeValue : attrValues,
@@ -47,34 +48,36 @@ exports.putCourse = function(course) {
 	});
 };
 
-exports.getCourse = function(cb, key) {
-	sdb.GetAttributes({
-		DomainName : COURSES_TABLE,
+exports.getCourseFromDB = function getCourseFromDB(cb, key) {
+	simpledb.GetAttributes({
+		DomainName : awsconfig.simpledb.COURSES_TABLE,
 		ItemName : key,
 		ConsistentRead : true
 	}, function(err, data) {
 		if (err) {
 			inspect(err, 'Error');
-			cb();
+			cb({});
+			return;
 		}
 		cb(toCourseJSON(data));
 	});
 };
 
-exports.getAllCourses = function(cb) {
-	sdb.Select({
-		SelectExpression : 'SELECT * FROM ' + COURSES_TABLE,
+exports.getAllCoursesFromDB = function getAllCoursesFromDB(cb) {
+	simpledb.Select({
+		SelectExpression : 'SELECT * FROM ' + awsconfig.simpledb.COURSES_TABLE,
 		ConsistentRead : true
 	}, function(err, data) {
 		if (err) {
 			inspect(err, 'Error');
-			cb();
+			cb({});
+			return;
 		}
 		cb(toCourseJSON(data));
 	});
 };
 
-function toCourseJSON(dbResponse) {
+var toCourseJSON = function toCourseJSON(dbResponse) {
 	// inspect(dbResponse, 'Data');
 	var result = {};
 	var items = dbResponse.Body.SelectResponse.SelectResult.Item;
@@ -99,4 +102,36 @@ function toCourseJSON(dbResponse) {
 		result[course.id] = course;
 	}
 	return result;
-}
+};
+
+exports.mergeCourses = function mergeCourses(destination, source) {
+	for ( var id in source) {
+		destination[id] = {};
+		for ( var prop in source[id]) {
+			destination[id][prop] = source[id][prop];
+		}
+	}
+	return destination;
+};
+
+exports.readSnapshot = function readSnapshot(cb) {
+};
+
+exports.writeSnapshot = function writeSnapshot(snapshot, name) {
+	if (typeof snapshot === 'object') {
+		snapshot = JSON.stringify(snapshot);
+	} else if (!(typeof snapshot === 'string')) {
+		snapshot = String(snapshot);
+	}
+	var options = {
+		BucketName : awsconfig.s3.BUCKET_NAME,
+		ObjectName : name + awsconfig.s3.FILENAME_SUFFIX,
+		ContentLength : Buffer.byteLength(snapshot),
+		Body : snapshot,
+	};
+	s3.PutObject(options, function(err, data) {
+		if (err) {
+			inspect(err, 'Error');
+		}
+	});
+};

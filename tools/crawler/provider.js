@@ -11,14 +11,4 @@ Provider.prototype.generateId = function(fields, separator) {
 	return Array.prototype.join.call(fields, separator);
 };
 
-Provider.prototype.mergeCourses = function(destination, source) {
-	for ( var id in source) {
-		destination[id] = {};
-		for ( var prop in source[id]) {
-			destination[id][prop] = source[id][prop];
-		}
-	}
-	return destination;
-};
-
 exports.Provider = Provider;
